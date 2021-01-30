@@ -1,21 +1,15 @@
-# Jucimar Jr 2019
-# pong em turtle python https://docs.python.org/3.3/library/turtle.html
-# baseado em http://christianthompson.com/node/51
-# fonte Press Start 2P https://www.fontspace.com/codeman38/press-start-2p
-# som pontuação https://freesound.org/people/Kodack/sounds/258020/
 
 import turtle
 import os
 
-
-# desenhar tela
+# draw screen
 screen = turtle.Screen()
 screen.title("My Pong")
 screen.bgcolor("black")
 screen.setup(width=800, height=600)
 screen.tracer(0)
 
-# desenhar raquete 1
+# draw paddle 1
 paddle_1 = turtle.Turtle()
 paddle_1.speed(0)
 paddle_1.shape("square")
@@ -24,7 +18,8 @@ paddle_1.shapesize(stretch_wid=5, stretch_len=1)
 paddle_1.penup()
 paddle_1.goto(-350, 0)
 
-# desenhar raquete 2
+
+# draw paddle 2
 paddle_2 = turtle.Turtle()
 paddle_2.speed(0)
 paddle_2.shape("square")
@@ -33,7 +28,7 @@ paddle_2.shapesize(stretch_wid=5, stretch_len=1)
 paddle_2.penup()
 paddle_2.goto(350, 0)
 
-# desenhar bola
+# draw ball
 ball = turtle.Turtle()
 ball.speed(0)
 ball.shape("square")
@@ -43,11 +38,11 @@ ball.goto(0, 0)
 ball.dx = 1
 ball.dy = 1
 
-# pontuação
+# score
 score_1 = 0
 score_2 = 0
 
-# head-up display da pontuação
+# head-up display
 hud = turtle.Turtle()
 hud.speed(0)
 hud.shape("square")
@@ -94,7 +89,7 @@ def paddle_2_down():
     paddle_2.sety(y)
 
 
-# mapeando as teclas
+# keyboard
 screen.listen()
 screen.onkeypress(paddle_1_up, "w")
 screen.onkeypress(paddle_1_down, "s")
@@ -104,23 +99,23 @@ screen.onkeypress(paddle_2_down, "Down")
 while True:
     screen.update()
 
-    # movimentação da bola
+    # ball movement
     ball.setx(ball.xcor() + ball.dx)
     ball.sety(ball.ycor() + ball.dy)
 
-    # colisão com parede superior
+    # collision with the upper wall
     if ball.ycor() > 290:
         os.system("afplay bounce.wav&")
         ball.sety(290)
         ball.dy *= -1
     
-    # colisão com parede inferior
+    # collision with lower wall
     if ball.ycor() < -280:
         os.system("afplay bounce.wav&")
         ball.sety(-280)
         ball.dy *= -1
 
-    # colisão com parede esquerda
+    # collision with left wall
     if ball.xcor() < -390:
         score_2 += 1
         hud.clear()
@@ -129,7 +124,7 @@ while True:
         ball.goto(0, 0)
         ball.dx *= -1
     
-    # colisão com parede direita
+    # collision with right wall
     if ball.xcor() > 390:
         score_1 += 1
         hud.clear()
@@ -138,12 +133,12 @@ while True:
         ball.goto(0, 0)
         ball.dx *= -1
 
-    # colisão com raquete 1
+    # collision with the paddle 1
     if ball.xcor() < -330 and ball.ycor() < paddle_1.ycor() + 50 and ball.ycor() > paddle_1.ycor() - 50:
         ball.dx *= -1     
         os.system("afplay bounce.wav&")   
     
-    # colisão com raquete 2
+    # collision with the paddle 2
     if ball.xcor() > 330 and ball.ycor() < paddle_2.ycor() + 50 and ball.ycor() > paddle_2.ycor() - 50:
         ball.dx *= -1
         os.system("afplay bounce.wav&")
