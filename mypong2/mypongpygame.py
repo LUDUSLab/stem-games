@@ -48,10 +48,10 @@ ball_dy = 3
 score_1 = 0
 score_2 = 0
 
+# game loop
 game_loop = True
 game_clock = pygame.time.Clock()
 
-# game loop
 while game_loop:
 
     for event in pygame.event.get():
@@ -118,20 +118,23 @@ while game_loop:
         ball_x = ball_x + ball_dx
         ball_y = ball_y + ball_dy
 
-        # player 1 movement
+        # player 1 up movement
         if player_1_move_up:
             player_1_y -= 5
         else:
             player_1_y += 0
 
+        # player 1 down movement
         if player_1_move_down:
             player_1_y += 5
         else:
             player_1_y += 0
 
+        # player 1 collides with upper wall
         if player_1_y <= 0:
             player_1_y = 0
 
+        # player 1 collides with lower wall
         elif player_1_y >= 570:
             player_1_y = 570
 
@@ -142,6 +145,7 @@ while game_loop:
         elif player_2_y >= 570:
             player_2_y = 570
 
+        # update score hud
         score_text = score_font.render(str(score_1) + ' x ' + str(score_2), True, COLOR_WHITE, COLOR_BLACK)
 
         # drawing objects
