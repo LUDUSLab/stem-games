@@ -41,8 +41,8 @@ player_2_y = 300
 ball = pygame.image.load("assets/ball.png")
 ball_x = 640
 ball_y = 360
-ball_dx = 3
-ball_dy = 3
+ball_dx = 5
+ball_dy = 5
 
 # score
 score_1 = 0
