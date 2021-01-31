@@ -2,7 +2,6 @@
 .idea/
 include/
 bin/
-pyvenv.cfg
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -14,6 +13,7 @@ __pycache__/
 
 # Distribution / packaging
 .Python
+pyvenv.cfg
 build/
 develop-eggs/
 dist/
