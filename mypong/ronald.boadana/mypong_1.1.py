@@ -3,6 +3,7 @@
 # Based on http://christianthompson.com/node/51
 # Font: Press Start 2P https://www.fontspace.com/code88man38/press-start-2p
 # Score sound https://freesound.org/people/Kodack/sounds/258020/
+# powered by Ronald Boadana
 
 # import required library
 import turtle
