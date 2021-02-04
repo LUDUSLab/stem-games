@@ -3,12 +3,12 @@
 # Based on http://christianthompson.com/node/51
 # Font: Press Start 2P https://www.fontspace.com/code88man38/press-start-2p
 # Score sound https://freesound.org/people/Kodack/sounds/258020/
-# powered by Ronald Boadana
 
 # import required library
 import turtle
 import winsound  # for Windows
 import random
+
 # import os (only for macOS)
 
 # draw the screen
@@ -27,14 +27,14 @@ paddle_1.shapesize(stretch_wid=3, stretch_len=0.5)
 paddle_1.penup()
 paddle_1.goto(-360, 0)
 
-# how to draw the right paddle
-paddle_2 = turtle.Turtle()
-paddle_2.speed(0)
-paddle_2.shape("square")
-paddle_2.color("white")
-paddle_2.shapesize(stretch_wid=3, stretch_len=0.5)
-paddle_2.penup()
-paddle_2.goto(360, 0)
+# how to draw the 'A.I.' paddle
+paddle_ai = turtle.Turtle()
+paddle_ai.speed(0)
+paddle_ai.shape("square")
+paddle_ai.color("white")
+paddle_ai.shapesize(stretch_wid=3, stretch_len=0.5)
+paddle_ai.penup()
+paddle_ai.goto(360, 0)
 
 # how to draw the ball
 ball = turtle.Turtle()
@@ -80,29 +80,27 @@ def paddle_1_down():
     paddle_1.sety(y)
 
 
-# right paddle going up
-def paddle_2_up():
-    y = paddle_2.ycor()
+def paddle_ai_up():
+    y = paddle_ai.ycor()
     if y < 250:
         y += 50
     else:
         y = 250
-    paddle_2.sety(y)
+    paddle_ai.sety(y)
 
 
-# right paddle going down
-def paddle_2_down():
-    y = paddle_2.ycor()
+def paddle_ai_down():
+    y = paddle_ai.ycor()
     if y > -250:
         y += -50
     else:
         y = -250
-    paddle_2.sety(y)
+    paddle_ai.sety(y)
 
 
 # ball randomness
 def ale_ball():
-    randomness = (random.randrange(-20, 22)) / 20
+    randomness = (random.randrange(-10, 11)) / 10
     return randomness
 
 
@@ -111,10 +109,6 @@ def ale_ball():
 screen.listen()
 screen.onkeypress(paddle_1_up, 'w')
 screen.onkeypress(paddle_1_down, 's')
-screen.onkeypress(paddle_2_up, "8")
-screen.onkeypress(paddle_2_up, 'Up')
-screen.onkeypress(paddle_2_down, '2')
-screen.onkeypress(paddle_2_down, 'Down')
 
 while True:
     screen.update()
@@ -122,16 +116,22 @@ while True:
     ball.setx(ball.xcor() + ball.dx)
     ball.sety(ball.ycor() + ball.dy)
 
+    paddle_ai = ball.dy
+    if paddle_ai <= 0:
+        paddle_ai = 0
+    elif paddle_ai <= 360:
+        paddle_ai = 360
+
     # ball collision with the borders
     # upper
     if ball.ycor() > 290:
-        winsound.PlaySound("bounce.wav", winsound.SND_ASYNC)
+        winsound.PlaySound("C:/Users/bh_ro/Documents/STEM/stem-games/mypong2/assets/bounce.wav", winsound.SND_ASYNC)
         ball.sety(290)
         ball.dy *= -1
 
     # bottom
     if ball.ycor() < -290:
-        winsound.PlaySound("bounce.wav", winsound.SND_ASYNC)
+        winsound.PlaySound("C:/Users/bh_ro/Documents/STEM/stem-games/mypong2/assets/bounce.wav", winsound.SND_ASYNC)
         ball.sety(-290)
         ball.dy *= -1
 
@@ -140,10 +140,11 @@ while True:
         score_2 += 1
         hud.clear()
         hud.write("{} : {}".format(score_1, score_2), align="center", font=("Press Start 2P", 24, "normal"))
-        winsound.PlaySound("258020__kodack__arcade-bleep-sound.wav", winsound.SND_ASYNC)
-        # os.system("afplay 258020__Kodak__arcade-bleep-sound.wav&")
+        winsound.PlaySound("C:/Users/bh_ro/Documents/STEM/stem-games/mypong2/assets/258020_kodack_arcade-bleep"
+                           "-sound.wav", winsound.SND_ASYNC)
+        # os.system("afplay 258020_Kodak_arcade-bleep-sound.wav&")
         ball.goto(0, 0)
-        ball.dx *= -1
+        ball.dx *= 1
         ball.dy = ale_ball()  # ball randomness
 
     # right
@@ -151,22 +152,23 @@ while True:
         score_1 += 1
         hud.clear()
         hud.write("{} : {}".format(score_1, score_2), align="center", font=("Press Start 2P", 24, "normal"))
-        winsound.PlaySound("258020__kodack__arcade-bleep-sound.wav", winsound.SND_ASYNC)
-        # os.system("afplay 258020__kodack__arcade-bleep-sound.wav&")
+        winsound.PlaySound("C:/Users/bh_ro/Documents/STEM/stem-games/mypong2/assets/258020_kodack_arcade-bleep"
+                           "-sound.wav", winsound.SND_ASYNC)
+        # os.system("afplay 258020_kodack_arcade-bleep-sound.wav&")
         ball.goto(0, 0)
-        ball.dx *= -1
+        ball.dx *= 1
         ball.dy = ale_ball()  # ball randomness
 
     # ball collision with the left paddle
     if ball.xcor() == -350 and paddle_1.ycor() + 50 > ball.ycor() > paddle_1.ycor() - 50:
         ball.dx *= -1
         ball.dy = ale_ball()  # any randomness for ball angle
-        winsound.PlaySound("bounce.wav", winsound.SND_ASYNC)
+        winsound.PlaySound("C:/Users/bh_ro/Documents/STEM/stem-games/mypong2/assets/bounce.wav", winsound.SND_ASYNC)
         # os.system("afplay bounce.wav&")
 
     # ball collision with the right paddle
-    if ball.xcor() == 350 and paddle_2.ycor() + 50 > ball.ycor() > paddle_2.ycor() - 50:
+    if ball.xcor() == 350 and paddle_ai + 25 > ball.ycor() > paddle_ai - 25:
         ball.dx *= -1
         ball.dy = ale_ball()  # any randomness for ball angle
-        winsound.PlaySound("bounce.wav", winsound.SND_ASYNC)
-        # os.system("afplay bounce.wav&")
+        winsound.PlaySound("C:/Users/bh_ro/Documents/STEM/stem-games/mypong2/assets/bounce.wav", winsound.SND_ASYNC)
+        # os.system("afplay bounce.wav&"
