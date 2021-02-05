@@ -8,8 +8,6 @@
 import turtle
 import winsound  # for Windows
 import random
-import time
-
 # import os (only for macOS)
 
 # draw the screen
@@ -57,8 +55,7 @@ hud.shape("square")
 hud.color("white")
 hud.penup()
 hud.goto(0, 260)
-hud.write("0 : 0", align="center", font=("C:/Users/bh_ro/Documents/STEM/stem-games/my"
-                                         "-pong2/assets/PressStart2P.ttf", 24, "normal"))
+hud.write("0 : 0", align="center", font=("PressStart2P ", 24, "normal"))
 hud.hideturtle()
 
 
@@ -101,8 +98,15 @@ while True:
     ball.sety(ball.ycor() + ball.dy)
     # "A.I." paddle
     paddle_ai.sety(ball.ycor())
-    if time.time() > 1:  # any random loss of concentration of A.I.
-        paddle_ai.sety(ball.ycor()-20)
+    # random loss of concentration of 'AI' still in developing
+    paddle_ai_fail_pos = 1.0
+    paddle_ai_fail_neg = -1.0
+    chance_fail_ai = random.randint(-1, 1)
+    print(chance_fail_ai)
+    if chance_fail_ai == paddle_ai_fail_pos:
+        paddle_ai.sety(ball.ycor() + 30)
+    elif chance_fail_ai == paddle_ai_fail_neg:
+        paddle_ai.sety(ball.ycor() - 30)
 
     # ball collision with the borders
     # upper
@@ -121,10 +125,9 @@ while True:
     if ball.xcor() < -390:
         score_2 += 1
         hud.clear()
-        hud.write("{} : {}".format(score_1, score_2), align="center", font=("C:/Users/bh_ro/Documents/STEM/stem-games"
-                                                                            "/mypong2/assets/Press"
-                                                                            "Start2P.ttf", 24, "normal"))
-        winsound.PlaySound("C:/Users/bh_ro/Documents/STEM/stem-games/mypong2/assets/258020_kodack_arcade-bleep"
+        hud.write("{} : {}".format(score_1, score_2), align="center", font=("Press"
+                                                                            "Start2P", 24, "normal"))
+        winsound.PlaySound("C:/Users/bh_ro/Documents/STEM/stem-games/mypong2/assets/258020__kodack__arcade-bleep"
                            "-sound.wav", winsound.SND_ASYNC)
         # os.system("afplay 258020_Kodak_arcade-bleep-sound.wav&")
         ball.goto(0, 0)
@@ -135,10 +138,9 @@ while True:
     if ball.xcor() > 390:
         score_1 += 1
         hud.clear()
-        hud.write("{} : {}".format(score_1, score_2), align="center", font=("C:/Users/bh_ro/Documents/STEM/stem-games"
-                                                                            "/mypong2/assets/Press"
-                                                                            "-Start2P.ttf", 24, "normal"))
-        winsound.PlaySound("C:/Users/bh_ro/Documents/STEM/stem-games/mypong2/assets/258020_kodack_arcade-bleep"
+        hud.write("{} : {}".format(score_1, score_2), align="center", font=("Press"
+                                                                            "-Start2P", 24, "normal"))
+        winsound.PlaySound("C:/Users/bh_ro/Documents/STEM/stem-games/mypong2/assets/258020__kodack__arcade-bleep"
                            "-sound.wav", winsound.SND_ASYNC)
         # os.system("afplay 258020_kodack_arcade-bleep-sound.wav&")
         ball.goto(0, 0)
