@@ -8,6 +8,7 @@
 import turtle
 import winsound
 import random
+import time
 
 # draw background
 screen = turtle.Screen()
@@ -80,23 +81,23 @@ def paddle_1_down():
 def paddle_2_up():
     y = paddle_2.ycor()
     if y < 250:
-        y += 30
+        y += 10
     else:
-        y = 250
+        y = 230
     paddle_2.sety(y)
 
 
 def paddle_2_down():
     y = paddle_2.ycor()
     if y > -250:
-        y += -30
+        y += -10
     else:
-        y = -250
+        y = -230
     paddle_2.sety(y)
 
 
 def wall_collision():
-    winsound.PlaySound('bounce.wav', winsound.SND_FILENAME | winsound.SND_ASYNC | winsound.SND_NOWAIT)
+    winsound.PlaySound(bounce_sound, winsound.SND_FILENAME | winsound.SND_ASYNC | winsound.SND_NOWAIT)
     ball.dy *= -1
 
 
@@ -104,13 +105,13 @@ def paddle_collision():
     random_position = random.randrange(-7, 8)
     ball.dy = random_position / 10
     ball.dx *= -1
-    winsound.PlaySound('bounce.wav', winsound.SND_FILENAME | winsound.SND_ASYNC | winsound.SND_NOWAIT)
+    winsound.PlaySound(bounce_sound, winsound.SND_FILENAME | winsound.SND_ASYNC | winsound.SND_NOWAIT)
 
 
 def scoring():
     hud.clear()
     hud.write("{} : {}".format(score_1, score_2), align="center", font=("Press Start 2P", 24, "normal"))
-    winsound.PlaySound('258020__kodack__arcade-bleep-sound.wav', winsound.SND_FILENAME)
+    winsound.PlaySound(score_sound, winsound.SND_FILENAME)
     ball.goto(0, 0)
     ball.dx = -0.5
     ball.dy = 0
@@ -122,8 +123,10 @@ def scoring():
 screen.listen()
 screen.onkeypress(paddle_1_up, "w")
 screen.onkeypress(paddle_1_down, "s")
-screen.onkeypress(paddle_2_up, "Up")
-screen.onkeypress(paddle_2_down, "Down")
+
+# Sound Variables
+score_sound = 'D:/Meus Documentos/Documentos/GitHub/stem-games/mypong/assets/258020__kodack__arcade-bleep-sound.wav'
+bounce_sound = 'D:/Meus Documentos/Documentos/GitHub/stem-games/mypong/assets/bounce.wav'
 
 while True:
     screen.update()
@@ -153,3 +156,12 @@ while True:
     # paddle 2 collision
     if ball.xcor() == 350 and paddle_2.ycor() + 50 > ball.ycor() > paddle_2.ycor() - 50:
         paddle_collision()
+
+    # Paddle_2's beatable AI
+    ai_randomizer = random.randrange(21)
+
+    if ball.ycor() > paddle_2.ycor() + 30 and ai_randomizer == 10:
+        paddle_2_up()
+
+    if ball.ycor() < paddle_2.ycor() - 30 and ai_randomizer == 10:
+        paddle_2_down()
