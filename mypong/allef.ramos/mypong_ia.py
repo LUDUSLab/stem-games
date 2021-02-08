@@ -1,4 +1,5 @@
-#Jucimar
+#Jucimar Jr
+#Allef edited
 # pong in turtle python https://docs.python.org/3.3/library/turtle.html
 # based on http://christianthompson.com/node/51
 # font Press Start 2P https://www.fontspace.com/codeman38/press-start-2p
@@ -10,16 +11,15 @@ from random import choice
 
 # draw screen
 screen = turtle.Screen()
-screen.setup(width=800, height=600)
 screen.tracer(0)
-screen.bgcolor("black")
+screen.setup(width=800, height=600)
 screen.title("My Pong")
-
+screen.bgcolor("black")
 
 # draw paddle A
 paddle_1 = turtle.Turtle()
-paddle_1.shape("square")
 paddle_1.color("white")
+paddle_1.shape("square")
 paddle_1.speed(0)
 paddle_1.shapesize(stretch_wid=5, stretch_len=1)
 paddle_1.penup()
@@ -72,40 +72,40 @@ for i in range(13):
     divider.sety(divider.ycor() + divider.dy)
 
 
-def up_paddle_1():
+def up_paddle():
     if paddle_1.ycor() < 210:
         u = paddle_1.ycor()
-        u = u + 30
+        u = u + 20
         paddle_1.sety(u)
 
 
-def down_paddle_1():
+def down_paddle():
     if paddle_1.ycor() > -210:
         d = paddle_1.ycor()
-        d -= 30
+        d -= 20
         paddle_1.sety(d)
 
 
 # mapping keyboard
 screen.listen()
-screen.onkeypress(up_paddle_1, "w")
-screen.onkeypress(down_paddle_1, "s")
+screen.onkeypress(up_paddle, "w")
+screen.onkeypress(down_paddle, "s")
 
 while True:
-    screen.update()
     # moving the ball
-    ball.setx(ball.xcor() + (ball.dx * choice([-0.8, -0.9, -1, -1.1])))
-    ball.sety(ball.ycor() + (ball.dy * choice([-0.8, -0.9, -1, -1.1])))
+    ball.setx(ball.xcor() + ball.dx)
+    ball.sety(ball.ycor() + ball.dy)
+    screen.update()
 
     # hit the top wall
     if ball.ycor() > 290:
-        winsound.PlaySound("bounce.wav", winsound.SND_ASYNC)
+        winsound.PlaySound("../assets/bounce.wav", winsound.SND_ASYNC)
         ball.sety(290)
         ball.dy *= -1
 
     # hit the bottom wall
     if ball.ycor() < -280:
-        winsound.PlaySound('bounce.wav', winsound.SND_ASYNC)
+        winsound.PlaySound('../assets/bounce.wav', winsound.SND_ASYNC)
         ball.sety(-280)
         ball.dy *= -1
 
@@ -114,7 +114,7 @@ while True:
         score_2 = score_2 + 1
         hud.clear()
         hud.write("{}   {}".format(score_1, score_2), align="center", font=("Press Start 2P", 24, "normal"))
-        winsound.PlaySound("arcade-bleep-sound.wav", winsound.SND_ASYNC)
+        winsound.PlaySound("../assets/258020__kodack__arcade-arcade-bleep-sound.wav", winsound.SND_ASYNC)
         ball.goto(0, 0)
         ball.dx *= -1
         ball.dy *= choice([-0.95, -1, -1.05])
@@ -123,7 +123,7 @@ while True:
     if ball.xcor() > 390:
         hud.clear()
         score_1 += 1
-        winsound.PlaySound("arcade-bleep-sound.wav", winsound.SND_ASYNC)
+        winsound.PlaySound("../assets/258020__kodack__arcade-arcade-bleep-sound.wav", winsound.SND_ASYNC)
         hud.write("{}   {}".format(score_1, score_2), align="center", font=("Press Start 2P", 24, "normal"))
         ball.goto(0, 0)
         ball.dx *= -1
@@ -133,14 +133,14 @@ while True:
     if ball.xcor() < -330 and (paddle_1.ycor() - 50) <= ball.ycor() <= (paddle_1.ycor() + 50):
         if (paddle_1.ycor() - 15) <= ball.ycor() <= (paddle_1.ycor() + 15):
             ball.setx(-330)
-            ball.dy = choice([0.07, -0.07])
+            ball.dy = choice([0.1, -0.1])
             ball.dx *= -1
-            winsound.PlaySound("bounce.wav", winsound.SND_ASYNC)
+            winsound.PlaySound("../assets/bounce.wav", winsound.SND_ASYNC)
         else:
             ball.setx(-330)
-            ball.dy = 0.3 * choice([-0.95, -1, 0.95, 1])
+            ball.dy = 0.3 * choice([-1.01, 1.01, -0.8, 0.8, -0.9, 0.9])
             ball.dx *= -1
-            winsound.PlaySound("bounce.wav", winsound.SND_ASYNC)
+            winsound.PlaySound("../assets/bounce.wav", winsound.SND_ASYNC)
 
     # hit the paddle B
     if ball.xcor() > 330 and (paddle_b.ycor() - 50) <= ball.ycor() <= (paddle_b.ycor() + 50):
@@ -148,12 +148,12 @@ while True:
             ball.setx(330)
             ball.dy = choice([0.1, -0.1])
             ball.dx *= -1
-            winsound.PlaySound("bounce.wav", winsound.SND_ASYNC)
+            winsound.PlaySound("../assets/bounce.wav", winsound.SND_ASYNC)
         else:
             ball.setx(330)
-            ball.dy = 0.3 * choice([0.95, 1])
+            ball.dy = 0.3 * choice([-1.01, 1.01, -0.8, 0.8, -0.9, 0.9])
             ball.dx *= -1
-            winsound.PlaySound("bounce.wav", winsound.SND_ASYNC)
+            winsound.PlaySound("../assets/bounce.wav", winsound.SND_ASYNC)
 
     # Move paddle 2
     if (paddle_b.ycor() < ball.ycor()) and ((paddle_b.ycor() + 50) < 270):
