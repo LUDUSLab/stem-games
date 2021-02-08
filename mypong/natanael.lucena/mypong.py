@@ -5,9 +5,10 @@
 # Press Start 2P font https://www.fontspace.com/codeman38/press-start-2p
 # score sound https://freesound.org/people/Kodack/sounds/258020/
 
-import functools
+# (For Windows) import winsound
+import functools as ft
 import turtle
-import os
+import simpleaudio as sa
 from random import choice
 
 # screen draw
@@ -17,6 +18,10 @@ screen.tracer(0)
 screen.title("My Pong")
 screen.bgcolor("black")
 screen.setup(width=800, height=600)
+
+# scores
+score_1 = 0
+score_2 = 0
 
 
 def general_constructor(a):
@@ -45,10 +50,6 @@ general_constructor(ball)
 ball.goto(0, 0)
 ball.dx = 1
 ball.dy = 1
-
-# scores
-score_1 = 0
-score_2 = 0
 
 # screen outline
 space = turtle.Turtle()
@@ -81,6 +82,9 @@ erasable.hideturtle()
 erasable.up()
 erasable.setposition(0, 0)
 ball.hideturtle()
+
+wave_obj1 = sa.WaveObject.from_wave_file("../assets/bounce.wav")
+wave_obj2 = sa.WaveObject.from_wave_file("../assets/258020__kodack__arcade-bleep-sound.wav")
 
 
 def blink_on():
@@ -143,8 +147,8 @@ def paddle_down(n1):
 
 # binding keys
 screen.listen()
-screen.onkeypress(functools.partial(paddle_up, 1), "w")
-screen.onkeypress(functools.partial(paddle_down, 1), "s")
+screen.onkeypress(ft.partial(paddle_up, 1), "w")
+screen.onkeypress(ft.partial(paddle_down, 1), "s")
 
 n = choice([2, 1, 1.5, -1, -1.5, -2])
 
@@ -158,6 +162,8 @@ def collision_treatment_x():
     n = choice([-1, -1.5, -2, 1, 1.5, 2])
     ball.dx *= -1
     ball.dy = n
+    wave_obj2.play()
+    # (For windows)winsound.PlaySound("../assets/258020__kodack__arcade-bleep-sound.wav", winsound.SND_ASYNC)
 
 
 def collision_treatment_y():
@@ -166,6 +172,8 @@ def collision_treatment_y():
     if ball.ycor() > 290:
         ball.sety(290)
     ball.dy *= -1
+    wave_obj1.play()
+    # (For windows)winsound.PlaySound("../assets/bounce.wav", winsound.SND_ASYNC)
 
 
 def paddle_collision_treatment():
@@ -174,17 +182,18 @@ def paddle_collision_treatment():
     n = choice([-1, -1.5, -2, 1, 1.5, 2])
     ball.dx *= -1
     ball.dy = n
-    # (For windows)winsound.PlaySound(s2path, winsound.SND_ASYNC)
-    os.system("")
+    wave_obj1.play()
+    # (For windows)winsound.PlaySound("../assets/bounce.wav", winsound.SND_ASYNC)
 
 
+# IA movement
 def ia_move():
     if ball.dx > 0:
         if 250 > ball.ycor() > -250:
             if paddle_2.ycor() < ball.ycor():
-                paddle_2.sety(paddle_2.ycor() + 1.5)
+                paddle_2.sety(paddle_2.ycor() + 1.7)
             if paddle_2.ycor() > ball.ycor():
-                paddle_2.sety(paddle_2.ycor() - 1.5)
+                paddle_2.sety(paddle_2.ycor() - 1.7)
         if paddle_2.ycor() == 250:
             paddle_2.sety(250)
 
@@ -237,5 +246,7 @@ def move_ball():
 
 move_ball()
 
+screen.listen()
+screen.onkey(exit, "q")
 # screen loop for movement dynamic
 screen.mainloop()
