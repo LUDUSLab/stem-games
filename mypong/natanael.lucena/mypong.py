@@ -7,6 +7,7 @@
 
 import functools
 import turtle
+import os
 from random import choice
 
 # screen draw
@@ -144,8 +145,8 @@ def paddle_down(n1):
 screen.listen()
 screen.onkeypress(functools.partial(paddle_up, 1), "w")
 screen.onkeypress(functools.partial(paddle_down, 1), "s")
-screen.onkeypress(functools.partial(paddle_up, 2), "Up")
-screen.onkeypress(functools.partial(paddle_down, 2), "Down")
+
+n = choice([2, 1, 1.5, -1, -1.5, -2])
 
 
 def collision_treatment_x():
@@ -153,6 +154,7 @@ def collision_treatment_x():
     hud.write("{} : {}".format(score_1, score_2), align="center", font=("Press Start 2P", 24, "normal"))
     ball.goto(0, 0)
     # ball random direction
+    global n
     n = choice([-1, -1.5, -2, 1, 1.5, 2])
     ball.dx *= -1
     ball.dy = n
@@ -168,10 +170,31 @@ def collision_treatment_y():
 
 def paddle_collision_treatment():
     # paddle random collision
+    global n
     n = choice([-1, -1.5, -2, 1, 1.5, 2])
     ball.dx *= -1
     ball.dy = n
-    # winsound.PlaySound(s2path, winsound.SND_ASYNC)
+    # (For windows)winsound.PlaySound(s2path, winsound.SND_ASYNC)
+    os.system("")
+
+
+def ia_move():
+    if ball.dx > 0:
+        if 250 > ball.ycor() > -250:
+            if paddle_2.ycor() < ball.ycor():
+                paddle_2.sety(paddle_2.ycor() + 1.5)
+            if paddle_2.ycor() > ball.ycor():
+                paddle_2.sety(paddle_2.ycor() - 1.5)
+        if paddle_2.ycor() == 250:
+            paddle_2.sety(250)
+
+        if paddle_2.ycor() == -250:
+            paddle_2.sety(-250)
+    else:
+        if paddle_2.ycor() > 0:
+            paddle_2.sety(paddle_2.ycor() - 1.5)
+        if paddle_2.ycor() < 0:
+            paddle_2.sety(paddle_2.ycor() + 1.5)
 
 
 def move_ball():
@@ -207,6 +230,7 @@ def move_ball():
             ball.setx(-330)
             paddle_collision_treatment()
 
+    ia_move()
     # draw and movement sync
     screen.ontimer(move_ball, 3)
 
