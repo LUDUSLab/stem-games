@@ -150,8 +150,8 @@ while game_loop:
 
         # drawing objects
         screen.blit(ball, (ball_x, ball_y))
-        screen.blit(player_1, (50, player_1_y))
-        screen.blit(player_2, (1180, player_2_y))
+        screen.blit(player_1, (10, player_1_y))
+        screen.blit(player_2, (1120, player_2_y))
         screen.blit(score_text, score_text_rect)
     else:
         # drawing victory
