@@ -12,33 +12,33 @@ screen = pygame.display.set_mode(size)
 pygame.display.set_caption("MyPong - PyGame Edition - 2021.01.30")
 
 # score text
-score_font = pygame.font.Font('assets/PressStart2P.ttf', 44)
+score_font = pygame.font.Font('../assets/PressStart2P.ttf', 44)
 score_text = score_font.render('00 x 00', True, COLOR_WHITE, COLOR_BLACK)
 score_text_rect = score_text.get_rect()
 score_text_rect.center = (680, 50)
 
 # victory text
-victory_font = pygame.font.Font('assets/PressStart2P.ttf', 100)
+victory_font = pygame.font.Font('../assets/PressStart2P.ttf', 100)
 victory_text = victory_font .render('VICTORY', True, COLOR_WHITE, COLOR_BLACK)
 victory_text_rect = score_text.get_rect()
 victory_text_rect.center = (450, 350)
 
 # sound effects
-bounce_sound_effect = pygame.mixer.Sound('assets/bounce.wav')
-scoring_sound_effect = pygame.mixer.Sound('assets/258020__kodack__arcade-bleep-sound.wav')
+bounce_sound_effect = pygame.mixer.Sound('../assets/bounce.wav')
+scoring_sound_effect = pygame.mixer.Sound('../assets/258020__kodack__arcade-bleep-sound.wav')
 
 # player 1
-player_1 = pygame.image.load("assets/player.png")
+player_1 = pygame.image.load("../assets/natanael.lucena_paddle.png")
 player_1_y = 300
 player_1_move_up = False
 player_1_move_down = False
 
 # player 2 - robot
-player_2 = pygame.image.load("assets/player.png")
+player_2 = pygame.image.load("../assets/natanael.lucena_paddle.png")
 player_2_y = 300
 
 # ball
-ball = pygame.image.load("assets/ball.png")
+ball = pygame.image.load("../assets/natanael.lucena_ball.png")
 ball_x = 640
 ball_y = 360
 ball_dx = 5
@@ -150,8 +150,8 @@ while game_loop:
 
         # drawing objects
         screen.blit(ball, (ball_x, ball_y))
-        screen.blit(player_1, (50, player_1_y))
-        screen.blit(player_2, (1180, player_2_y))
+        screen.blit(player_1, (10, player_1_y))
+        screen.blit(player_2, (1120, player_2_y))
         screen.blit(score_text, score_text_rect)
     else:
         # drawing victory

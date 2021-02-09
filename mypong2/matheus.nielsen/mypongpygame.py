@@ -2,7 +2,7 @@ import pygame
 
 pygame.init()
 
-COLOR_BLACK = (0, 0, 0)
+COLOR_BLACK = (20, 20, 20)
 COLOR_WHITE = (255, 255, 255)
 
 SCORE_MAX = 2
@@ -13,7 +13,7 @@ pygame.display.set_caption("MyPong - PyGame Edition - Matheus Nielsen - Versão 
 
 # score text
 score_font = pygame.font.Font('D:/Meus Documentos/Documentos/GitHub/stem-games/mypong2/assets/PressStart2P.ttf', 44)
-score_text = score_font.render('00 x 00', True, COLOR_WHITE, COLOR_BLACK)
+score_text = score_font.render('00 x 00', False, COLOR_WHITE)
 score_text_rect = score_text.get_rect()
 score_text_rect.center = (680, 50)
 
@@ -29,17 +29,19 @@ scoring_sound_effect = pygame.mixer.Sound('D:/Meus Documentos/Documentos/GitHub/
                                           'kodack__arcade-bleep-sound.wav')
 
 # player 1
-player_1 = pygame.image.load("D:/Meus Documentos/Documentos/GitHub/stem-games/mypong2/assets/player.png")
+player_1 = pygame.image.load("D:/Meus Documentos/Documentos/GitHub/stem-games/mypong2/assets/"
+                             "matheus.nielsen_Paddle_Player.png")
 player_1_y = 300
 player_1_move_up = False
 player_1_move_down = False
 
 # player 2 - robot
-player_2 = pygame.image.load("D:/Meus Documentos/Documentos/GitHub/stem-games/mypong2/assets/player.png")
+player_2 = pygame.image.load("D:/Meus Documentos/Documentos/GitHub/stem-games/mypong2/assets/"
+                             "matheus.nielsen_Paddle_AI.png")
 player_2_y = 300
 
 # ball
-ball = pygame.image.load("D:/Meus Documentos/Documentos/GitHub/stem-games/mypong2/assets/ball.png")
+ball = pygame.image.load("D:/Meus Documentos/Documentos/GitHub/stem-games/mypong2/assets/matheus.nielsen_Ball_AI.png")
 ball_x = 640
 ball_y = 360
 ball_dx = 5
