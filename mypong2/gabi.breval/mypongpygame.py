@@ -12,24 +12,24 @@ screen = pygame.display.set_mode(size)
 pygame.display.set_caption("MyPong - PyGame Edition - 2021.01.30")
 
 # score text
-score_font = pygame.font.Font('C:/Users/arthu/Documents/STEM/stem-games/mypong2/assets/PressStart2P.ttf', 44)
+score_font = pygame.font.Font('/home/gabibreval/Documentos/stem-games/mypong2/assets/PressStart2P.ttf', 44)
 score_text = score_font.render('00 x 00', True, COLOR_WHITE, COLOR_BLACK)
 score_text_rect = score_text.get_rect()
 score_text_rect.center = (680, 50)
 
 # victory text
-victory_font = pygame.font.Font('C:/Users/arthu/Documents/STEM/stem-games/mypong2/assets/PressStart2P.ttf', 100)
+victory_font = pygame.font.Font('/home/gabibreval/Documentos/stem-games/mypong2/assets/PressStart2P.ttf', 100)
 victory_text = victory_font .render('VICTORY', True, COLOR_WHITE, COLOR_BLACK)
 victory_text_rect = score_text.get_rect()
 victory_text_rect.center = (450, 350)
 
 # sound effects
-bounce_sound_effect = pygame.mixer.Sound('C:/Users/arthu/Documents/STEM/stem-games/mypong2/assets/bounce.wav')
+bounce_sound_effect = pygame.mixer.Sound('/home/gabibreval/Documentos/stem-games/mypong2/assets/bounce.wav')
 # scoring_sound_effect = pygame.mixer.Sound('C:/Users/arthu/Documents/STEM/stem-games/mypong2/assets/258020__kodack__arcade-bleep-sound.wav')
 
 # player 1 and player 2(Robot)
-player_1 = pygame.image.load("C:/Users/arthu/Documents/STEM/stem-games/mypong2/assets/arthur.carvalho_paddle.png")
-player_2 = pygame.image.load("C:/Users/arthu/Documents/STEM/stem-games/mypong2/assets/arthur.carvalho_paddle.png")
+player_1 = pygame.image.load("/home/gabibreval/Documentos/stem-games/mypong2/assets/arthur.carvalho_paddle.png")
+player_2 = pygame.image.load("/home/gabibreval/Documentos/stem-games/mypong2/assets/arthur.carvalho_paddle.png")
 player_1_y = player_2_y = 300
 player_1_move_up = False
 player_1_move_down = False
