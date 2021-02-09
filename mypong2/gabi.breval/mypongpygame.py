@@ -2,14 +2,29 @@ import pygame
 
 pygame.init()
 
+'''
+Adress: photos
+
+/home/gabibreval/Documentos/stem-games/mypong2/assets
+
+
+'''
+
 COLOR_BLACK = (0, 0, 0)
 COLOR_WHITE = (255, 255, 255)
 
-SCORE_MAX = 10
+SCORE_MAX = 2
 
-size = (1280, 720)
+# Main window
+screen_width = 1280
+screen_height = 960
+size = (1280, 720)  # width, height
 screen = pygame.display.set_mode(size)
-pygame.display.set_caption("MyPong - PyGame Edition - 2021.01.30")
+pygame.display.set_caption("Pong")
+
+# Colors
+light_grey = (200, 200, 200)
+bg_color = pygame.Color('grey12')
 
 # score text
 score_font = pygame.font.Font('/home/gabibreval/Documentos/stem-games/mypong2/assets/PressStart2P.ttf', 44)
@@ -25,17 +40,18 @@ victory_text_rect.center = (450, 350)
 
 # sound effects
 bounce_sound_effect = pygame.mixer.Sound('/home/gabibreval/Documentos/stem-games/mypong2/assets/bounce.wav')
-# scoring_sound_effect = pygame.mixer.Sound('C:/Users/arthu/Documents/STEM/stem-games/mypong2/assets/258020__kodack__arcade-bleep-sound.wav')
+scoring_sound_effect = pygame.mixer.Sound('/home/gabibreval/Documentos/stem-games/mypong2/assets/'
+                                          '258020__kodack__arcade-bleep-sound.wav')
 
 # player 1 and player 2(Robot)
-player_1 = pygame.image.load("/home/gabibreval/Documentos/stem-games/mypong2/assets/arthur.carvalho_paddle.png")
-player_2 = pygame.image.load("/home/gabibreval/Documentos/stem-games/mypong2/assets/arthur.carvalho_paddle.png")
+player_1 = pygame.image.load("/home/gabibreval/Documentos/stem-games/mypong2/assets/gabi.breval_paddle.png")
+player_2 = pygame.image.load("/home/gabibreval/Documentos/stem-games/mypong2/assets/gabi.breval_paddle.png")
 player_1_y = player_2_y = 300
 player_1_move_up = False
 player_1_move_down = False
 
 # ball
-ball = pygame.image.load("C:/Users/arthu/Documents/STEM/stem-games/mypong2/assets/arthur.carvalho_ball.png")
+ball = pygame.image.load("/home/gabibreval/Documentos/stem-games/mypong2/assets/gabi.breval_ball.png")
 ball_x = 640
 ball_y = 360
 ball_dx = ball_dy = 5
@@ -86,7 +102,7 @@ while game_loop:
                     ball_dx *= -1
                     bounce_sound_effect.play()
 
-        # ball collision with the player 2 's paddle
+        # ball collision with the player 2 's paddle (robot)
         if ball_x > 1160:
             if player_2_y < ball_y + 25:
                 if player_2_y + 150 > ball_y:
@@ -145,9 +161,11 @@ while game_loop:
 
         # drawing objects
         screen.blit(ball, (ball_x, ball_y))
-        screen.blit(player_1, (50, player_1_y))
-        screen.blit(player_2, (1180, player_2_y))
+        screen.blit(player_1, (85, player_1_y))  # modified coordinates
+        screen.blit(player_2, (1190, player_2_y))  # modified coordinates
         screen.blit(score_text, score_text_rect)
+        pygame.draw.aaline(screen, light_grey, (screen_width / 2, 0), (screen_width / 2, screen_height))  # middle line
+
     else:
         # drawing victory
         screen.fill(COLOR_BLACK)
