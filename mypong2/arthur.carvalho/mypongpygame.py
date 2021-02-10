@@ -1,59 +1,85 @@
 import pygame
 
+
+def score_points():
+    global ball_x, ball_y, ball_dx, ball_dy, score_1, score_2
+    if ball_x == 0:
+        ball_x, ball_y = 510, 320
+        ball_dy *= -1
+        ball_dx *= -1
+        score_2 += 1
+    elif ball_x == 1020:
+        ball_x, ball_y = 510, 320
+        ball_dy *= -1
+        ball_dx *= -1
+        score_1 += 1
+
+
+def draw_objects():
+    screen.blit(ball, (ball_x, ball_y))
+    screen.blit(player_1, (20, player_1_y))
+    screen.blit(player_2, (980, player_2_y))
+    screen.blit(score_text, score_text_rect)
+
+    pygame.display.update()
+
+
+def move_n_collision_ball():
+    global ball_x, ball_y, ball_dx, ball_dy
+    ball_x += ball_dx
+    ball_y += ball_dy
+
+    if (ball_y < 0) or (ball_y > 640):
+        ball_dy *= -1
+
+    if (ball_x > 1020) or (ball_x < 0):
+        ball_dx *= -1
+
+
 pygame.init()
 
-COLOR_BLACK = (0, 0, 0)
-COLOR_WHITE = (255, 255, 255)
+score_max = 10
+score_1 = score_2 = 0
 
-SCORE_MAX = 10
-
-size = (1280, 720)
+# Creation screen
+size = (1020, 640)
 screen = pygame.display.set_mode(size)
-pygame.display.set_caption("MyPong - PyGame Edition - 2021.01.30")
+pygame.display.set_caption('MyPong - Pygame Edition')
+
+# players configuration
+player_1 = pygame.image.load("C:/Users/arthu/Documents/STEM/stem-games/mypong2/assets/arthur.carvalho_paddle.png")
+player_2 = pygame.image.load("C:/Users/arthu/Documents/STEM/stem-games/mypong2/assets/arthur.carvalho_paddle.png")
+player_1_y = player_2_y = 270
+player_1_move_up = player_1_move_down = False
+
+# ball configuration
+ball = pygame.image.load("C:/Users/arthu/Documents/STEM/stem-games/mypong2/assets/arthur.carvalho_ball.png")
+ball_x, ball_y = 510, 320
+ball_dx = ball_dy = 1
 
 # score text
 score_font = pygame.font.Font('C:/Users/arthu/Documents/STEM/stem-games/mypong2/assets/PressStart2P.ttf', 44)
-score_text = score_font.render('00 x 00', True, COLOR_WHITE, COLOR_BLACK)
+score_text = score_font.render('00 x 00', True, (255, 255, 255), (0, 0, 0))
 score_text_rect = score_text.get_rect()
-score_text_rect.center = (680, 50)
+score_text_rect.center = (550, 30)
 
 # victory text
-victory_font = pygame.font.Font('C:/Users/arthu/Documents/STEM/stem-games/mypong2/assets/PressStart2P.ttf', 100)
-victory_text = victory_font .render('VICTORY', True, COLOR_WHITE, COLOR_BLACK)
+victory_font = pygame.font.Font('C:/Users/arthu/Documents/STEM/stem-games/mypong2/assets/PressStart2P.ttf', 70)
+victory_text = victory_font .render('VICTORY', True, (255, 255, 255), (0, 0, 0))
 victory_text_rect = score_text.get_rect()
-victory_text_rect.center = (450, 350)
+victory_text_rect.center = (430, 300)
 
-# sound effects
-bounce_sound_effect = pygame.mixer.Sound('C:/Users/arthu/Documents/STEM/stem-games/mypong2/assets/bounce.wav')
-# scoring_sound_effect = pygame.mixer.Sound('C:/Users/arthu/Documents/STEM/stem-games/mypong2/assets/258020__kodack__arcade-bleep-sound.wav')
 
-# player 1 and player 2(Robot)
-player_1 = pygame.image.load("C:/Users/arthu/Documents/STEM/stem-games/mypong2/assets/arthur.carvalho_paddle.png")
-player_2 = pygame.image.load("C:/Users/arthu/Documents/STEM/stem-games/mypong2/assets/arthur.carvalho_paddle.png")
-player_1_y = player_2_y = 300
-player_1_move_up = False
-player_1_move_down = False
-
-# ball
-ball = pygame.image.load("C:/Users/arthu/Documents/STEM/stem-games/mypong2/assets/arthur.carvalho_ball.png")
-ball_x = 640
-ball_y = 360
-ball_dx = ball_dy = 5
-
-# score
-score_1 = score_2 = 0
-
-# game loop
 game_loop = True
-game_clock = pygame.time.Clock()
 
 while game_loop:
+    screen.fill((0, 0, 0))
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             game_loop = False
 
-        #  keystroke events
+        # map keys
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_UP:
                 player_1_move_up = True
@@ -65,97 +91,30 @@ while game_loop:
             if event.key == pygame.K_DOWN:
                 player_1_move_down = False
 
-    # checking the victory condition
-    if score_1 < SCORE_MAX and score_2 < SCORE_MAX:
+    # player 1 up and down movement
+    if player_1_move_up:
+        player_1_y -= 1
 
-        # clear screen
-        screen.fill(COLOR_BLACK)
+    if player_1_move_down:
+        player_1_y += 1
 
-        # ball collision with the wall
-        if ball_y > 700:
-            ball_dy *= -1
-            bounce_sound_effect.play()
-        elif ball_y <= 0:
-            ball_dy *= -1
-            bounce_sound_effect.play()
+    # player 1 collides with upper wall
+    if player_1_y <= 0:
+        player_1_y = 0
 
-        # ball collision with the player 1 's paddle
-        if ball_x < 100:
-            if player_1_y < ball_y + 25:
-                if player_1_y + 150 > ball_y:
-                    ball_dx *= -1
-                    bounce_sound_effect.play()
+    # player 1 collides with lower wall
+    elif player_1_y >= 490:
+        player_1_y = 490
 
-        # ball collision with the player 2 's paddle
-        if ball_x > 1160:
-            if player_2_y < ball_y + 25:
-                if player_2_y + 150 > ball_y:
-                    ball_dx *= -1
-                    bounce_sound_effect.play()
-
-        # scoring points
-        if ball_x < -50:
-            ball_x = 640
-            ball_y = 360
-            ball_dy *= -1
-            ball_dx *= -1
-            score_2 += 1
-            # scoring_sound_effect.play()
-        elif ball_x > 1320:
-            ball_x = 640
-            ball_y = 360
-            ball_dy *= -1
-            ball_dx *= -1
-            score_1 += 1
-            # scoring_sound_effect.play()
-
-        # ball movement
-        ball_x = ball_x + ball_dx
-        ball_y = ball_y + ball_dy
-
-        # player 1 up movement
-        if player_1_move_up:
-            player_1_y -= 5
-        else:
-            player_1_y += 0
-
-        # player 1 down movement
-        if player_1_move_down:
-            player_1_y += 5
-        else:
-            player_1_y += 0
-
-        # player 1 collides with upper wall
-        if player_1_y <= 0:
-            player_1_y = 0
-
-        # player 1 collides with lower wall
-        elif player_1_y >= 570:
-            player_1_y = 570
-
-        # player 2 "Artificial Intelligence"
-        player_2_y = ball_y
-        if player_2_y <= 0:
-            player_2_y = 0
-        elif player_2_y >= 570:
-            player_2_y = 570
-
-        # update score hud
-        score_text = score_font.render(str(score_1) + ' x ' + str(score_2), True, COLOR_WHITE, COLOR_BLACK)
-
-        # drawing objects
-        screen.blit(ball, (ball_x, ball_y))
-        screen.blit(player_1, (50, player_1_y))
-        screen.blit(player_2, (1180, player_2_y))
-        screen.blit(score_text, score_text_rect)
+    if score_1 < score_max and score_2 < score_max:
+        move_n_collision_ball()
+        score_points()
+        draw_objects()
+        score_text = score_font.render(str(score_1) + ' x ' + str(score_2), True, (255, 255, 255), (0, 0, 0))
     else:
-        # drawing victory
-        screen.fill(COLOR_BLACK)
+        screen.fill((0, 0, 0))
         screen.blit(score_text, score_text_rect)
         screen.blit(victory_text, victory_text_rect)
-
-    # update screen
-    pygame.display.flip()
-    game_clock.tick(60)
+        pygame.display.update()
 
 pygame.quit()
