@@ -7,7 +7,7 @@ Adress: photos
 /home/gabibreval/Documentos/stem-games/mypong2/assets
 
 '''
-
+k = 1
 COLOR_BLACK = (0, 0, 0)
 COLOR_WHITE = (255, 255, 255)
 
@@ -62,9 +62,11 @@ game_loop = True
 game_clock = pygame.time.Clock()
 
 def IA():
-    global ball_x, ball_y, player_2_y
-    x = [[985, 705], [255, 705], [665, 705], [640, 0], [960, 0], [230, 0]]
-    y = [0, 0, 0, 1, 1, 1]
+    global ball_x, ball_y, player_2_y, k
+    x = [[985, 705], [255, 705], [665, 705],
+         [195, 355], [200, 350], [205, 345], [210, 340], [220, 330],
+         [640, 0], [960, 0], [230, 0]]
+    y = [0, 0, 0, 2, 2, 2, 2, 2, 1, 1, 1]
 
     clf = tree.DecisionTreeClassifier()  # creating an object from Tree decision
     clf = clf.fit(x, y)  # training the computador
@@ -76,7 +78,12 @@ def IA():
         player_2_y += 5
     if position == 1:
         player_2_y -= 5
-
+    if position == 2:
+        if player_2_y <= 0:
+            player_2_y += 5
+        elif player_2_y >= 570:
+            player_2_y -= 5
+            # the final position needs to be in 300
 
     if player_2_y <= 0:
         player_2_y = 0
@@ -123,9 +130,11 @@ while game_loop:
         if ball_y > 700:
             ball_dy *= -1
             # print(ball_x, ball_y)  # when ball hits the top
+            print("toquei em cima")
             bounce_sound_effect.play()
         elif ball_y <= 0:
             ball_dy *= -1
+            print("toquei embaixo")
             # print(ball_x, ball_y)  # when ball hits the bottom
             bounce_sound_effect.play()
 
@@ -134,6 +143,7 @@ while game_loop:
             if player_1_y < ball_y + 25:
                 if player_1_y + 150 > ball_y:
                     ball_dx *= -1
+                    print("toquei no player 1")
                     bounce_sound_effect.play()
 
         # ball collision with the player 2 's paddle (robot)
@@ -141,6 +151,7 @@ while game_loop:
             if player_2_y < ball_y + 25:
                 if player_2_y + 150 > ball_y:
                     ball_dx *= -1
+                    print("toquei no robo")
                     bounce_sound_effect.play()
 
         # scoring points
