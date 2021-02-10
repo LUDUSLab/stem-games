@@ -1,5 +1,4 @@
 import pygame
-from random import choice
 
 pygame.init()
 
@@ -29,17 +28,17 @@ bounce_sound_effect = pygame.mixer.Sound('../assets/bounce.wav')
 scoring_sound_effect = pygame.mixer.Sound('../assets/258020__kodack__arcade-bleep-sound.wav')
 
 # player 1
-player_1 = pygame.image.load("../assets/allef.ramos.paddle.png")
+player_1 = pygame.image.load("../assets/josue.alves_paddle.png")
 player_1_y = 300
 player_1_move_up = False
 player_1_move_down = False
 
 # player 2 - robot
-player_2 = pygame.image.load("../assets/allef.ramos.paddle.png")
+player_2 = pygame.image.load("../assets/josue.alves_paddle.png")
 player_2_y = 300
 
 # ball
-ball = pygame.image.load("../assets/allef.ramos.ball.png")
+ball = pygame.image.load("../assets/josue.alves_ball.png")
 ball_x = 640
 ball_y = 360
 ball_dx = 5
@@ -86,32 +85,32 @@ while game_loop:
             bounce_sound_effect.play()
 
         # ball collision with the player 1 's paddle
-        if (ball_x < 82) and (player_1_y < ball_y + 25) and (player_1_y + 160 > ball_y):
-            ball_x = 82
-            ball_dy *= choice([0.9, 1, 1.1]) * choice([-1, 1])
-            ball_dx *= -1.02
-            bounce_sound_effect.play()
+        if ball_x < 100:
+            if player_1_y < ball_y + 25:
+                if player_1_y + 150 > ball_y:
+                    ball_dx *= -1
+                    bounce_sound_effect.play()
 
         # ball collision with the player 2 's paddle
-        if (ball_x > 1148) and (player_2_y < ball_y + 25) and (player_2_y + 160 > ball_y):
-            ball_x = 1148
-            ball_dy *= choice([0.9, 1, 1.1]) * choice([-1, 1])
-            ball_dx *= -1.02
-            bounce_sound_effect.play()
+        if ball_x > 1160:
+            if player_2_y < ball_y + 25:
+                if player_2_y + 150 > ball_y:
+                    ball_dx *= -1
+                    bounce_sound_effect.play()
 
         # scoring points
         if ball_x < -50:
             ball_x = 640
             ball_y = 360
-            ball_dy = -5
-            ball_dx = -5
+            ball_dy *= -1
+            ball_dx *= -1
             score_2 += 1
             scoring_sound_effect.play()
         elif ball_x > 1320:
             ball_x = 640
             ball_y = 360
-            ball_dy = 5
-            ball_dx = 5
+            ball_dy *= -1
+            ball_dx *= -1
             score_1 += 1
             scoring_sound_effect.play()
 
@@ -140,14 +139,13 @@ while game_loop:
             player_1_y = 570
 
         # player 2 "Artificial Intelligence"
-
         player_2_y = ball_y
         if player_2_y <= 0:
             player_2_y = 0
         elif player_2_y >= 570:
             player_2_y = 570
 
-        #update score hud
+        # update score hud
         score_text = score_font.render(str(score_1) + ' x ' + str(score_2), True, COLOR_WHITE, COLOR_BLACK)
 
         # drawing objects

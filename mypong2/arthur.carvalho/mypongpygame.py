@@ -5,48 +5,43 @@ pygame.init()
 COLOR_BLACK = (0, 0, 0)
 COLOR_WHITE = (255, 255, 255)
 
-SCORE_MAX = 2
+SCORE_MAX = 10
 
 size = (1280, 720)
 screen = pygame.display.set_mode(size)
 pygame.display.set_caption("MyPong - PyGame Edition - 2021.01.30")
 
 # score text
-score_font = pygame.font.Font('assets/PressStart2P.ttf', 44)
+score_font = pygame.font.Font('C:/Users/arthu/Documents/STEM/stem-games/mypong2/assets/PressStart2P.ttf', 44)
 score_text = score_font.render('00 x 00', True, COLOR_WHITE, COLOR_BLACK)
 score_text_rect = score_text.get_rect()
 score_text_rect.center = (680, 50)
 
 # victory text
-victory_font = pygame.font.Font('assets/PressStart2P.ttf', 100)
+victory_font = pygame.font.Font('C:/Users/arthu/Documents/STEM/stem-games/mypong2/assets/PressStart2P.ttf', 100)
 victory_text = victory_font .render('VICTORY', True, COLOR_WHITE, COLOR_BLACK)
 victory_text_rect = score_text.get_rect()
 victory_text_rect.center = (450, 350)
 
 # sound effects
-bounce_sound_effect = pygame.mixer.Sound('assets/bounce.wav')
-scoring_sound_effect = pygame.mixer.Sound('assets/258020__kodack__arcade-bleep-sound.wav')
+bounce_sound_effect = pygame.mixer.Sound('C:/Users/arthu/Documents/STEM/stem-games/mypong2/assets/bounce.wav')
+# scoring_sound_effect = pygame.mixer.Sound('C:/Users/arthu/Documents/STEM/stem-games/mypong2/assets/258020__kodack__arcade-bleep-sound.wav')
 
-# player 1
-player_1 = pygame.image.load("arthur.gustavo_paddle.png")
-player_1_y = 300
+# player 1 and player 2(Robot)
+player_1 = pygame.image.load("C:/Users/arthu/Documents/STEM/stem-games/mypong2/assets/arthur.carvalho_paddle.png")
+player_2 = pygame.image.load("C:/Users/arthu/Documents/STEM/stem-games/mypong2/assets/arthur.carvalho_paddle.png")
+player_1_y = player_2_y = 300
 player_1_move_up = False
 player_1_move_down = False
 
-# player 2 - robot
-player_2 = pygame.image.load("assets/player.png")
-player_2_y = 300
-
 # ball
-ball = pygame.image.load("assets/ball.png")
+ball = pygame.image.load("C:/Users/arthu/Documents/STEM/stem-games/mypong2/assets/arthur.carvalho_ball.png")
 ball_x = 640
 ball_y = 360
-ball_dx = 5
-ball_dy = 5
+ball_dx = ball_dy = 5
 
 # score
-score_1 = 0
-score_2 = 0
+score_1 = score_2 = 0
 
 # game loop
 game_loop = True
@@ -105,14 +100,14 @@ while game_loop:
             ball_dy *= -1
             ball_dx *= -1
             score_2 += 1
-            scoring_sound_effect.play()
+            # scoring_sound_effect.play()
         elif ball_x > 1320:
             ball_x = 640
             ball_y = 360
             ball_dy *= -1
             ball_dx *= -1
             score_1 += 1
-            scoring_sound_effect.play()
+            # scoring_sound_effect.play()
 
         # ball movement
         ball_x = ball_x + ball_dx
