@@ -31,7 +31,7 @@ scoring_sound_effect = pygame.mixer.Sound('../assets/258020__kodack__arcade-blee
 player_1_img = pygame.image.load("../assets/natanael.lucena_paddle.png")
 player_1 = player_1_img.get_rect()
 player_1.x = 70
-player_1.y = 310
+player_1.y = 300
 player_1_move_up = False
 player_1_move_down = False
 
@@ -39,12 +39,13 @@ player_1_move_down = False
 player_2_img = pygame.image.load("../assets/natanael.lucena_paddle.png")
 player_2 = player_2_img.get_rect()
 player_2.x = 1180
-player_2.y = 310
+player_2.y = 300
 
 # ball
-ball = pygame.image.load("../assets/natanael.lucena_ball.png")
-ball_x = 640
-ball_y = 360
+ball_img = pygame.image.load("../assets/natanael.lucena_ball.png")
+ball = ball_img.get_rect()
+ball.x = 640
+ball.y = 360
 ball_dx = 5
 ball_dy = 5
 
@@ -81,46 +82,56 @@ while game_loop:
         screen.fill(COLOR_BLACK)
 
         # ball collision with the wall
-        if ball_y > 700:
+        if ball.y > 700:
             ball_dy *= -1
             bounce_sound_effect.play()
-        elif ball_y <= 0:
+        elif ball.y <= 0:
             ball_dy *= -1
             bounce_sound_effect.play()
 
-        # ball collision with the player 1 's paddle
-        if 100 > ball_x > 70:
-            if player_1.y < ball_y + 30:
-                if player_1.y + 150 > ball_y:
-                    ball_dx *= -1
-                    bounce_sound_effect.play()
+        collision_tolerance = 10
+        if ball.colliderect(player_1):
+            if abs(player_1.top - ball.bottom) < collision_tolerance and ball_dy > 0:
+                ball_dy *= -1
+            if abs(player_1.bottom - ball.top) < collision_tolerance and ball_dy < 0:
+                ball_dy *= -1
+            if abs(player_1.left - ball.right) < collision_tolerance and ball_dx > 0:
+                ball_dx *= -1
+            if abs(player_1.right - ball.left) < collision_tolerance and ball_dx < 0:
+                ball_dx *= -1
+            bounce_sound_effect.play()
 
         # ball collision with the player 2 's paddle
-        if 1190 > ball_x > 1160:
-            if player_2.y < ball_y + 30:
-                if player_2.y + 150 > ball_y:
-                    ball_dx *= -1
-                    bounce_sound_effect.play()
+        if ball.colliderect(player_2):
+            if abs(player_2.top - ball.bottom) < collision_tolerance and ball_dy > 0:
+                ball_dy *= -1
+            if abs(player_2.bottom - ball.top) < collision_tolerance and ball_dy < 0:
+                ball_dy *= -1
+            if abs(player_2.left - ball.right) < collision_tolerance and ball_dx > 0:
+                ball_dx *= -1
+            if abs(player_2.right - ball.left) < collision_tolerance and ball_dx < 0:
+                ball_dx *= -1
+            bounce_sound_effect.play()
 
         # scoring points
-        if ball_x < -50:
-            ball_x = 640
-            ball_y = 360
+        if ball.x < -50:
+            ball.x = 640
+            ball.y = 360
             ball_dy *= -1
             ball_dx *= -1
             score_2 += 1
             scoring_sound_effect.play()
-        elif ball_x > 1320:
-            ball_x = 640
-            ball_y = 360
+        elif ball.x > 1320:
+            ball.x = 640
+            ball.y = 360
             ball_dy *= -1
             ball_dx *= -1
             score_1 += 1
             scoring_sound_effect.play()
 
         # ball movement
-        ball_x = ball_x + ball_dx
-        ball_y = ball_y + ball_dy
+        ball.x = ball.x + ball_dx
+        ball.y = ball.y + ball_dy
 
         # player 1 up movement
         if player_1_move_up:
@@ -143,7 +154,7 @@ while game_loop:
             player_1.y = 570
 
         # player 2 "Artificial Intelligence"
-        player_2.y = ball_y
+        player_2.y = ball.y
         if player_2.y <= 0:
             player_2.y = 0
         elif player_2.y >= 570:
@@ -153,7 +164,7 @@ while game_loop:
         score_text = score_font.render(str(score_1) + ' x ' + str(score_2), True, COLOR_WHITE, COLOR_BLACK)
 
         # drawing objects
-        screen.blit(ball, (ball_x, ball_y))
+        screen.blit(ball_img, ball)
         screen.blit(player_1_img, player_1)
         screen.blit(player_2_img, player_2)
         screen.blit(score_text, score_text_rect)
