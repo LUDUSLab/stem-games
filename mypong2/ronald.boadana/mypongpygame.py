@@ -1,5 +1,6 @@
 import pygame
 import random  # for ball randomness
+# Powered by Ronald Boadana
 
 pygame.init()
 
