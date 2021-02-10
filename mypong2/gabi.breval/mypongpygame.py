@@ -4,20 +4,17 @@ pygame.init()
 
 '''
 Adress: photos
-
 /home/gabibreval/Documentos/stem-games/mypong2/assets
-
-
 '''
 
 COLOR_BLACK = (0, 0, 0)
 COLOR_WHITE = (255, 255, 255)
 
-SCORE_MAX = 2
+SCORE_MAX = 1
 
 # Main window
 screen_width = 1280
-screen_height = 960
+screen_height = 720
 size = (1280, 720)  # width, height
 screen = pygame.display.set_mode(size)
 pygame.display.set_caption("Pong")
@@ -27,16 +24,16 @@ light_grey = (200, 200, 200)
 bg_color = pygame.Color('grey12')
 
 # score text
-score_font = pygame.font.Font('/home/gabibreval/Documentos/stem-games/mypong2/assets/PressStart2P.ttf', 44)
-score_text = score_font.render('00 x 00', True, COLOR_WHITE, COLOR_BLACK)
+score_font = pygame.font.Font('/home/gabibreval/Documentos/stem-games/mypong2/assets/gabi.brevalFont.otf', 44)
+score_text = score_font.render('00 00', True, COLOR_WHITE, COLOR_BLACK)
 score_text_rect = score_text.get_rect()
-score_text_rect.center = (680, 50)
+score_text_rect.center = (screen_width/2, screen_width/2)
 
 # victory text
-victory_font = pygame.font.Font('/home/gabibreval/Documentos/stem-games/mypong2/assets/PressStart2P.ttf', 100)
+victory_font = pygame.font.Font('/home/gabibreval/Documentos/stem-games/mypong2/assets/gabi.brevalFont.otf', 100)
 victory_text = victory_font .render('VICTORY', True, COLOR_WHITE, COLOR_BLACK)
 victory_text_rect = score_text.get_rect()
-victory_text_rect.center = (450, 350)
+victory_text_rect.center = (600, 350)
 
 # sound effects
 bounce_sound_effect = pygame.mixer.Sound('/home/gabibreval/Documentos/stem-games/mypong2/assets/bounce.wav')
@@ -116,14 +113,14 @@ while game_loop:
             ball_dy *= -1
             ball_dx *= -1
             score_2 += 1
-            # scoring_sound_effect.play()
+            scoring_sound_effect.play()
         elif ball_x > 1320:
             ball_x = 640
             ball_y = 360
             ball_dy *= -1
             ball_dx *= -1
             score_1 += 1
-            # scoring_sound_effect.play()
+            scoring_sound_effect.play()
 
         # ball movement
         ball_x = ball_x + ball_dx
@@ -157,7 +154,7 @@ while game_loop:
             player_2_y = 570
 
         # update score hud
-        score_text = score_font.render(str(score_1) + ' x ' + str(score_2), True, COLOR_WHITE, COLOR_BLACK)
+        score_text = score_font.render(str(score_1) + '     ' + str(score_2), True, COLOR_WHITE, COLOR_BLACK)
 
         # drawing objects
         screen.blit(ball, (ball_x, ball_y))
