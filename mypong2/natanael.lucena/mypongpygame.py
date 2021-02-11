@@ -3,24 +3,25 @@ from random import uniform
 
 pygame.init()
 
-COLOR_BLACK = (0, 0, 0)
-COLOR_WHITE = (255, 255, 255)
+
+COLOR_LIGHT_GREY = (200, 200, 200)
+COLOR_DARK_GREY = pygame.Color('gray12')
 
 SCORE_MAX = 2
 
 size = (1280, 720)
 screen = pygame.display.set_mode(size)
-pygame.display.set_caption("MyPong - PyGame Edition - 2021.01.30")
+
+pygame.display.set_caption("Pong")
+
+player_score = 0
+ia_score = 0
 
 # score text
-score_font = pygame.font.Font('../assets/PressStart2P.ttf', 44)
-score_text = score_font.render('00 x 00', True, COLOR_WHITE, COLOR_BLACK)
+score_font = pygame.font.Font('../assets/PressStart2P.ttf', 40)
 
 # victory text
 victory_font = pygame.font.Font('../assets/PressStart2P.ttf', 100)
-victory_text = victory_font .render('VICTORY', True, COLOR_WHITE, COLOR_BLACK)
-victory_text_rect = score_text.get_rect()
-victory_text_rect.center = (450, 350)
 
 # sound effects
 bounce_sound_effect = pygame.mixer.Sound('../assets/bounce.wav')
@@ -29,7 +30,7 @@ scoring_sound_effect = pygame.mixer.Sound('../assets/258020__kodack__arcade-blee
 # player 1
 player_1_img = pygame.image.load("../assets/natanael.lucena/natanael.lucena_paddle.png")
 player_1 = player_1_img.get_rect()
-player_1.x = 70
+player_1.x = 60
 player_1.y = 300
 player_1_move_up = False
 player_1_move_down = False
@@ -37,7 +38,7 @@ player_1_move_down = False
 # player 2 - robot
 player_2_img = pygame.image.load("../assets/natanael.lucena/natanael.lucena_paddle.png")
 player_2 = player_2_img.get_rect()
-player_2.x = 1180
+player_2.x = 1190
 player_2.y = 300
 
 # ball
@@ -46,11 +47,7 @@ ball = ball_img.get_rect()
 ball.x = 640
 ball.y = 360
 ball_dx = 5
-ball_dy = uniform(-2.14, 2.14)*5
-
-# score
-score_1 = 0
-score_2 = 0
+ball_dy = uniform(-2.14, 2.14) * 5
 
 # game loop
 game_loop = True
@@ -73,12 +70,13 @@ while game_loop:
                 player_1_move_up = False
             if event.key == pygame.K_s:
                 player_1_move_down = False
-
+    player_text = score_font.render(f"{player_score}", True, COLOR_LIGHT_GREY)
+    ia_text = score_font.render(f"{ia_score}", True, COLOR_LIGHT_GREY)
     # checking the victory condition
-    if score_1 < SCORE_MAX and score_2 < SCORE_MAX:
+    if player_score < SCORE_MAX and ia_score < SCORE_MAX:
 
         # clear screen
-        screen.fill(COLOR_BLACK)
+        screen.fill(COLOR_DARK_GREY)
 
         # ball collision with the wall
         if ball.y > 700:
@@ -96,10 +94,10 @@ while game_loop:
                 ball_dy *= -1
             if abs(player_1.right - ball.left) < collision_tolerance:
                 if player_1_move_down:
-                    ball_dy = uniform(1, 2.14)*5
+                    ball_dy = uniform(1, 2.14) * 5
                 elif player_1_move_up:
-                    ball_dy = uniform(-2.14, -1)*5
-            if player_1.bottomright[1]/3 <= ball.y <= player_1.bottomright[1]/1.5:
+                    ball_dy = uniform(-2.14, -1) * 5
+            if player_1.bottomright[1] / 3 <= ball.y <= player_1.bottomright[1] / 1.5:
                 ball_dx = uniform(5, 6)
             else:
                 ball_dx = uniform(5, 10)
@@ -113,9 +111,9 @@ while game_loop:
                 ball_dy *= -1
             if abs(player_2.left - ball.right) < collision_tolerance:
                 if player_1_move_down:
-                    ball_dy = uniform(1, 2.14)*5
+                    ball_dy = uniform(1, 2.14) * 5
                 elif player_1_move_up:
-                    ball_dy = uniform(-2.14, -1)*5
+                    ball_dy = uniform(-2.14, -1) * 5
             if player_2.bottomright[1] / 3 <= ball.y <= player_2.bottomright[1] / 1.5:
                 ball_dx = uniform(-6, -5)
             else:
@@ -128,14 +126,14 @@ while game_loop:
             ball.y = 360
             ball_dy *= -1
             ball_dx *= -1
-            score_2 += 1
+            ia_score += 1
             scoring_sound_effect.play()
         elif ball.x > 1320:
             ball.x = 640
             ball.y = 360
             ball_dy *= -1
             ball_dx *= -1
-            score_1 += 1
+            player_score += 1
             scoring_sound_effect.play()
 
         # ball movement
@@ -170,18 +168,26 @@ while game_loop:
             player_2.y = 570
 
         # update score hud
-        score_text = score_font.render(str(score_1) + ' x ' + str(score_2), True, COLOR_WHITE, COLOR_BLACK)
 
         # drawing objects
+        screen.fill(COLOR_DARK_GREY)
         screen.blit(ball_img, ball)
         screen.blit(player_1_img, player_1)
         screen.blit(player_2_img, player_2)
-        screen.blit(score_text, (530, 50))
+        screen.blit(player_text, (530, 50))
+        screen.blit(ia_text, (730, 50))
+        pygame.draw.aaline(screen, (200, 200, 200), (640, 0), (640, 720))
+
     else:
         # drawing victory
-        screen.fill(COLOR_BLACK)
-        screen.blit(score_text, (530, 50))
-        screen.blit(victory_text, victory_text_rect)
+        result = "VICTORY!"
+        screen.fill(COLOR_DARK_GREY)
+        if player_score < ia_score:
+            result = "DEFEAT"
+        victory_text = victory_font.render(result, True, COLOR_LIGHT_GREY)
+        screen.blit(player_text, (530, 50))
+        screen.blit(ia_text, (730, 50))
+        screen.blit(victory_text, (360, 290))
 
     # update screen
     pygame.display.flip()
