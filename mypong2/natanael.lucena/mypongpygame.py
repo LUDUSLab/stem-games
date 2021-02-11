@@ -48,7 +48,7 @@ ball = ball_img.get_rect()
 ball.x = 640
 ball.y = 360
 ball_dx = 5
-ball_dy = 5
+ball_dy = uniform(-2.14, 2.14)*5
 
 # score
 score_1 = 0
