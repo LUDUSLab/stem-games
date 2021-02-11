@@ -62,28 +62,28 @@ game_loop = True
 game_clock = pygame.time.Clock()
 
 def IA():
-    global ball_x, ball_y, player_2_y, k
-    x = [[985, 705], [255, 705], [665, 705],
-         [195, 355], [200, 350], [205, 345], [210, 340], [220, 330],
+    global player_2_y, k
+    x = [[255, 705], [665, 705], [985, 705],
          [640, 0], [960, 0], [230, 0]]
-    y = [0, 0, 0, 2, 2, 2, 2, 2, 1, 1, 1]
+    y = [0, 0, 0, 1, 1, 1]
 
-    clf = tree.DecisionTreeClassifier()  # creating an object from Tree decision
-    clf = clf.fit(x, y)  # training the computador
+    clf = tree.DecisionTreeClassifier(max_depth=None,
+                                      max_features=None,
+                                      criterion="entropy",
+                                      min_samples_leaf=1,
+                                      min_samples_split=3)  # creating an object from Tree decision
+    clf = clf.fit(x, y)  # training the computer
 
+    '''
+    Max_depth = avoid OVEFITING (model addicted to training data and only hits the template when passing new data
+    he misses a lot)
+    '''
     position = clf.predict([[ball_x, ball_y]])  # returns value 1 or 0
-
 
     if position == 0:
         player_2_y += 5
     if position == 1:
         player_2_y -= 5
-    if position == 2:
-        if player_2_y <= 0:
-            player_2_y += 5
-        elif player_2_y >= 570:
-            player_2_y -= 5
-            # the final position needs to be in 300
 
     if player_2_y <= 0:
         player_2_y = 0
@@ -91,8 +91,6 @@ def IA():
         player_2_y = 570
 
     return position
-
-
 
 '''
 if IA function returns "1" it means that the ball is on the bottom wall
@@ -212,7 +210,7 @@ while game_loop:
 
         # drawing objects
         screen.blit(ball, (ball_x, ball_y))
-        screen.blit(player_1, (85, player_1_y))  # modified coordinates
+        screen.blit(player_1, (90, player_1_y))  # modified coordinates
         screen.blit(player_2, (1190, player_2_y))  # modified coordinates
         screen.blit(score_text, score_text_rect)
         pygame.draw.aaline(screen, light_grey, (screen_width / 2, 0), (screen_width / 2, screen_height))  # middle line
