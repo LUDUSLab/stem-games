@@ -1,4 +1,5 @@
 import pygame
+from random import uniform
 
 pygame.init()
 
@@ -90,27 +91,37 @@ while game_loop:
             bounce_sound_effect.play()
 
         collision_tolerance = 10
-        if ball.colliderect(player_1):
+        if ball.colliderect(player_1) and ball_dx < 0:
             if abs(player_1.top - ball.bottom) < collision_tolerance and ball_dy > 0:
                 ball_dy *= -1
             if abs(player_1.bottom - ball.top) < collision_tolerance and ball_dy < 0:
                 ball_dy *= -1
-            if abs(player_1.left - ball.right) < collision_tolerance and ball_dx > 0:
-                ball_dx *= -1
-            if abs(player_1.right - ball.left) < collision_tolerance and ball_dx < 0:
-                ball_dx *= -1
+            if abs(player_1.right - ball.left) < collision_tolerance:
+                if player_1_move_down:
+                    ball_dy = uniform(1, 2.14)*5
+                elif player_1_move_up:
+                    ball_dy = uniform(-2.14, -1)*5
+            if player_1.bottomright[1]/3 <= ball.y <= player_1.bottomright[1]/1.5:
+                ball_dx = uniform(5, 6)
+            else:
+                ball_dx = uniform(5, 10)
             bounce_sound_effect.play()
 
         # ball collision with the player 2 's paddle
-        if ball.colliderect(player_2):
+        if ball.colliderect(player_2) and ball_dx > 0:
             if abs(player_2.top - ball.bottom) < collision_tolerance and ball_dy > 0:
                 ball_dy *= -1
             if abs(player_2.bottom - ball.top) < collision_tolerance and ball_dy < 0:
                 ball_dy *= -1
-            if abs(player_2.left - ball.right) < collision_tolerance and ball_dx > 0:
-                ball_dx *= -1
-            if abs(player_2.right - ball.left) < collision_tolerance and ball_dx < 0:
-                ball_dx *= -1
+            if abs(player_2.left - ball.right) < collision_tolerance:
+                if player_1_move_down:
+                    ball_dy = uniform(1, 2.14)*5
+                elif player_1_move_up:
+                    ball_dy = uniform(-2.14, -1)*5
+            if player_2.bottomright[1] / 3 <= ball.y <= player_2.bottomright[1] / 1.5:
+                ball_dx = uniform(-6, -5)
+            else:
+                ball_dx = uniform(-10, -5)
             bounce_sound_effect.play()
 
         # scoring points
