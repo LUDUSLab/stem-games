@@ -118,22 +118,22 @@ def ball_animation():
     if (50 <= ball_x <= 82) and (player_1_y < ball_y + 30) and (player_1_y + 160 > ball_y):
         ball_x = 82
         if player_1_y + 45 < ball_y < player_1_y + 75:
-            ball_dy = 2 * choice([-1, 1])
-            ball_dx = 12
+            ball_dy = choice([4, 3]) * choice([-1, 1])
+            ball_dx = 15
         else:
             ball_dy = 5 * choice([-1, 1]) * choice([1, 1.2, 1.5])
-            ball_dx = 5 * choice([1, 1.2, 1.5, 1.7])
+            ball_dx = 5 * choice([1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7])
         bounce_sound_effect.play()
 
     # ball collision with the player 2 's paddle
     if (1180 >= ball_x >= 1148) and (player_2_y < ball_y + 30) and (player_2_y + 160 > ball_y):
         ball_x = 1148
         if player_2_y + 45 < ball_y < player_2_y + 75:
-            ball_dy = 2 * choice([-1, 1])
-            ball_dx = -12
+            ball_dy = choice([4, 3]) * choice([-1, 1])
+            ball_dx = -15
         else:
             ball_dy = 5 * choice([-1, 1]) * choice([1, 1.2, 1.5])
-            ball_dx = -5 * choice([1, 1.2, 1.5, 1.7])
+            ball_dx = -5 * choice([1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7])
         bounce_sound_effect.play()
 
     ball_x = ball_x + ball_dx
