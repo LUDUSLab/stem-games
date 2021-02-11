@@ -15,8 +15,6 @@ pygame.display.set_caption("MyPong - PyGame Edition - 2021.01.30")
 # score text
 score_font = pygame.font.Font('../assets/PressStart2P.ttf', 44)
 score_text = score_font.render('00 x 00', True, COLOR_WHITE, COLOR_BLACK)
-score_text_rect = score_text.get_rect()
-score_text_rect.center = (680, 50)
 
 # victory text
 victory_font = pygame.font.Font('../assets/PressStart2P.ttf', 100)
@@ -29,7 +27,7 @@ bounce_sound_effect = pygame.mixer.Sound('../assets/bounce.wav')
 scoring_sound_effect = pygame.mixer.Sound('../assets/258020__kodack__arcade-bleep-sound.wav')
 
 # player 1
-player_1_img = pygame.image.load("../assets/natanael.lucena_paddle.png")
+player_1_img = pygame.image.load("../assets/natanael.lucena/natanael.lucena_paddle.png")
 player_1 = player_1_img.get_rect()
 player_1.x = 70
 player_1.y = 300
@@ -37,13 +35,13 @@ player_1_move_up = False
 player_1_move_down = False
 
 # player 2 - robot
-player_2_img = pygame.image.load("../assets/natanael.lucena_paddle.png")
+player_2_img = pygame.image.load("../assets/natanael.lucena/natanael.lucena_paddle.png")
 player_2 = player_2_img.get_rect()
 player_2.x = 1180
 player_2.y = 300
 
 # ball
-ball_img = pygame.image.load("../assets/natanael.lucena_ball.png")
+ball_img = pygame.image.load("../assets/natanael.lucena/natanael.lucena_ball.png")
 ball = ball_img.get_rect()
 ball.x = 640
 ball.y = 360
@@ -178,11 +176,11 @@ while game_loop:
         screen.blit(ball_img, ball)
         screen.blit(player_1_img, player_1)
         screen.blit(player_2_img, player_2)
-        screen.blit(score_text, score_text_rect)
+        screen.blit(score_text, (530, 50))
     else:
         # drawing victory
         screen.fill(COLOR_BLACK)
-        screen.blit(score_text, score_text_rect)
+        screen.blit(score_text, (530, 50))
         screen.blit(victory_text, victory_text_rect)
 
     # update screen
