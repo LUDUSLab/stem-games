@@ -11,7 +11,7 @@ SCORE_MAX = 10
 
 size = (1280, 720)
 screen = pygame.display.set_mode(size)
-pygame.display.set_caption("MyPong2.0 Alpha 0.1 - PyGame Edition - 2021.02.10")
+pygame.display.set_caption("MyPong2.0 Alpha 0.5 - PyGame Edition - 2021.02.11")
 
 # score text
 score_font = pygame.font.Font('C:/Users/bh_ro/Documents/STEM/stem-games/mypong2/assets/PressStart2P.ttf', 44)
@@ -43,7 +43,7 @@ player_2_y = 300
 # ball
 ball = pygame.image.load('C:/Users/bh_ro/Documents/STEM/stem-games/mypong2/assets/ronald.boadana_ball.png')
 ball_x, ball_y = 640, 360
-ball_speed_x = ball_speed_y = 7
+ball_speed_x = ball_speed_y = 5
 
 # score
 score_1 = score_2 = 0
@@ -88,19 +88,20 @@ while game_loop:
             bounce_sound_effect.play()
 
         # ball collision with the player 1 's paddle
-        if (ball_x < 100) and (player_1_y < ball_y + 25) and (player_1_y + 150 > ball_y):
+        if (ball_x == 60) and (player_1_y < ball_y + 25) and (player_1_y + 150 > ball_y):
             ball_speed_x *= -1
-            ball_speed_y = random.randrange(-20, 22)
+            ball_speed_y = random.randrange(-15, 16)
             bounce_sound_effect.play()
             print(ball_speed_y)
 
         # ball collision with the player 2 's paddle
-        if (ball_x > 1160) and (player_2_y < ball_y + 25) and (player_2_y + 150 > ball_y):
+        if (ball_x == 1190) and (player_2_y < ball_y + 25) and (player_2_y + 150 > ball_y):
             ball_speed_x *= -1
-            ball_speed_y = random.randrange(-20, 22)
+            ball_speed_y = random.randrange(-15, 16)
             bounce_sound_effect.play()
+            print(ball_speed_y)
 
-        # scoring points
+        # player 2 scores points
         if ball_x < -50:
             ball_x = 640
             ball_y = 360
@@ -108,7 +109,8 @@ while game_loop:
             ball_speed_x *= -1
             score_2 += 1
             scoring_sound_effect.play()
-        elif ball_x > 1320:
+        # player 1 scores point
+        elif ball_x > 1280:
             ball_x = 640
             ball_y = 360
             ball_speed_y *= -1
@@ -118,13 +120,13 @@ while game_loop:
 
         # player 1 up movement
         if player_1_move_up:
-            player_1_y -= 5
+            player_1_y -= 10
         else:
             player_1_y += 0
 
         # player 1 down movement
         if player_1_move_down:
-            player_1_y += 5
+            player_1_y += 10
         else:
             player_1_y += 0
 
@@ -149,7 +151,7 @@ while game_loop:
         # drawing objects
         screen.blit(ball, (ball_x, ball_y))
         screen.blit(player_1, (50, player_1_y))
-        screen.blit(player_2, (1180, player_2_y))
+        screen.blit(player_2, (1200, player_2_y))
         screen.blit(score_text, score_text_rect)
     else:
         # drawing victory
@@ -159,6 +161,6 @@ while game_loop:
 
     # update screen
     pygame.display.flip()
-    game_clock.tick(60)
+    game_clock.tick(90)
 
 pygame.quit()
