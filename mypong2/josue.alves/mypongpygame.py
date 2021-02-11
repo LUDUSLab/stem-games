@@ -1,4 +1,8 @@
 import pygame
+import random
+import math
+
+aux = [30, 45, 60, -30, -45, -60]
 
 pygame.init()
 
@@ -7,7 +11,7 @@ COLOR_WHITE = (255, 255, 255)
 
 SCORE_MAX = 2
 
-size = (1280, 720)
+size = (1280, 700)
 screen = pygame.display.set_mode(size)
 pygame.display.set_caption("MyPong - PyGame Edition - 2021.01.30")
 
@@ -89,6 +93,7 @@ while game_loop:
             if player_1_y < ball_y + 25:
                 if player_1_y + 150 > ball_y:
                     ball_dx *= -1
+                    ball_dy *= math.tan(math.radians(random.choice(aux)))
                     bounce_sound_effect.play()
 
         # ball collision with the player 2 's paddle
@@ -96,6 +101,7 @@ while game_loop:
             if player_2_y < ball_y + 25:
                 if player_2_y + 150 > ball_y:
                     ball_dx *= -1
+                    ball_dy *= math.tan(math.radians(random.choice(aux)))
                     bounce_sound_effect.play()
 
         # scoring points
