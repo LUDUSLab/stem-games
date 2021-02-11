@@ -5,16 +5,16 @@ def score_points():
     global ball_x, ball_y, ball_dx, ball_dy, score_1, score_2, score_text
     score_text = score_font.render(str(score_1) + ' x ' + str(score_2), True, white, black)
 
-    if ball_x == 0:
+    if ball_x < 0:
         score_2 += 1
-        ball_dy *= -1
-        ball_dx *= -1
+        ball_dy = 1
+        ball_dx = 1
         ball_x, ball_y = 510, 320
 
-    elif ball_x == 1020:
+    elif ball_x > 1020:
         score_1 += 1
-        ball_dy *= -1
-        ball_dx *= -1
+        ball_dy = -1
+        ball_dx = -1
         ball_x, ball_y = 510, 320
 
 
@@ -27,17 +27,37 @@ def draw_objects():
     pygame.display.update()
 
 
+def speed_n_angles():
+    global count
+    speed = [1, 2, 3, 4, 5]
+
+    if count <= 4:
+        return speed[count]
+
+    else:
+        count = 0
+        return 1
+
+
 def move_n_collision_ball():
-    global ball_x, ball_y, ball_dx, ball_dy
+    global ball_x, ball_y, ball_dx, ball_dy, count
     ball_x += ball_dx
     ball_y += ball_dy
 
-    if (ball_y < 0) or (ball_y > 640):
+    if ball_y < 0:
+        ball_dy *= -1
+
+    elif ball_y > 640:
         ball_dy *= -1
 
     else:
-        if (ball_x == 30 and player_1_y + 150 > ball_y > player_1_y) or (ball_x == 970 and player_2_y + 150 > ball_y > player_2_y):
-            ball_dx *= -1
+        if 30 >= ball_x >= 25 and player_1_y + 150 > ball_y > player_1_y:
+            count += 1
+            ball_dx = 1 * speed_n_angles()
+
+        elif 975 >= ball_x >= 970 and player_2_y + 150 > ball_y > player_2_y:
+            count += 1
+            ball_dx = -1 * speed_n_angles()
 
     draw_objects()
 
@@ -46,10 +66,10 @@ def artificial_intelligence():
     global player_2_y
     if ball_dx > 0:
         if (ball_dy < 0 and ball_y > player_2_y + 75) or (ball_dy > 0 and ball_y > player_2_y + 75):
-            player_2_y += 1
+            player_2_y += 1.5
 
         elif (ball_dy < 0 and ball_y < player_2_y + 75) or (ball_dy > 0 and ball_y < player_2_y + 75):
-            player_2_y -= 1
+            player_2_y -= 1.5
 
         if player_2_y <= 0:
             player_2_y = 0
@@ -63,6 +83,7 @@ pygame.init()
 black, white = (0, 0, 0), (255, 255, 255)
 score_max = 10
 score_1 = score_2 = 0
+count = 0
 
 # Creation screen
 size = (1020, 640)
@@ -78,7 +99,7 @@ player_1_move_up = player_1_move_down = False
 # ball configuration
 ball = pygame.image.load("C:/Users/arthu/Documents/STEM/stem-games/mypong2/assets/arthur.carvalho_ball.png")
 ball_x, ball_y = 510, 320
-ball_dx = ball_dy = 2
+ball_dx = ball_dy = 1
 
 # score text
 score_font = pygame.font.Font('C:/Users/arthu/Documents/STEM/stem-games/mypong2/assets/PressStart2P.ttf', 44)
@@ -124,14 +145,14 @@ while game_loop:
 
         # player 1 up and down movement
         if player_1_move_up:
-            player_1_y -= 1
+            player_1_y -= 1.5
 
             # player 1 collides with upper wall
             if player_1_y <= 0:
                 player_1_y = 0
 
         elif player_1_move_down:
-            player_1_y += 1
+            player_1_y += 1.5
 
             # player 1 collides with lower wall
             if player_1_y >= 490:
