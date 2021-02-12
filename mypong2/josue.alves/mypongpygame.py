@@ -56,6 +56,36 @@ score_2 = 0
 game_loop = True
 game_clock = pygame.time.Clock()
 
+
+def scoring_points():
+    global ball_x, ball_y, ball_dy, ball_dx
+    ball_x = 640
+    ball_y = 360
+    ball_dy *= -1
+    ball_dx *= -1
+    scoring_sound_effect.play()
+
+
+def draw():
+    screen.blit(ball, (ball_x, ball_y))
+    screen.blit(player_1, (50, player_1_y))
+    screen.blit(player_2, (1180, player_2_y))
+    screen.blit(score_text, score_text_rect)
+
+
+def draw_victory():
+    screen.fill(COLOR_BLACK)
+    screen.blit(score_text, score_text_rect)
+    screen.blit(victory_text, victory_text_rect)
+
+
+def ball_collision_with_paddle():
+    global ball_dx, ball_dy
+    ball_dx *= -1
+    ball_dy *= math.tan(math.radians(random.choice(aux)))
+    bounce_sound_effect.play()
+
+
 while game_loop:
 
     for event in pygame.event.get():
@@ -89,36 +119,20 @@ while game_loop:
             bounce_sound_effect.play()
 
         # ball collision with the player 1 's paddle
-        if ball_x < 100:
-            if player_1_y < ball_y + 25:
-                if player_1_y + 150 > ball_y:
-                    ball_dx *= -1
-                    ball_dy *= math.tan(math.radians(random.choice(aux)))
-                    bounce_sound_effect.play()
+        if ball_x < 100 and player_1_y < ball_y + 25 and player_1_y + 150 > ball_y:
+            ball_collision_with_paddle()
 
         # ball collision with the player 2 's paddle
-        if ball_x > 1160:
-            if player_2_y < ball_y + 25:
-                if player_2_y + 150 > ball_y:
-                    ball_dx *= -1
-                    ball_dy *= math.tan(math.radians(random.choice(aux)))
-                    bounce_sound_effect.play()
+        if ball_x > 1160 and player_2_y < ball_y + 25 and player_2_y + 150 > ball_y:
+            ball_collision_with_paddle()
 
         # scoring points
         if ball_x < -50:
-            ball_x = 640
-            ball_y = 360
-            ball_dy *= -1
-            ball_dx *= -1
+            scoring_points()
             score_2 += 1
-            scoring_sound_effect.play()
         elif ball_x > 1320:
-            ball_x = 640
-            ball_y = 360
-            ball_dy *= -1
-            ball_dx *= -1
+            scoring_points()
             score_1 += 1
-            scoring_sound_effect.play()
 
         # ball movement
         ball_x = ball_x + ball_dx
@@ -155,15 +169,11 @@ while game_loop:
         score_text = score_font.render(str(score_1) + ' x ' + str(score_2), True, COLOR_WHITE, COLOR_BLACK)
 
         # drawing objects
-        screen.blit(ball, (ball_x, ball_y))
-        screen.blit(player_1, (50, player_1_y))
-        screen.blit(player_2, (1180, player_2_y))
-        screen.blit(score_text, score_text_rect)
+        draw()
+
     else:
         # drawing victory
-        screen.fill(COLOR_BLACK)
-        screen.blit(score_text, score_text_rect)
-        screen.blit(victory_text, victory_text_rect)
+        draw_victory()
 
     # update screen
     pygame.display.flip()
