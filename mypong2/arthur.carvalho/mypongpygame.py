@@ -7,15 +7,15 @@ def score_points():
 
     if ball_x < 0:
         score_2 += 1
-        ball_dy = 1
-        ball_dx = 1
+        ball_dy = ball_dx = 1
         ball_x, ball_y = 510, 320
+        scoring_sound.play()
 
     elif ball_x > 1020:
         score_1 += 1
-        ball_dy = -1
-        ball_dx = -1
+        ball_dy = ball_dx = -1
         ball_x, ball_y = 510, 320
+        scoring_sound.play()
 
 
 def draw_objects():
@@ -46,18 +46,22 @@ def move_n_collision_ball():
 
     if ball_y < 0:
         ball_dy *= -1
+        bounce_sound.play()
 
     elif ball_y > 640:
         ball_dy *= -1
+        bounce_sound.play()
 
     else:
         if 30 >= ball_x >= 25 and player_1_y + 150 > ball_y > player_1_y:
             count += 1
             ball_dx = 1 * speed_n_angles()
+            bounce_sound.play()
 
         elif 975 >= ball_x >= 970 and player_2_y + 150 > ball_y > player_2_y:
             count += 1
             ball_dx = -1 * speed_n_angles()
+            bounce_sound.play()
 
     draw_objects()
 
@@ -91,28 +95,31 @@ screen = pygame.display.set_mode(size)
 pygame.display.set_caption('MyPong - Pygame Edition')
 
 # players configuration
-player_1 = pygame.image.load("C:/Users/arthu/Documents/STEM/stem-games/mypong2/assets/arthur.carvalho_paddle.png")
-player_2 = pygame.image.load("C:/Users/arthu/Documents/STEM/stem-games/mypong2/assets/arthur.carvalho_paddle.png")
+player_1 = pygame.image.load('../assets/arthur.carvalho_paddle.png')
+player_2 = pygame.image.load('../assets/arthur.carvalho_paddle.png')
 player_1_y = player_2_y = 270
 player_1_move_up = player_1_move_down = False
 
 # ball configuration
-ball = pygame.image.load("C:/Users/arthu/Documents/STEM/stem-games/mypong2/assets/arthur.carvalho_ball.png")
+ball = pygame.image.load('../assets/arthur.carvalho_ball.png')
 ball_x, ball_y = 510, 320
 ball_dx = ball_dy = 1
 
 # score text
-score_font = pygame.font.Font('C:/Users/arthu/Documents/STEM/stem-games/mypong2/assets/PressStart2P.ttf', 44)
+score_font = pygame.font.Font('../assets/PressStart2P.ttf', 44)
 score_text = score_font.render('00 x 00', True, white, black)
 score_text_rect = score_text.get_rect()
 score_text_rect.center = (550, 30)
 
 # victory text
-victory_font = pygame.font.Font('C:/Users/arthu/Documents/STEM/stem-games/mypong2/assets/PressStart2P.ttf', 70)
+victory_font = pygame.font.Font('../assets/PressStart2P.ttf', 70)
 victory_text = victory_font .render('VICTORY', True, white, black)
 victory_text_rect = score_text.get_rect()
 victory_text_rect.center = (430, 300)
 
+# sound effects
+bounce_sound = pygame.mixer.Sound('../assets/bounce.wav')
+scoring_sound = pygame.mixer.Sound('../assets/258020__kodack__arcade-bleep-sound.wav')
 
 game_loop = True
 
