@@ -11,7 +11,7 @@ SCORE_MAX = 10
 
 size = (1280, 720)
 screen = pygame.display.set_mode(size)
-pygame.display.set_caption("Pong 2.0 (Beta 1.0) - PyGame Edition - 2021.02.12")
+pygame.display.set_caption("Pong 2.0 (Beta 1.1) - PyGame Edition - 2021.02.12")
 
 # score text
 score_font = pygame.font.Font('../assets/PressStart2P.ttf', 44)
@@ -25,7 +25,7 @@ victory_text = victory_font.render('VICTORY', True, COLOR_WHITE, COLOR_BLACK)
 victory_text_rect = score_text.get_rect()
 victory_text_rect.center = (450, 350)
 
-# defeat text
+# defeat text (when A.I. wins the game)
 defeat_font = pygame.font.Font('../assets/PressStart2P.ttf', 100)
 defeat_text = victory_font.render('GAME OVER', True, COLOR_WHITE, COLOR_BLACK)
 defeat_text_rect = score_text.get_rect()
@@ -51,7 +51,7 @@ ball_x, ball_y = 640, 360
 ball_speed_x = ball_speed_y = 5
 
 # score
-score_1 = score_2 = 0
+score_1 = ai_score = 0
 
 # game loop
 game_loop = True
@@ -76,7 +76,7 @@ while game_loop:
                 player_1_move_down = False
 
     # checking the victory condition
-    if score_1 < SCORE_MAX and score_2 < SCORE_MAX:
+    if score_1 < SCORE_MAX and ai_score < SCORE_MAX:
 
         # clear screen
         screen.fill(COLOR_BLACK)
@@ -110,7 +110,7 @@ while game_loop:
             ball_y = 360
             ball_speed_y *= -1
             ball_speed_x *= -1
-            score_2 += 1
+            ai_score += 1
             scoring_sound_effect.play()
         # player 1 scores point
         elif ball_x > 1280:
@@ -142,10 +142,10 @@ while game_loop:
             player_1_y = 570
 
         # "Artificial Intelligence" loss concentration sometimes
-        if ball_y < ai_player_y + 5 and random.randrange(31) == 10:
-            ai_player_y = ball_y + 5
-        if ball_y > ai_player_y - 5 and random.randrange(31) == 10:
-            ai_player_y = ball_y - 5
+        if (ball_y < 0) or (ball_y < ai_player_y + 10) and random.randrange(31) == 10:
+            ai_player_y = ball_y - 15
+        if (ball_y > 0) or (ball_y > ai_player_y - 10) and random.randrange(31) == 10:
+            ai_player_y = ball_y + 15
 
         # 'A.I.' collides with upper wall
         if ai_player_y <= 0:
@@ -156,7 +156,7 @@ while game_loop:
             ai_player_y = 570
 
         # update score hud
-        score_text = score_font.render(str(score_1) + ' x ' + str(score_2), True, COLOR_WHITE, COLOR_BLACK)
+        score_text = score_font.render(str(score_1) + ' x ' + str(ai_score), True, COLOR_WHITE, COLOR_BLACK)
 
         # drawing objects
         screen.blit(ball, (ball_x, ball_y))
@@ -166,9 +166,11 @@ while game_loop:
     else:
         # drawing victory
         screen.fill(COLOR_BLACK)
+        # when the player wins
         if score_1 == 10:
             screen.blit(victory_text, victory_text_rect)
-        elif score_2 == 10:
+        # when the 'A.I.' wins
+        elif ai_score == 10:
             screen.blit(defeat_text, defeat_text_rect)
 
     # update screen
