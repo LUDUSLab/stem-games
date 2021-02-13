@@ -107,14 +107,11 @@ def IA():
         player_2_y = 500
 
     return position
-
-
 '''
 if IA function returns "1" it means that the ball is on the bottom wall
 if IA function returns "0" it means that the ball in on the top of the screen
 
 '''
-print("jogo novo")
 while game_loop:
 
     for event in pygame.event.get():
@@ -145,31 +142,11 @@ while game_loop:
         if ball_y > 700:
             ball_dy *= -1
             # print(ball_x, ball_y)  # when ball hits the top
-            print("toquei em cima")
             bounce_sound_effect.play()
         elif ball_y <= 0:
             ball_dy *= -1
-            print("toquei embaixo")
             # print(ball_x, ball_y)  # when ball hits the bottom
             bounce_sound_effect.play()
-
-        # ball collision with the player 1 's paddle
-        if ball_x < 100:
-            if player_1_y < ball_y + 25:
-                if player_1_y + 150 > ball_y:
-                    ball_dx *= -1
-                    ball_dy = 7 * random.choice((1, -1))
-                    print("toquei no player 1")
-                    bounce_sound_effect.play()
-
-        # ball collision with the player 2 's paddle (robot)
-        if ball_x > 1160:
-            if player_2_y < ball_y + 25:
-                if player_2_y + 150 > ball_y:
-                    ball_dx *= -1
-                    ball_dy = 7 * random.choice((1, -1))
-                    print("toquei no robo")
-                    bounce_sound_effect.play()
 
         # scoring points
         if ball_x < -50:
@@ -189,6 +166,24 @@ while game_loop:
             score_1 += 1
             player_2_y = player_1_y = 300
             scoring_sound_effect.play()
+
+        # ball collision with the player 1 's paddle
+        if ball_x < 100 and ball_dx < 0:
+            if player_1_y < ball_y + 25:
+                if player_1_y + 150 > ball_y:
+                    ball_dx *= -1
+                    ball_dy = 7 * random.choice((1, -1))
+                    bounce_sound_effect.play()
+
+        # ball collision with the player 2 's paddle (robot)
+        if ball_x > 1160 and ball_dx > 0:
+            if player_2_y < ball_y + 25:
+                if player_2_y + 150 > ball_y:
+                    ball_dx *= -1
+                    ball_dy = 7 * random.choice((1, -1))
+                    bounce_sound_effect.play()
+
+
 
         # ball movement
         ball_x = ball_x + ball_dx
