@@ -1,5 +1,6 @@
-import pygame
+import pygame, random
 from sklearn import tree
+
 pygame.init()
 
 '''
@@ -8,6 +9,8 @@ Adress: photos
 
 '''
 k = 1
+i = 0
+n = ([2, 2.1, 2.2, 2.3, 2.4, 2.5])
 COLOR_BLACK = (0, 0, 0)
 COLOR_WHITE = (255, 255, 255)
 
@@ -28,11 +31,11 @@ bg_color = pygame.Color('grey12')
 score_font = pygame.font.Font('/home/gabibreval/Documentos/stem-games/mypong2/assets/gabi.brevalFont.otf', 44)
 score_text = score_font.render('00 00', True, COLOR_WHITE, COLOR_BLACK)
 score_text_rect = score_text.get_rect()
-score_text_rect.center = (screen_width/2, screen_width/2)
+score_text_rect.center = (screen_width / 2, screen_width / 2)
 
 # victory text
 victory_font = pygame.font.Font('/home/gabibreval/Documentos/stem-games/mypong2/assets/gabi.brevalFont.otf', 100)
-victory_text = victory_font .render('VICTORY', True, COLOR_WHITE, COLOR_BLACK)
+victory_text = victory_font.render('VICTORY', True, COLOR_WHITE, COLOR_BLACK)
 victory_text_rect = score_text.get_rect()
 victory_text_rect.center = (600, 350)
 
@@ -61,11 +64,13 @@ score_1 = score_2 = 0
 game_loop = True
 game_clock = pygame.time.Clock()
 
+
 def IA():
     global player_2_y, k
     x = [[255, 705], [665, 705], [985, 705],
+         [940, 300], [340, 300], [660, 300],
          [640, 0], [960, 0], [230, 0]]
-    y = [0, 0, 0, 1, 1, 1]
+    y = [0, 0, 0, 2, 2, 2, 1, 1, 1]
 
     clf = tree.DecisionTreeClassifier(max_depth=None,
                                       max_features=None,
@@ -82,15 +87,27 @@ def IA():
 
     if position == 0:
         player_2_y += 5
+
     if position == 1:
         player_2_y -= 5
 
-    if player_2_y <= 0:
-        player_2_y = 0
-    elif player_2_y >= 570:
-        player_2_y = 570
+    # getting better AI movement
+
+    if position == 2:
+        if player_2_y < ball_y:
+            player_2_y += 5
+        if player_2_y > ball_y:
+            player_2_y -= 5
+            if player_2_y <= 300:
+                player_2_y = 300
+
+    if player_2_y <= 20:
+        player_2_y = 20
+    elif player_2_y >= 500:
+        player_2_y = 500
 
     return position
+
 
 '''
 if IA function returns "1" it means that the ball is on the bottom wall
@@ -141,6 +158,7 @@ while game_loop:
             if player_1_y < ball_y + 25:
                 if player_1_y + 150 > ball_y:
                     ball_dx *= -1
+                    ball_dy = 7 * random.choice((1, -1))
                     print("toquei no player 1")
                     bounce_sound_effect.play()
 
@@ -149,6 +167,7 @@ while game_loop:
             if player_2_y < ball_y + 25:
                 if player_2_y + 150 > ball_y:
                     ball_dx *= -1
+                    ball_dy = 7 * random.choice((1, -1))
                     print("toquei no robo")
                     bounce_sound_effect.play()
 
@@ -197,14 +216,6 @@ while game_loop:
 
         # player 2 "Artificial Intelligence"
         IA()
-        '''
-        player_2_y = ball_y
-        if player_2_y <= 0:
-            player_2_y = 0
-        elif player_2_y >= 570:
-            player_2_y = 570
-        '''
-
         # update score hud
         score_text = score_font.render(str(score_1) + '     ' + str(score_2), True, COLOR_WHITE, COLOR_BLACK)
 
