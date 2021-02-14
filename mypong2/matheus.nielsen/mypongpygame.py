@@ -1,15 +1,16 @@
 import pygame
+from random import randrange
 
 pygame.init()
 
-COLOR_BLACK = (20, 20, 20)
+COLOR_BLACK = (0, 200, 220)
 COLOR_WHITE = (255, 255, 255)
 
 SCORE_MAX = 2
 
 size = (1280, 720)
 screen = pygame.display.set_mode(size)
-pygame.display.set_caption("MyPong - PyGame Edition - Matheus Nielsen - Versão 0.2.1")
+pygame.display.set_caption("MyPong - PyGame Edition - Matheus Nielsen - Versão 0.4.1")
 
 # score text
 score_font = pygame.font.Font('D:/Meus Documentos/Documentos/GitHub/stem-games/mypong2/assets/PressStart2P.ttf', 44)
@@ -40,8 +41,9 @@ ball_player = "D:/Meus Documentos/Documentos/GitHub/stem-games/mypong2/assets/ma
 ball = pygame.image.load(ball_ai)
 ball_x = 640
 ball_y = 360
-ball_dx = 7
-ball_dy = 7
+ball_dx = 6
+ball_dy = 6
+has_collided = False
 
 # score
 score_1 = 0
@@ -52,11 +54,21 @@ game_loop = True
 game_clock = pygame.time.Clock()
 
 
+def ball_randomizer(range_start, range_end):
+    # generates random y speed for the ball
+    random = randrange(range_start, range_end + 1)
+    dy = random
+
+    # generates x speed based on the y speed
+    dx = 10 - (dy ** 2) ** 0.5
+    return dy, dx
+
+
 def endgame(text):
     # game result text printing
     victory_font = pygame.font.Font('D:/Meus Documentos/Documentos/GitHub/stem-games/mypong2/assets/PressStart2P.ttf',
                                     100)
-    victory_text = victory_font.render(text, True, COLOR_WHITE, COLOR_BLACK)
+    victory_text = victory_font.render(text, True, COLOR_WHITE)
     victory_text_rect = score_text.get_rect()
     victory_text_rect.center = (450, 350)
     screen.fill(COLOR_BLACK)
@@ -94,17 +106,28 @@ while game_loop:
             bounce_sound_effect.play()
 
         # ball collision with the player 1's paddle
-        if ball_x < 100:
+        if ball_x < 100 and has_collided is False:
             if player_1_y < ball_y + 25:
                 if player_1_y + 150 > ball_y:
+                    has_collided = True
                     ball = pygame.image.load(ball_player)
                     ball_dx *= -1
                     bounce_sound_effect.play()
 
+                    if player_1_move_up is True:
+                        ball_dy, ball_dx = ball_randomizer(-10, 0)
+
+                    if player_1_move_down is True:
+                        ball_dy, ball_dx = ball_randomizer(0, 10)
+
+                    else:
+                        ball_dy, ball_dx = ball_randomizer(-5, 5)
+
         # ball collision with the player 2 's paddle
-        if ball_x > 1160:
+        if ball_x > 1160 and has_collided is False:
             if player_2_y < ball_y + 25:
                 if player_2_y + 150 > ball_y:
+                    has_collided = True
                     ball = pygame.image.load(ball_ai)
                     ball_dx *= -1
                     bounce_sound_effect.play()
@@ -118,6 +141,7 @@ while game_loop:
             ball_dx *= -1
             score_2 += 1
             scoring_sound_effect.play()
+            has_collided = False
 
         elif ball_x > 1320:
             ball_x = 640
@@ -126,22 +150,27 @@ while game_loop:
             ball_dx *= -1
             score_1 += 1
             scoring_sound_effect.play()
+            has_collided = False
 
         # ball movement
         ball_x = ball_x + ball_dx
         ball_y = ball_y + ball_dy
 
         # player 2's "Artificial Intelligence"
+
+        # ai's up and down movement
         if ball_dx > 0:
             if player_2_y > ball_y:
-                player_2_y -= 4.5
+                player_2_y -= 5
 
             if player_2_y < ball_y:
-                player_2_y += 4.5
+                player_2_y += 5
 
+        # ai's upper wall collision
         if player_2_y <= 0:
             player_2_y = 0
 
+        # ai's lower wall collision
         if player_2_y >= 570:
             player_2_y = 570
 
@@ -169,6 +198,11 @@ while game_loop:
         screen.blit(player_1, (50, player_1_y))
         screen.blit(player_2, (1180, player_2_y))
         screen.blit(score_text, score_text_rect)
+
+        # collision tag reset
+        if 800 >= ball_x <= 200:
+            has_collided = False
+
     else:
 
         # drawing victory
@@ -183,7 +217,8 @@ while game_loop:
     game_clock.tick(60)
 
     # Debugging
-    print("Ball position = {0} and {1}".format(ball_x, ball_y))
+    # print("Ball position = {0} and {1}".format(ball_x, ball_y))
     # print(pygame.time.get_ticks())
-    print(player_2_y)
+    # print(player_2_y)
+    # print(has_collided)
 pygame.quit()
