@@ -149,7 +149,7 @@ while game_loop:
             bounce_sound_effect.play()
 
         # scoring points
-        if ball_x < -50:
+        if ball_x < 10:
             ball_x = 640
             ball_y = 360
             ball_dy *= -1
@@ -158,7 +158,7 @@ while game_loop:
             player_2_y = player_1_y = 300
             scoring_sound_effect.play()
 
-        elif ball_x > 1320:
+        elif ball_x > 1200:
             ball_x = 640
             ball_y = 360
             ball_dy *= -1
@@ -211,6 +211,7 @@ while game_loop:
 
         # player 2 "Artificial Intelligence"
         IA()
+
         # update score hud
         score_text = score_font.render(str(score_1) + '     ' + str(score_2), True, COLOR_WHITE, COLOR_BLACK)
 
