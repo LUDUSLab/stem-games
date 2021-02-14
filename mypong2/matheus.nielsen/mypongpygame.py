@@ -40,8 +40,8 @@ ball_player = "D:/Meus Documentos/Documentos/GitHub/stem-games/mypong2/assets/ma
 ball = pygame.image.load(ball_ai)
 ball_x = 640
 ball_y = 360
-ball_dx = 5
-ball_dy = 5
+ball_dx = 7
+ball_dy = 7
 
 # score
 score_1 = 0
@@ -132,6 +132,18 @@ while game_loop:
         ball_y = ball_y + ball_dy
 
         # player 2's "Artificial Intelligence"
+        if ball_dx > 0:
+            if player_2_y > ball_y:
+                player_2_y -= 4.5
+
+            if player_2_y < ball_y:
+                player_2_y += 4.5
+
+        if player_2_y <= 0:
+            player_2_y = 0
+
+        if player_2_y >= 570:
+            player_2_y = 570
 
         # player 1 up movement
         if player_1_move_up:

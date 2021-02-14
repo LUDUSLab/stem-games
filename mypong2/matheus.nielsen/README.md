@@ -1,2 +1,2 @@
 Pong com PyGame - Matheus Nielsen
-Versão 0.2
+Versão 0.3.1
