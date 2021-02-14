@@ -107,6 +107,9 @@ def event_conditional():
     elif event.type == pygame.KEYDOWN:
         check_player_1_key(True)
         check_player_2_key(True)
+        if not pvp_mode and not pvc_mode:
+            if (not selected_index and player_1_move_down) or (selected_index and player_1_move_up):
+                bounce_sound_effect.play()
     elif event.type == pygame.KEYUP:
         check_player_1_key(False)
         check_player_2_key(False)
@@ -117,12 +120,14 @@ def menu_listen_select():
     if event.type == pygame.KEYDOWN:
         if event.key == pygame.K_RETURN:
             mode_selected = True
+            scoring_sound_effect.play()
     elif event.type == pygame.KEYUP:
         if event.key == pygame.K_RETURN:
             mode_selected = False
     if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
         if pvc_button.collidepoint(pygame.mouse.get_pos()) or pvp_button.collidepoint(pygame.mouse.get_pos()):
             mode_selected = True
+            scoring_sound_effect.play()
 
 
 def text_render(score_text):
@@ -269,24 +274,29 @@ while game_loop:
         ball.y += ball_dy
 
         # player 1 up movement
-        if player_1_move_up:
-            player_1.y -= 5
 
-        # player 1 down movement
-        if player_1_move_down:
-            player_1.y += 5
         paddle_wall_collision(player_1)
 
         # player 2 "Artificial Intelligence"
 
         if pvc_mode:
+            if player_1_move_up:
+                player_1.y -= 5
+            # player 1 down movement
+            if player_1_move_down:
+                player_1.y += 5
             player_2.y = ball.y
         paddle_wall_collision(player_2)
         if pvp_mode:
+            if player_1_move_up:
+                player_1.y -= 6
+            # player 1 down movement
+            if player_1_move_down:
+                player_1.y += 6
             if player_2_move_up:
-                player_2.y -= 5
+                player_2.y -= 6
             if player_2_move_down:
-                player_2.y += 5
+                player_2.y += 6
 
         # drawing objects
         draw_scenario()
