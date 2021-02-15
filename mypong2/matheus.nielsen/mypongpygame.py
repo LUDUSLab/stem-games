@@ -30,10 +30,12 @@ player_1_y = 300
 player_1_move_up = False
 player_1_move_down = False
 
-# player 2 - robot
+# player 2 - AI
 player_2 = pygame.image.load("D:/Meus Documentos/Documentos/GitHub/stem-games/mypong2/assets/"
                              "matheus.nielsen_Paddle_AI.png")
 player_2_y = 300
+player_2_move_up = False
+player_2_move_down = False
 
 # ball
 ball_ai = "D:/Meus Documentos/Documentos/GitHub/stem-games/mypong2/assets/matheus.nielsen_Ball_AI.png"
@@ -60,7 +62,8 @@ def ball_randomizer(range_start, range_end):
     dy = random
 
     # generates x speed based on the y speed
-    dx = 10 - (dy ** 2) ** 0.5
+    dx = int(17 - (dy ** 2) ** 0.5)
+    print(dy, dx)
     return dy, dx
 
 
@@ -106,31 +109,43 @@ while game_loop:
             bounce_sound_effect.play()
 
         # ball collision with the player 1's paddle
-        if ball_x < 100 and has_collided is False:
+        if 50 < ball_x < 100 and has_collided is False:
             if player_1_y < ball_y + 25:
                 if player_1_y + 150 > ball_y:
                     has_collided = True
+                    print("collision")
                     ball = pygame.image.load(ball_player)
                     ball_dx *= -1
                     bounce_sound_effect.play()
 
                     if player_1_move_up is True:
-                        ball_dy, ball_dx = ball_randomizer(-10, 0)
-
-                    if player_1_move_down is True:
-                        ball_dy, ball_dx = ball_randomizer(0, 10)
+                        ball_dy, ball_dx = ball_randomizer(-15, 5)
+                        has_collided = True
+                    elif player_1_move_down is True:
+                        ball_dy, ball_dx = ball_randomizer(5, 15)
 
                     else:
                         ball_dy, ball_dx = ball_randomizer(-5, 5)
 
         # ball collision with the player 2 's paddle
-        if ball_x > 1160 and has_collided is False:
+        if 1210 > ball_x > 1160 and has_collided is False:
             if player_2_y < ball_y + 25:
                 if player_2_y + 150 > ball_y:
                     has_collided = True
                     ball = pygame.image.load(ball_ai)
-                    ball_dx *= -1
                     bounce_sound_effect.play()
+                    if player_1_move_up is True:
+                        ball_dy, ball_dx = ball_randomizer(-15, 5)
+                        has_collided = True
+                    elif player_1_move_down is True:
+                        ball_dy, ball_dx = ball_randomizer(5, 15)
+
+                    else:
+                        ball_dy, ball_dx = ball_randomizer(-5, 5)
+                    ball_dx *= -1
+        # collision tag reset
+        if 640 >= ball_x >= 540:
+            has_collided = False
 
         # scoring points
 
@@ -159,13 +174,14 @@ while game_loop:
         # player 2's "Artificial Intelligence"
 
         # ai's up and down movement
-        if ball_dx > 0:
+        if ball_dx > 0 and ball_x >= 300:
             if player_2_y > ball_y:
                 player_2_y -= 5
+                player_2_move_up = True
 
             if player_2_y < ball_y:
                 player_2_y += 5
-
+                player_2_move_down = True
         # ai's upper wall collision
         if player_2_y <= 0:
             player_2_y = 0
@@ -198,10 +214,6 @@ while game_loop:
         screen.blit(player_1, (50, player_1_y))
         screen.blit(player_2, (1180, player_2_y))
         screen.blit(score_text, score_text_rect)
-
-        # collision tag reset
-        if 800 >= ball_x <= 200:
-            has_collided = False
 
     else:
 
