@@ -119,18 +119,18 @@ while game_loop:
             bounce_sound_effect.play()
 
         # ball collision with the player 1 's paddle
-        if ball_x < 100 and player_1_y < ball_y + 25 and player_1_y + 150 > ball_y:
+        if 90 > ball_x > 50 and player_1_y < ball_y + 25 and player_1_y + 150 > ball_y:
             ball_collision_with_paddle()
 
         # ball collision with the player 2 's paddle
-        if ball_x > 1160 and player_2_y < ball_y + 25 and player_2_y + 150 > ball_y:
+        if 1150 < ball_x < 1190 and player_2_y < ball_y + 25 and player_2_y + 150 > ball_y:
             ball_collision_with_paddle()
 
         # scoring points
-        if ball_x < -50:
+        if ball_x <= 0:
             scoring_points()
             score_2 += 1
-        elif ball_x > 1320:
+        elif ball_x >= 1320:
             scoring_points()
             score_1 += 1
 
@@ -155,15 +155,15 @@ while game_loop:
             player_1_y = 0
 
         # player 1 collides with lower wall
-        elif player_1_y >= 570:
-            player_1_y = 570
+        elif player_1_y >= 560:
+            player_1_y = 560
 
         # player 2 "Artificial Intelligence"
         player_2_y = ball_y
         if player_2_y <= 0:
             player_2_y = 0
-        elif player_2_y >= 570:
-            player_2_y = 570
+        elif player_2_y >= 560:
+            player_2_y = 560
 
         # update score hud
         score_text = score_font.render(str(score_1) + ' x ' + str(score_2), True, COLOR_WHITE, COLOR_BLACK)
