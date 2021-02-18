@@ -65,8 +65,6 @@ set_obj_coordinates(player_2, size[0] - player_2.width - player_1.x, (size[1] - 
 player_2_score = 0
 player_2_move_up = False
 player_2_move_down = False
-player_2_difficult = {"easy": False, "normal": False, "hard": False, "impossible": False}
-# ia_dy = 5
 
 # ball
 ball_img = image("ball")
@@ -161,7 +159,7 @@ def paddle_collision(paddle):
     b1, b2 = player_1_move_down, player_1_move_up
     if paddle == player_2:
         expression = "> 0"
-        if player_2_difficult["impossible"]:
+        if pvc_mode:
             if ball_dy < 0:
                 player_2_move_up = True
             else:
