@@ -39,7 +39,7 @@ player_1_move_down = False
 
 # player 2 - robot
 player_2 = pygame.image.load("../assets/josue.alves_paddle.png")
-player_2_y = 300
+player_2_y = 360
 
 # ball
 ball = pygame.image.load("../assets/josue.alves_ball.png")
@@ -82,7 +82,7 @@ def draw_victory():
 def ball_collision_with_paddle():
     global ball_dx, ball_dy
     ball_dx *= -1
-    ball_dy *= math.tan(math.radians(random.choice(aux)))
+    ball_dy *= -1
     bounce_sound_effect.play()
 
 
@@ -111,7 +111,7 @@ while game_loop:
         screen.fill(COLOR_BLACK)
 
         # ball collision with the wall
-        if ball_y > 700:
+        if ball_y >= 700:
             ball_dy *= -1
             bounce_sound_effect.play()
         elif ball_y <= 0:
@@ -120,11 +120,21 @@ while game_loop:
 
         # ball collision with the player 1 's paddle
         if 90 > ball_x > 50 and player_1_y < ball_y + 25 and player_1_y + 150 > ball_y:
-            ball_collision_with_paddle()
+            if (player_1_y + 30 >= ball_y >= player_1_y - 20) or (player_1_y + 110 >= ball_y >= player_1_y + 150):
+                ball_dx *= -1
+                ball_dy *= -math.tan(math.radians(random.choice(aux)))
+                bounce_sound_effect.play()
+            else:
+                ball_collision_with_paddle()
 
         # ball collision with the player 2 's paddle
         if 1150 < ball_x < 1190 and player_2_y < ball_y + 25 and player_2_y + 150 > ball_y:
-            ball_collision_with_paddle()
+            if (player_2_y + 30 >= ball_y >= player_2_y - 20) or (player_2_y + 110 >= ball_y >= player_2_y + 150):
+                ball_dx *= -1
+                ball_dy *= -math.tan(math.radians(random.choice(aux)))
+                bounce_sound_effect.play()
+            else:
+                ball_collision_with_paddle()
 
         # scoring points
         if ball_x <= 0:
@@ -140,13 +150,13 @@ while game_loop:
 
         # player 1 up movement
         if player_1_move_up:
-            player_1_y -= 5
+            player_1_y -= 7
         else:
             player_1_y += 0
 
         # player 1 down movement
         if player_1_move_down:
-            player_1_y += 5
+            player_1_y += 7
         else:
             player_1_y += 0
 
@@ -158,10 +168,18 @@ while game_loop:
         elif player_1_y >= 560:
             player_1_y = 560
 
-        # player 2 "Artificial Intelligence"
-        player_2_y = ball_y
+        # AI
+        if player_2_y > ball_y:
+            player_2_y -= 7
+
+        if player_2_y + 160 < ball_y:
+            player_2_y += 7
+
+        # player 2 collides with upper wall
         if player_2_y <= 0:
             player_2_y = 0
+
+        # player 2 collides with lower wall
         elif player_2_y >= 560:
             player_2_y = 560
 
