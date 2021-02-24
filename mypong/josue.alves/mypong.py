@@ -10,10 +10,6 @@ import random
 
 aux = [-1, 1]
 
-# sound path
-bounce = 'C:/Users/Josué/Documents/STEM/stem-games/mypong/assets/bounce.wav'
-bleep = 'C:/Users/Josué/Documents/STEM/stem-games/mypong/assets/258020__kodack__arcade-bleep-sound.wav'
-
 # draw screen
 screen = turtle.Screen()
 screen.title("My Pong")
@@ -117,13 +113,13 @@ while True:
 
     # collision with upper wall
     if ball.ycor() > 290:
-        winsound.PlaySound(bounce, winsound.SND_ASYNC)
+        winsound.PlaySound("../assets/bounce.wav", winsound.SND_ASYNC)
         ball.sety(290)
         ball.dy *= -1
 
     # collision with bottom wall
     if ball.ycor() < -280:
-        winsound.PlaySound(bounce, winsound.SND_ASYNC)
+        winsound.PlaySound("../assets/bounce.wav", winsound.SND_ASYNC)
         ball.sety(-280)
         ball.dy *= -1
 
@@ -132,7 +128,7 @@ while True:
         score_2 += 1
         hud.clear()
         hud.write("{} : {}".format(score_1, score_2), align="center", font=("Press Start 2P", 24, "normal"))
-        winsound.PlaySound(bleep, winsound.SND_ASYNC)
+        winsound.PlaySound("../assets/258020__kodack__arcade-bleep-sound.wav", winsound.SND_ASYNC)
         ball.clear()
         ball.goto(0, 0)
         ball.dx *= random.choice(aux)
@@ -143,7 +139,7 @@ while True:
         score_1 += 1
         hud.clear()
         hud.write("{} : {}".format(score_1, score_2), align="center", font=("Press Start 2P", 24, "normal"))
-        winsound.PlaySound(bleep, winsound.SND_ASYNC)
+        winsound.PlaySound("../assets/258020__kodack__arcade-bleep-sound.wav", winsound.SND_ASYNC)
         ball.clear()
         ball.goto(0, 0)
         ball.dx *= random.choice(aux)
@@ -156,7 +152,7 @@ while True:
         ball.setx(-330)
         ball.dx *= -1
         ball.dy *= random.choice(aux)
-        winsound.PlaySound(bounce, winsound.SND_ASYNC)
+        winsound.PlaySound("../assets/bounce.wav", winsound.SND_ASYNC)
 
     # collision with racquet 2
     if (330 < ball.xcor() < 340) \
@@ -165,7 +161,7 @@ while True:
         ball.setx(330)
         ball.dx *= -1
         ball.dy *= random.choice(aux)
-        winsound.PlaySound(bounce, winsound.SND_ASYNC)
+        winsound.PlaySound("../assets/bounce.wav", winsound.SND_ASYNC)
 
 # AI player
     if paddle_2.ycor() < ball.ycor() - 60:
