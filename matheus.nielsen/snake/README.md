@@ -1,1 +1,1 @@
-Snake em Pygame - Versão 0.0
+Snake em Pygame - versão 0.1
