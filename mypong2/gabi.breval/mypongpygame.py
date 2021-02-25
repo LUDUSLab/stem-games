@@ -14,7 +14,7 @@ n = ([2, 2.1, 2.2, 2.3, 2.4, 2.5])
 COLOR_BLACK = (0, 0, 0)
 COLOR_WHITE = (255, 255, 255)
 
-SCORE_MAX = 10
+SCORE_MAX = 1
 
 # Main window
 screen_width = 1280
@@ -83,7 +83,7 @@ def IA():
     Max_depth = avoid OVEFITING (model addicted to training data and only hits the template when passing new data
     he misses a lot)
     '''
-    position = clf.predict([[ball_x, ball_y]])  # returns value 1 or 0
+    position = clf.predict([[ball_x, ball_y]])  # returns value 1, 2 or 0
 
     if position == 0:
         player_2_y += 5
@@ -110,7 +110,6 @@ def IA():
 '''
 if IA function returns "1" it means that the ball is on the bottom wall
 if IA function returns "0" it means that the ball in on the top of the screen
-
 '''
 while game_loop:
 
