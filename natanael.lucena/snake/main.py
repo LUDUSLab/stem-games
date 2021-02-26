@@ -3,7 +3,7 @@ import pygame
 pygame.init()
 
 # Window
-window = (1280, 720)
+window = (720, 720)
 center = (window[0]//2, window[1]//2)
 screen = pygame.display.set_mode(window)
 pygame.display.set_caption("Snake")
@@ -75,8 +75,8 @@ def game_over():
     if snake.x < 0:
         set_obj_coordinates(snake, 0, snake.y)
         return True
-    if snake.x > 1280 - snake.width:
-        set_obj_coordinates(snake, 1280 - snake.width, snake.y)
+    if snake.x > 720 - snake.width:
+        set_obj_coordinates(snake, 720 - snake.width, snake.y)
         return True
     return False
 
@@ -87,15 +87,15 @@ snake = snake_img.get_rect()
 move_keys = [pygame.K_w, pygame.K_d, pygame.K_s, pygame.K_a, pygame.K_p]
 snake_direction = {k: False for k in move_keys}
 snake_score = 0
-snake_vel = 1
-set_obj_coordinates(snake, center[0], center[1])
+snake_vel = 15
+set_obj_coordinates(snake, center[0] - snake.width/2, center[1] - snake.height/2)
 
 
 # Apple
 apple_img = img("apple")
 apple = apple_img.get_rect()
 apple_eaten = False
-set_obj_coordinates(apple, 40, 40)
+set_obj_coordinates(apple, 0, 0)
 
 
 # Main game loop
@@ -118,6 +118,6 @@ while game_loop:
 
     # Update screen
     pygame.display.flip()
-
+    game_clock.tick(10)
 
 pygame.quit()
