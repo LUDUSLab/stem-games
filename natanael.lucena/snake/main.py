@@ -64,16 +64,8 @@ def check_player_key(ev):
             x_move = 0
 
 
-score_font = font(36)
 game_over_font = font(64)
 continue_msg = font(25)
-# Render score text
-# def text_render(a_score_text):
-#    return score_font.render(f"{a_score_text}", True, COLOR_LIGHT_GREY)
-
-
-# Check if the snake collided and the game is over
-
 
 # Snake
 snake_img = img("snake")
@@ -83,15 +75,28 @@ snake_len = 1
 apple_img = img("apple")
 apple = apple_img.get_rect()
 apple_eaten = False
+apple_x = 0
+apple_y = 0
 
 def make_snake(snk_lst):
-
     for x in snk_lst:
         screen.blit(snake_img, (x[0], x[1]))
 
 
+def random_apple(pos):
+    global apple_x, apple_y
+    while True:
+        apple_x = randrange(window[0]//snake.w) * snake.w
+        apple_y = randrange(window[1]//snake.h) * snake.h
+        if len(list(filter(lambda z:pos == (apple_x,apple_y), pos))) > 0:
+            continue
+        else:
+            break
+    set_obj_coordinates(apple, apple_x, apple_y)
+
+
 def game_loop():
-    global x_move, y_move, game_close, snake_len
+    global x_move, y_move, game_close, snake_len, apple_x, apple_y
     set_obj_coordinates(snake, center[0] - snake.w, center[1] - snake.h)
     game_close = False
     game_over = False
@@ -99,9 +104,7 @@ def game_loop():
     y_move = 0
     snake_pos = []
     snake_len = 1
-    food_x = round(randrange(0, window[0] - snake.w)/30)*30
-    food_y = round(randrange(0, window[1] - snake.h)/30)*30
-    set_obj_coordinates(apple, food_x, food_y)
+    random_apple(snake_pos)
     while not game_close:
         while game_over:
             screen.fill(COLOR_DARK_GREY)
@@ -142,14 +145,12 @@ def game_loop():
         make_snake(snake_pos)
 
         pygame.display.update()
-        if snake.x == food_x and snake.y == food_y:
-            food_x = round(randrange(0, window[0] - snake.w) / snake.w) * snake.w
-            food_y = round(randrange(0, window[1] - snake.h) / snake.w) * snake.w
+        if snake.x == apple_x and snake.y == apple_y:
+            random_apple(snake_pos)
             snake_len += 1
-            set_obj_coordinates(apple, food_x, food_y)
         # Update screen
-
-        game_clock.tick(15)
+        pygame.time.delay(70)
+        game_clock.tick(30)
 
     pygame.quit()
     quit()
