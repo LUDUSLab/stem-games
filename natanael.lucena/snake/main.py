@@ -1,4 +1,5 @@
 import pygame
+from random import randrange
 
 pygame.init()
 
@@ -82,7 +83,6 @@ snake = snake_img.get_rect()
 apple_img = img("apple")
 apple = apple_img.get_rect()
 apple_eaten = False
-set_obj_coordinates(apple, 0, 0)
 
 
 def game_loop():
@@ -92,6 +92,9 @@ def game_loop():
     game_over = False
     x_move = 0
     y_move = 0
+    food_x = round(randrange(0, window[0] - snake.w)/30)*30
+    food_y = round(randrange(0, window[1] - snake.h)/30)*30
+    set_obj_coordinates(apple, food_x, food_y)
     while not game_close:
         while game_over:
             screen.fill(COLOR_DARK_GREY)
@@ -120,6 +123,10 @@ def game_loop():
             game_over = True
         snake.x += x_move
         snake.y += y_move
+        if snake.x == food_x and snake.y == food_y:
+            food_x = round(randrange(0, window[0] - snake.w) / snake.w) * snake.w
+            food_y = round(randrange(0, window[1] - snake.h) / snake.w) * snake.w
+            set_obj_coordinates(apple, food_x, food_y)
         # Update screen
         pygame.display.update()
         game_clock.tick(8)
