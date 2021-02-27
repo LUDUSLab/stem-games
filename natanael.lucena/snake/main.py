@@ -78,20 +78,27 @@ continue_msg = font(25)
 # Snake
 snake_img = img("snake")
 snake = snake_img.get_rect()
-
+snake_len = 1
 # Apple
 apple_img = img("apple")
 apple = apple_img.get_rect()
 apple_eaten = False
 
+def make_snake(snk_lst):
+
+    for x in snk_lst:
+        screen.blit(snake_img, (x[0], x[1]))
+
 
 def game_loop():
-    global x_move, y_move, game_close
+    global x_move, y_move, game_close, snake_len
     set_obj_coordinates(snake, center[0] - snake.w, center[1] - snake.h)
     game_close = False
     game_over = False
     x_move = 0
     y_move = 0
+    snake_pos = []
+    snake_len = 1
     food_x = round(randrange(0, window[0] - snake.w)/30)*30
     food_y = round(randrange(0, window[1] - snake.h)/30)*30
     set_obj_coordinates(apple, food_x, food_y)
@@ -114,7 +121,6 @@ def game_loop():
         # Main game loop
         # score_text = text_render(snake_score)
         screen.fill(COLOR_DARK_GREY)
-        screen.blit(snake_img, snake)
         screen.blit(apple_img, apple)
         for event in pygame.event.get():
             check_player_key(event)
@@ -123,13 +129,27 @@ def game_loop():
             game_over = True
         snake.x += x_move
         snake.y += y_move
+        snake_head = (snake.x, snake.y)
+        snake_pos.append(snake_head)
+
+        if len(snake_pos) > snake_len:
+            del snake_pos[0]
+
+        for x in snake_pos[:-1]:
+            if x == snake_head:
+                game_over = True
+
+        make_snake(snake_pos)
+
+        pygame.display.update()
         if snake.x == food_x and snake.y == food_y:
             food_x = round(randrange(0, window[0] - snake.w) / snake.w) * snake.w
             food_y = round(randrange(0, window[1] - snake.h) / snake.w) * snake.w
+            snake_len += 1
             set_obj_coordinates(apple, food_x, food_y)
         # Update screen
-        pygame.display.update()
-        game_clock.tick(8)
+
+        game_clock.tick(15)
 
     pygame.quit()
     quit()
