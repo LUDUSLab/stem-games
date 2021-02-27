@@ -15,6 +15,7 @@ pygame.display.set_caption("Snake")
 game_clock = pygame.time.Clock()
 game_close = False
 
+
 # Create font
 def font(fontsize):
     font_path = "./assets/PressStart2P.ttf"
@@ -31,6 +32,11 @@ def img(name):
 def set_obj_coordinates(obj, x, y):
     obj.x = x
     obj.y = y
+
+
+def msg(fnt, message, pos):
+    txt = fnt.render(message, True, COLOR_LIGHT_GREY)
+    screen.blit(txt, pos)
 
 
 # Check player key press
@@ -58,7 +64,8 @@ def check_player_key(ev):
 
 
 score_font = font(36)
-
+game_over_font = font(64)
+continue_msg = font(25)
 # Render score text
 # def text_render(a_score_text):
 #    return score_font.render(f"{a_score_text}", True, COLOR_LIGHT_GREY)
@@ -88,14 +95,19 @@ def game_loop():
     while not game_close:
         while game_over:
             screen.fill(COLOR_DARK_GREY)
+            msg(game_over_font, "Game Over",
+                (center[0] - game_over_font.size("Game Over")[0] / 2, center[1] - window[1] // 4))
+            msg(continue_msg, "Q-Quit/E-Play again",
+                (center[0] - continue_msg.size("Q-Quit/E-Play Again")[0] / 2, center[1]))
             pygame.display.update()
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_q:
-                        pygame.quit()
                         quit()
-                    if event.key == pygame.K_c:
+                    if event.key == pygame.K_e:
                         game_loop()
+                if event.type == pygame.QUIT:
+                    quit()
         # Main game loop
         # score_text = text_render(snake_score)
         screen.fill(COLOR_DARK_GREY)
