@@ -19,7 +19,7 @@ SCORE_MAX = 1
 # Main window
 screen_width = 1280
 screen_height = 720
-size = (1280, 720)  # width, height
+size = (screen_width, screen_height)  # width, height
 screen = pygame.display.set_mode(size)
 pygame.display.set_caption("Pong")
 
