@@ -120,7 +120,9 @@ fruits_imgs = [apple_imgs, banana_imgs, grape_imgs, avocado_imgs]
 general_fruit = img("apple1").get_rect()
 general_fruit_x = 0
 general_fruit_y = 0
-
+apple_sound = pygame.mixer.Sound('./assets/natanael.lucena.apple_crunch.wav')
+game_over_sound = pygame.mixer.Sound('./assets/natanael.lucena.game_over.wav')
+pygame.mixer.music.load('./assets/natanael.lucena.background_music.mp3')
 
 def make_snake(snk_lst):
     global snake_img1, snake_img2, snake_img3
@@ -157,6 +159,7 @@ def game_loop():
     set_obj_coordinates(snake, center[0] - snake.w, center[1] - snake.h)
     game_close = False
     game_over = False
+    pygame.mixer.music.play(-1)
     x_move = 0
     y_move = 0
     snake_pos = []
@@ -200,6 +203,9 @@ def game_loop():
         if snake.y < 0 or snake.y > window[1] - snake.height or snake.x < 0 or \
                 snake.x > window[0] - snake.width:
             game_over = True
+            game_over_sound.play()
+            pygame.mixer.music.stop()
+
         snake.x += x_move
         snake.y += y_move
         snake_head = (snake.x, snake.y)
@@ -211,6 +217,8 @@ def game_loop():
         for x in snake_pos[1:]:
             if x == snake_head:
                 game_over = True
+                game_over_sound.play()
+                pygame.mixer.music.stop()
 
         make_snake(snake_pos)
 
@@ -218,6 +226,7 @@ def game_loop():
             random_fruit(snake_pos)
             random_ind = randint(0, 3)
             snake_len += 1
+            apple_sound.play()
         pygame.display.update()
         # Update screen
         pygame.time.delay(70)
