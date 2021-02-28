@@ -8,7 +8,6 @@ import random  # randomness on apple positions
 # victory sound available in https://freesound.org/people/honeybone82/sounds/513253/
 # press key sound available in https://freesound.org/people/testing_player/sounds/243038/
 # Powered by Ronald Boadana
-# note: somethings is using '#' because it's things that i'll add on game, but from now i didn't get
 
 pygame.init()
 
@@ -26,10 +25,6 @@ pygame.display.set_caption('Snake v0.7.1')
 # drawing snake
 snake = pygame.image.load('../snake/assets/ronald.boadana_snakehead.png')
 snake_x, snake_y = 300, 300
-# snake_body_up_down = pygame.image.load('../snake/assets/ronald.boadana-snake-body-up-down.png')
-# snake_x_body_up_down, snake_y_body_up_down = (snake_x, snake_y - 30)
-# snake_tail = pygame.image.load('../snake/assets/ronald.boadana-snake-tail.png')
-# snake_tail_x, snake_tail_y = (snake_x + 4, snake_y_body_up_down - 30)
 
 # drawing apple
 apple = pygame.image.load('../snake/assets/ronald.boadana_apple.png')
@@ -40,8 +35,7 @@ apple_y = (random.randint(50, 560) // 10 * 10)
 game_over_sound = pygame.mixer.Sound('../snake/assets/game-over-sound.wav')
 victory_sound = pygame.mixer.Sound('../snake/assets/victory-sound.wav')
 eating_apple_sound = pygame.mixer.Sound('../snake/assets/eating-apple-sound.wav')
-press_key_sound = pygame.mixer.Sound('../snake/assets/press-key-sound.wav')
-# snake_death_sound = pygame.mixer.Sound('../snake/assets/snake-death-sound.wav')
+playing_sound = 0
 
 # score text
 score_font = pygame.font.Font('../snake/assets/PressStart2P.ttf', 30)
@@ -61,6 +55,9 @@ victory_text = defeat_font.render('VICTORY!', True, color_white, color_black)
 victory_text_rect = score_text.get_rect()
 victory_text_rect.center = (200, 275)
 
+# looping to make the key pressed move the snake
+UP = DOWN = RIGHT = LEFT = False
+
 game_on = True
 game_clock = pygame.time.Clock()
 while game_on:
@@ -70,27 +67,24 @@ while game_on:
         # mapping keys
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_w:
-                snake_y -= 10
+                UP = True
                 press_key_sound.play()
-                snake = pygame.image.load('../snake/assets/ronald.boadana_snakehead_up.png')
             if event.key == pygame.K_s:
-                snake_y += 10
-                press_key_sound.play()
-                # snake_y_body += direction_y
-                # snake_tail_y += direction_y
-                snake = pygame.image.load('../snake/assets/ronald.boadana_snakehead.png')
+                DOWN = True
             if event.key == pygame.K_a:
-                snake_x -= 10
-                press_key_sound.play()
-                # snake_x_body -= direction_x
-                # snake_tail_x -= direction_x
-                snake = pygame.image.load('../snake/assets/ronald.boadana_snakehead-left.png')
+                LEFT = True
             if event.key == pygame.K_d:
-                snake_x += 10
-                press_key_sound.play()
-                # snake_x_body += direction_x
-                # snake_tail_x += direction_x
-                snake = pygame.image.load('../snake/assets/ronald.boadana_snakehead-right.png')
+                RIGHT = True
+        if event.type == pygame.KEYUP:
+            if event.key == pygame.K_w:
+                UP = False
+            if event.key == pygame.K_s:
+                DOWN = False
+            if event.key == pygame.K_a:
+                LEFT = False
+            if event.key == pygame.K_d:
+                RIGHT = False
+        print(snake_x, snake_y)
 
         # checking the score
         if player_score < max_score:
@@ -101,8 +95,30 @@ while game_on:
                 apple_y = (random.randint(50, 560) // 10 * 10)
                 eating_apple_sound.play()
 
-        # updating score
-        score_text = score_font.render('SCORE:' + str(player_score), True, color_white, color_black)
+            # snake movement on key pressed
+            if UP:
+                snake_y -= 10
+                snake = pygame.image.load('../snake/assets/ronald.boadana_snakehead_up.png')
+            else:
+                snake_y += 0
+            if DOWN:
+                snake_y += 10
+                snake = pygame.image.load('../snake/assets/ronald.boadana_snakehead.png')
+            else:
+                snake_y += 0
+            if RIGHT:
+                snake_x += 10
+                snake = pygame.image.load('../snake/assets/ronald.boadana_snakehead-right.png')
+            else:
+                snake_x += 0
+            if LEFT:
+                snake_x -= 10
+                snake = pygame.image.load('../snake/assets/ronald.boadana_snakehead-left.png')
+            else:
+                snake_x += 0
+
+            # updating score
+            score_text = score_font.render('SCORE:' + str(player_score), True, color_white, color_black)
 
     # updating screen
     screen.blit(score_text, score_text_rect)
@@ -111,11 +127,9 @@ while game_on:
 
     # drawing the borders
     pygame.draw.line(screen, color_white, [10, 50], [590, 50], 3)
-    pygame.draw.line(screen, color_white, [10, 580], [590, 580], 3)
-    pygame.draw.line(screen, color_white, [10, 50], [10, 580], 3)
-    pygame.draw.line(screen, color_white, [590, 50], [590, 580], 3)
-    # screen.blit(snake_body, (snake_x_body, snake_y_body))
-    # screen.blit(snake_tail, (snake_tail_x, snake_tail_y))
+    pygame.draw.line(screen, color_white, [10, 590], [590, 590], 3)
+    pygame.draw.line(screen, color_white, [10, 50], [10, 590], 3)
+    pygame.draw.line(screen, color_white, [590, 50], [590, 590], 3)
 
     # snake collision with 'x' coordinate
     if snake_x <= 0:
@@ -133,17 +147,21 @@ while game_on:
     if (snake_x == 0) or (snake_y == 40) or (snake_x == 570) or (snake_y == 570):
         screen.fill(color_black)
         screen.blit(defeat_text, defeat_text_rect)
-        game_over_sound.play()
+        if playing_sound == 0:
+            game_over_sound.play()
+            playing_sound += 1
 
     # victory condition
     if player_score == 10:
         screen.fill(color_black)
         screen.blit(victory_text, victory_text_rect)
-        victory_sound.play()
+        if playing_sound == 0:
+            victory_sound.play()
+            playing_sound += 1
 
     # updating screen
     pygame.display.flip()
     screen.fill(color_black)
-    game_clock.tick(120)
+    game_clock.tick(90)
 
 pygame.quit()
