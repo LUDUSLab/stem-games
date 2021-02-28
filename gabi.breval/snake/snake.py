@@ -112,6 +112,10 @@ while True:
         score += 1
         snake.append((0, 0))  # the snake grows, that´s why we add another tuple on it
 
+    if snake[0][0] > 580 or snake[0][1] < 50 or snake[0][1] > 580 or snake[0][0] < 0:  # exceptions
+        showinfo(title="Game Over", message="GAME OVER!!!")
+        exit()
+
     for i in range(len(snake) - 1, 0, -1):  # shakes the rest of snakes´s body
         snake[i] = (snake[i - 1][0], snake[i - 1][1])
 
