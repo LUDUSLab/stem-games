@@ -63,10 +63,14 @@ apple_1_score = pygame.image.load('C:/Users/55929/Documents/STEM/stem-games/gabi
                                   'gabi.breval.maca.png')
 apple_1_score = pygame.transform.scale(apple_1_score, [20, 20])
 apple_1_score_y = 10
-apple_pos = on_grid_random()
+apple_food = pygame.image.load('C:/Users/55929/Documents/STEM/stem-games/gabi.breval/snake/assets/'
+                                  'gabi.breval.maca.png')
+apple_food_pos = on_grid_random()
+'''
 apple = pygame.Surface((grid_size, grid_size))
 apple.fill((255, 0, 0))  # color
 
+'''
 my_direction = LEFT
 clock = pygame.time.Clock()  # limit the fps
 
@@ -99,8 +103,8 @@ while True:
     if my_direction == LEFT:  # shakes the snake´s head
         snake[0] = (snake[0][0] - 10, snake[0][1])
 
-    if collision(snake[0], apple_pos):
-        apple_pos = on_grid_random()  # when there´s a collision the apple changes its position
+    if collision(snake[0], apple_food_pos):
+        apple_food_pos = on_grid_random()  # when there´s a collision the apple changes its position
         score += 1
         snake.append((0, 0))  # the snake grows, that´s why we add another tuple on it
 
@@ -110,7 +114,7 @@ while True:
     # update score hud
     score_text = score_font.render(str(score), True, COLOR_WHITE, COLOR_BLACK)
     screen.fill((0, 0, 0))  # cleaning the screen
-    screen.blit(apple, apple_pos)
+    screen.blit(apple_food, apple_food_pos)
     screen.blit(score_text, score_text_rect)
     screen.blit(apple_1_score, ((WIDTH / 2)-50, apple_1_score_y))
     pygame.draw.line(screen, COLOR_WHITE, [0, 50], [600, 50], 1)
