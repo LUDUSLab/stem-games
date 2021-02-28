@@ -8,6 +8,7 @@ import random  # randomness on apple positions
 # victory sound available in https://freesound.org/people/honeybone82/sounds/513253/
 # press key sound available in https://freesound.org/people/testing_player/sounds/243038/
 # Powered by Ronald Boadana
+# note: i added some lines as comments because there are somethings that i couldn't put on code
 
 pygame.init()
 
@@ -20,16 +21,17 @@ color_black = (0, 0, 0)
 color_white = (255, 255, 255)
 screen_size = (600, 600)
 screen = pygame.display.set_mode(screen_size)
-pygame.display.set_caption('Snake v0.7.1')
+pygame.display.set_caption('Snake v0.7.5')
 
 # drawing snake
-snake = pygame.image.load('../snake/assets/ronald.boadana_snakehead.png')
-snake_x, snake_y = 300, 300
+snake = pygame.image.load('../snake/assets/ronald.boadana_snakehead-right.png')
+snake_x, snake_y = 150, 300
+# snake_body = pygame.image.load('../snake/assets/ronald.boadana-snake-body-right-left.png')
+# snake_x_body, snake_y_body = snake_x, snake_y - 30
 
 # drawing apple
 apple = pygame.image.load('../snake/assets/ronald.boadana_apple.png')
-apple_x = (random.randint(50, 560) // 10 * 10)
-apple_y = (random.randint(50, 560) // 10 * 10)
+apple_x, apple_y = 400, 300
 
 # sounds
 game_over_sound = pygame.mixer.Sound('../snake/assets/game-over-sound.wav')
@@ -68,7 +70,6 @@ while game_on:
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_w:
                 UP = True
-                press_key_sound.play()
             if event.key == pygame.K_s:
                 DOWN = True
             if event.key == pygame.K_a:
@@ -84,15 +85,15 @@ while game_on:
                 LEFT = False
             if event.key == pygame.K_d:
                 RIGHT = False
-        print(snake_x, snake_y)
 
         # checking the score
         if player_score < max_score:
             screen.fill(color_black)
             if snake_x == apple_x and snake_y == apple_y:
                 player_score += 1
-                apple_x = (random.randint(50, 560) // 10 * 10)
-                apple_y = (random.randint(50, 560) // 10 * 10)
+                # snake_body = pygame.image.load('../snake/assets/ronald.boadana-snake-body-right-left.png')
+                apple_x = (random.randint(60, 560) // 10 * 10)
+                apple_y = (random.randint(60, 560) // 10 * 10)
                 eating_apple_sound.play()
 
             # snake movement on key pressed
@@ -109,11 +110,13 @@ while game_on:
             if RIGHT:
                 snake_x += 10
                 snake = pygame.image.load('../snake/assets/ronald.boadana_snakehead-right.png')
+                # snake_body = pygame.image.load('../snake/assets/ronald.boadana-snake-body-right-left.png')
             else:
                 snake_x += 0
             if LEFT:
                 snake_x -= 10
                 snake = pygame.image.load('../snake/assets/ronald.boadana_snakehead-left.png')
+                # snake_body = pygame.image.load('../snake/assets/ronald.boadana-snake-body-right-left.png')
             else:
                 snake_x += 0
 
@@ -124,6 +127,7 @@ while game_on:
     screen.blit(score_text, score_text_rect)
     screen.blit(snake, (snake_x, snake_y))
     screen.blit(apple, (apple_x, apple_y))
+    # screen.blit(snake_body, (snake_x_body, snake_y_body))
 
     # drawing the borders
     pygame.draw.line(screen, color_white, [10, 50], [590, 50], 3)
