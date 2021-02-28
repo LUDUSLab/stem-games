@@ -16,7 +16,8 @@ light_grey = (200, 200, 200)
 bg_color = pygame.Color('grey12')
 COLOR_BLACK = (0, 0, 0)
 COLOR_WHITE = (255, 255, 255)
-verde_escuro = (0, 128, 0)
+GREEN = (0, 255, 0)
+RED = (255, 0, 0)
 
 
 # score text
@@ -54,6 +55,7 @@ Every sequence is a tuple
 '''
 
 # Snake
+snake_head = pygame.image.load('C:/Users/55929/Documents/STEM/stem-games/gabi.breval/snake/assets/snake_head_gabi.breval.png')
 snake = [(200, 200), (210, 200), (220, 200)]  # every sequence is a tuple
 snake_skin = pygame.Surface((grid_size, grid_size))
 snake_skin.fill((255, 255, 255))  # color
