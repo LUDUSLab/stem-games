@@ -150,7 +150,6 @@ for i in range(len(fruits_imgs)):
         fruits_imgs[i][j] = img(img_names[i] + str(j + 1))
 
 def draw_fruits(rand_num, aux):
-
     screen.blit(fruits_imgs[rand_num][aux], general_fruit)
 
 def game_loop():
@@ -190,6 +189,7 @@ def game_loop():
         screen.fill(COLOR_LIGHT_BLUE)
         # blit fruit
         draw_fruits(random_ind, frame_aux)
+        msg(continue_msg, "Score: {}".format(snake_len-1), (center[0] - continue_msg.size("Score: *")[0]/2, snake.w))
         frame_aux += 1
         if frame_aux > 2:
             frame_aux = 0
