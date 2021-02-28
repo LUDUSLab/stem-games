@@ -58,13 +58,19 @@ Every sequence is a tuple
 snake_head = pygame.image.load('C:/Users/55929/Documents/STEM/stem-games/gabi.breval/snake/assets/'
                                'snake_head_gabi.breval.png')
 snake = [(200, 200), (220, 200), (240, 200)]  # every sequence is a tuple
+snake_head_pos = (snake[0][0]+20, snake[0][1])
+snake_head = pygame.transform.scale(snake_head, [20, 20])
 snake_skin = pygame.Surface((grid_size, grid_size))
 snake_skin.fill((255, 255, 255))  # color
+
+
+# Rotation  --------------------------------------------- #
+snake_head = pygame.transform.rotate(snake_head, 90)
 
 # Apple
 apple_1_score = pygame.image.load('C:/Users/55929/Documents/STEM/stem-games/gabi.breval/snake/assets/'
                                   'gabi.breval.maca.png')
-apple_1_score = pygame.transform.scale(apple_1_score, [30, 30])
+apple_1_score = pygame.transform.scale(apple_1_score, [20, 20])
 apple_1_score_y = 10
 apple_food = pygame.image.load('C:/Users/55929/Documents/STEM/stem-games/gabi.breval/snake/assets/'
                                'gabi.breval.maca.png')
@@ -120,10 +126,12 @@ while True:
         snake[i] = (snake[i - 1][0], snake[i - 1][1])
 
     # update score hud
+    snake_head_pos = (snake[0][0]+20, snake[0][1])
     score_text = score_font.render(str(score), True, COLOR_WHITE, COLOR_BLACK)
     screen.fill((0, 0, 0))  # cleaning the screen
     screen.blit(apple_food, apple_food_pos)
     screen.blit(score_text, score_text_rect)
+    screen.blit(snake_head, snake_head_pos)
     screen.blit(apple_1_score, ((WIDTH / 2) - 50, apple_1_score_y))
     pygame.draw.line(screen, COLOR_WHITE, [0, 50], [600, 50], 1)
 
