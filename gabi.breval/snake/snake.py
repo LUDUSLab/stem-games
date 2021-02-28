@@ -1,15 +1,15 @@
 import pygame
 import random
 from pygame.locals import *
+from tkinter.messagebox import showinfo
 
 WIDTH = 600
 HEIGHT = 600
-grid_size = 10
+grid_size = 20
 
 pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))  # width, height, we are matrices
 pygame.display.set_caption('Snake')
-
 
 # Colors
 light_grey = (200, 200, 200)
@@ -19,19 +19,19 @@ COLOR_WHITE = (255, 255, 255)
 GREEN = (0, 255, 0)
 RED = (255, 0, 0)
 
-
 # score text
 score_font = pygame.font.Font('C:/Users/55929/Documents/STEM/stem-games/gabi.breval/snake/assets/gabi.brevalFont.otf',
                               35)
 score_text = score_font.render(' 0', True, COLOR_WHITE, COLOR_BLACK)
 score_text_rect = score_text.get_rect()
-score_text_rect.center = (WIDTH / 2, 20)
+score_text_rect.center = (WIDTH / 2, 30)
 score = 0
 
 
 def on_grid_random():
     x = random.randint(0, 590)
     y = random.randint(55, 590)
+
     return x // 10 * 10, y // 10 * 10
 
 
@@ -55,18 +55,20 @@ Every sequence is a tuple
 '''
 
 # Snake
-snake_head = pygame.image.load('C:/Users/55929/Documents/STEM/stem-games/gabi.breval/snake/assets/snake_head_gabi.breval.png')
-snake = [(200, 200), (210, 200), (220, 200)]  # every sequence is a tuple
+snake_head = pygame.image.load('C:/Users/55929/Documents/STEM/stem-games/gabi.breval/snake/assets/'
+                               'snake_head_gabi.breval.png')
+snake = [(200, 200), (220, 200), (240, 200)]  # every sequence is a tuple
 snake_skin = pygame.Surface((grid_size, grid_size))
 snake_skin.fill((255, 255, 255))  # color
 
 # Apple
 apple_1_score = pygame.image.load('C:/Users/55929/Documents/STEM/stem-games/gabi.breval/snake/assets/'
                                   'gabi.breval.maca.png')
-apple_1_score = pygame.transform.scale(apple_1_score, [20, 20])
+apple_1_score = pygame.transform.scale(apple_1_score, [30, 30])
 apple_1_score_y = 10
 apple_food = pygame.image.load('C:/Users/55929/Documents/STEM/stem-games/gabi.breval/snake/assets/'
-                                  'gabi.breval.maca.png')
+                               'gabi.breval.maca.png')
+apple_food = pygame.transform.scale(apple_food, [20, 20])
 apple_food_pos = on_grid_random()
 '''
 apple = pygame.Surface((grid_size, grid_size))
@@ -105,7 +107,7 @@ while True:
     if my_direction == LEFT:  # shakes the snake´s head
         snake[0] = (snake[0][0] - 10, snake[0][1])
 
-    if collision(snake[0], apple_food_pos):
+    if collision(snake[0], apple_food_pos):  # two tuples (first matrices´s line and apple food tuple)
         apple_food_pos = on_grid_random()  # when there´s a collision the apple changes its position
         score += 1
         snake.append((0, 0))  # the snake grows, that´s why we add another tuple on it
@@ -118,7 +120,7 @@ while True:
     screen.fill((0, 0, 0))  # cleaning the screen
     screen.blit(apple_food, apple_food_pos)
     screen.blit(score_text, score_text_rect)
-    screen.blit(apple_1_score, ((WIDTH / 2)-50, apple_1_score_y))
+    screen.blit(apple_1_score, ((WIDTH / 2) - 50, apple_1_score_y))
     pygame.draw.line(screen, COLOR_WHITE, [0, 50], [600, 50], 1)
 
     '''
