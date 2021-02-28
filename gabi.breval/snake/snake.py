@@ -10,16 +10,19 @@ pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))  # width, height, we are matrices
 pygame.display.set_caption('Snake')
 
+
 # Colors
 light_grey = (200, 200, 200)
 bg_color = pygame.Color('grey12')
 COLOR_BLACK = (0, 0, 0)
 COLOR_WHITE = (255, 255, 255)
+verde_escuro = (0, 128, 0)
+
 
 # score text
 score_font = pygame.font.Font('C:/Users/55929/Documents/STEM/stem-games/gabi.breval/snake/assets/gabi.brevalFont.otf',
                               35)
-score_text = score_font.render('Points : 0', True, COLOR_WHITE, COLOR_BLACK)
+score_text = score_font.render(' 0', True, COLOR_WHITE, COLOR_BLACK)
 score_text_rect = score_text.get_rect()
 score_text_rect.center = (WIDTH / 2, 20)
 score = 0
@@ -56,6 +59,10 @@ snake_skin = pygame.Surface((grid_size, grid_size))
 snake_skin.fill((255, 255, 255))  # color
 
 # Apple
+apple_1_score = pygame.image.load('C:/Users/55929/Documents/STEM/stem-games/gabi.breval/snake/assets/'
+                                  'gabi.breval.maca.png')
+apple_1_score = pygame.transform.scale(apple_1_score, [20, 20])
+apple_1_score_y = 10
 apple_pos = on_grid_random()
 apple = pygame.Surface((grid_size, grid_size))
 apple.fill((255, 0, 0))  # color
@@ -101,10 +108,11 @@ while True:
         snake[i] = (snake[i - 1][0], snake[i - 1][1])
 
     # update score hud
-    score_text = score_font.render('Points : ' + str(score), True, COLOR_WHITE, COLOR_BLACK)
+    score_text = score_font.render(str(score), True, COLOR_WHITE, COLOR_BLACK)
     screen.fill((0, 0, 0))  # cleaning the screen
     screen.blit(apple, apple_pos)
     screen.blit(score_text, score_text_rect)
+    screen.blit(apple_1_score, ((WIDTH / 2)-50, apple_1_score_y))
     pygame.draw.line(screen, COLOR_WHITE, [0, 50], [600, 50], 1)
 
     '''
