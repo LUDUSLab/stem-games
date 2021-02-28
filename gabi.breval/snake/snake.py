@@ -21,13 +21,13 @@ score_font = pygame.font.Font('C:/Users/55929/Documents/STEM/stem-games/gabi.bre
                               35)
 score_text = score_font.render('Points : 0', True, COLOR_WHITE, COLOR_BLACK)
 score_text_rect = score_text.get_rect()
-score_text_rect.center = (WIDTH / 2, 40)
+score_text_rect.center = (WIDTH / 2, 20)
 score = 0
 
 
 def on_grid_random():
     x = random.randint(0, 590)
-    y = random.randint(60, 590)
+    y = random.randint(55, 590)
     return x // 10 * 10, y // 10 * 10
 
 
@@ -105,7 +105,7 @@ while True:
     screen.fill((0, 0, 0))  # cleaning the screen
     screen.blit(apple, apple_pos)
     screen.blit(score_text, score_text_rect)
-    pygame.draw.line(screen, COLOR_WHITE, [0, 55], [600, 55], 1)
+    pygame.draw.line(screen, COLOR_WHITE, [0, 50], [600, 50], 1)
 
     '''
     Sintaxe :
