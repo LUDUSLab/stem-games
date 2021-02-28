@@ -1,10 +1,11 @@
 import pygame
-from random import randrange
+from random import randrange, randint
 
 pygame.init()
 
 # Colors
-COLOR_LIGHT_GREY = (200, 200, 200)
+COLOR_LIGHT_GREY = (230, 230, 230)
+COLOR_LIGHT_BLUE = (51, 153, 255)
 COLOR_DARK_GREY = pygame.Color('gray12')
 
 # Window
@@ -68,35 +69,53 @@ game_over_font = font(64)
 continue_msg = font(25)
 
 # Snake
-snake_img = img("snake")
-snake = snake_img.get_rect()
+snake_img1 = img("snake1")
+snake_img2 = img("snake2")
+snake_img3 = img("snake3")
+snake = snake_img1.get_rect()
 snake_len = 1
 # Apple
-apple_img = img("apple")
-apple = apple_img.get_rect()
-apple_eaten = False
-apple_x = 0
-apple_y = 0
+apple_imgs, banana_imgs, grape_imgs, avocado_imgs = [pygame.surface, pygame.surface, pygame.surface], \
+    [pygame.surface, pygame.surface, pygame.surface], [pygame.surface, pygame.surface, pygame.surface],\
+    [pygame.surface, pygame.surface, pygame.surface]
+fruits_imgs = [apple_imgs, banana_imgs, grape_imgs, avocado_imgs]
+general_fruit = img("apple1").get_rect()
+general_fruit_x = 0
+general_fruit_y = 0
+
 
 def make_snake(snk_lst):
     for x in snk_lst:
-        screen.blit(snake_img, (x[0], x[1]))
+        if x == snk_lst[0]:
+            screen.blit(snake_img1, (x[0], x[1]))
+        elif x == snk_lst[len(snk_lst)-1]:
+            screen.blit(snake_img3, (x[0], x[1]))
+        else:
+            screen.blit(snake_img2, (x[0], x[1]))
 
-
-def random_apple(pos):
-    global apple_x, apple_y
+def random_fruit(pos):
+    global general_fruit_x, general_fruit_y
     while True:
-        apple_x = randrange(window[0]//snake.w) * snake.w
-        apple_y = randrange(window[1]//snake.h) * snake.h
-        if len(list(filter(lambda z:pos == (apple_x,apple_y), pos))) > 0:
+        general_fruit_x = randrange(window[0] // snake.w) * snake.w
+        general_fruit_y = randrange(window[1] // snake.h) * snake.h
+        if len(list(filter(lambda z: pos == (general_fruit_x, general_fruit_y), pos))) > 0:
             continue
         else:
             break
-    set_obj_coordinates(apple, apple_x, apple_y)
+    set_obj_coordinates(general_fruit, general_fruit_x, general_fruit_y)
 
+
+img_names = ["apple", "banana", "grape", "avocado"]
+for i in range(len(fruits_imgs)):
+    for j in range(3):
+        fruits_imgs[i][j] = img(img_names[i] + str(j + 1))
+
+def draw_fruits(rand_num, aux):
+
+    screen.blit(fruits_imgs[rand_num][aux], general_fruit)
 
 def game_loop():
-    global x_move, y_move, game_close, snake_len, apple_x, apple_y
+    global x_move, y_move, game_close, snake_len, general_fruit_x, general_fruit_y
     set_obj_coordinates(snake, center[0] - snake.w, center[1] - snake.h)
     game_close = False
     game_over = False
@@ -104,10 +123,13 @@ def game_loop():
     y_move = 0
     snake_pos = []
     snake_len = 1
-    random_apple(snake_pos)
+    random_ind = randint(0, 3)
+    frame_aux = 0
+    random_fruit(snake_pos)
+
     while not game_close:
         while game_over:
-            screen.fill(COLOR_DARK_GREY)
+            screen.fill(COLOR_LIGHT_BLUE)
             msg(game_over_font, "Game Over",
                 (center[0] - game_over_font.size("Game Over")[0] / 2, center[1] - window[1] // 4))
             msg(continue_msg, "Q-Quit/E-Play again",
@@ -123,8 +145,14 @@ def game_loop():
                     quit()
         # Main game loop
         # score_text = text_render(snake_score)
-        screen.fill(COLOR_DARK_GREY)
-        screen.blit(apple_img, apple)
+        game_clock.tick(10)
+        screen.fill(COLOR_LIGHT_BLUE)
+        # blit fruit
+        draw_fruits(random_ind, frame_aux)
+        frame_aux += 1
+        if frame_aux > 2:
+            frame_aux = 0
+
         for event in pygame.event.get():
             check_player_key(event)
         if snake.y < 0 or snake.y > window[1] - snake.height or snake.x < 0 or \
@@ -133,24 +161,24 @@ def game_loop():
         snake.x += x_move
         snake.y += y_move
         snake_head = (snake.x, snake.y)
-        snake_pos.append(snake_head)
+        snake_pos.insert(0, snake_head)
 
         if len(snake_pos) > snake_len:
-            del snake_pos[0]
+            del snake_pos[len(snake_pos)-1]
 
-        for x in snake_pos[:-1]:
+        for x in snake_pos[1:]:
             if x == snake_head:
                 game_over = True
 
         make_snake(snake_pos)
 
-        pygame.display.update()
-        if snake.x == apple_x and snake.y == apple_y:
-            random_apple(snake_pos)
+        if snake.x == general_fruit_x and snake.y == general_fruit_y:
+            random_fruit(snake_pos)
+            random_ind = randint(0, 3)
             snake_len += 1
+        pygame.display.update()
         # Update screen
         pygame.time.delay(70)
-        game_clock.tick(30)
 
     pygame.quit()
     quit()
