@@ -47,20 +47,58 @@ y_move = 0
 
 
 def check_player_key(ev):
-    global x_move, y_move, game_close
+    global x_move, y_move, game_close, snake_img1, snake_img2, snake_img3
     if ev.type == pygame.QUIT:
         game_close = True
     elif ev.type == pygame.KEYDOWN:
         if ev.key == pygame.K_a and x_move <= 0:
+            if y_move <= 0 and x_move == 0:
+                snake_img1 = pygame.transform.rotate(snake_img1, 90)
+                snake_img2 = pygame.transform.rotate(snake_img2, 90)
+                snake_img3 = pygame.transform.rotate(snake_img3, 90)
+            elif y_move > 0:
+                snake_img1 = pygame.transform.rotate(snake_img1, -90)
+                snake_img2 = pygame.transform.rotate(snake_img2, -90)
+                snake_img3 = pygame.transform.rotate(snake_img3, -90)
             x_move = -snake.w
             y_move = 0
         elif ev.key == pygame.K_d and x_move >= 0:
+            if y_move <= 0 and x_move == 0:
+                snake_img1 = pygame.transform.rotate(snake_img1, -90)
+                snake_img2 = pygame.transform.rotate(snake_img2, -90)
+                snake_img3 = pygame.transform.rotate(snake_img3, -90)
+            elif y_move > 0:
+                snake_img1 = pygame.transform.rotate(snake_img1, 90)
+                snake_img2 = pygame.transform.rotate(snake_img2, 90)
+                snake_img3 = pygame.transform.rotate(snake_img3, 90)
             x_move = snake.w
             y_move = 0
+
         elif ev.key == pygame.K_w and y_move <= 0:
+            if x_move > 0 and y_move == 0:
+                snake_img1 = pygame.transform.rotate(snake_img1, 90)
+                snake_img2 = pygame.transform.rotate(snake_img2, 90)
+                snake_img3 = pygame.transform.rotate(snake_img3, 90)
+            elif x_move < 0:
+                snake_img1 = pygame.transform.rotate(snake_img1, -90)
+                snake_img2 = pygame.transform.rotate(snake_img2, -90)
+                snake_img3 = pygame.transform.rotate(snake_img3, -90)
             y_move = -snake.w
             x_move = 0
+
         elif ev.key == pygame.K_s and y_move >= 0:
+            if x_move > 0 and y_move == 0:
+                snake_img1 = pygame.transform.rotate(snake_img1, -90)
+                snake_img2 = pygame.transform.rotate(snake_img2, -90)
+                snake_img3 = pygame.transform.rotate(snake_img3, -90)
+            elif x_move < 0:
+                snake_img1 = pygame.transform.rotate(snake_img1, 90)
+                snake_img2 = pygame.transform.rotate(snake_img2, 90)
+                snake_img3 = pygame.transform.rotate(snake_img3, 90)
+            elif x_move == 0 and y_move == 0:
+                snake_img1 = pygame.transform.rotate(snake_img1, 180)
+                snake_img2 = pygame.transform.rotate(snake_img2, 180)
+                snake_img3 = pygame.transform.rotate(snake_img3, 180)
             y_move = snake.w
             x_move = 0
 
@@ -85,6 +123,7 @@ general_fruit_y = 0
 
 
 def make_snake(snk_lst):
+    global snake_img1, snake_img2, snake_img3
     for x in snk_lst:
         if x == snk_lst[0]:
             screen.blit(snake_img1, (x[0], x[1]))
@@ -115,7 +154,7 @@ def draw_fruits(rand_num, aux):
     screen.blit(fruits_imgs[rand_num][aux], general_fruit)
 
 def game_loop():
-    global x_move, y_move, game_close, snake_len, general_fruit_x, general_fruit_y
+    global x_move, y_move, game_close, snake_len, general_fruit_x, general_fruit_y, snake_img1, snake_img2, snake_img3
     set_obj_coordinates(snake, center[0] - snake.w, center[1] - snake.h)
     game_close = False
     game_over = False
@@ -126,7 +165,9 @@ def game_loop():
     random_ind = randint(0, 3)
     frame_aux = 0
     random_fruit(snake_pos)
-
+    snake_img1 = img("snake1")
+    snake_img2 = img("snake2")
+    snake_img3 = img("snake3")
     while not game_close:
         while game_over:
             screen.fill(COLOR_LIGHT_BLUE)
@@ -155,6 +196,7 @@ def game_loop():
 
         for event in pygame.event.get():
             check_player_key(event)
+
         if snake.y < 0 or snake.y > window[1] - snake.height or snake.x < 0 or \
                 snake.x > window[0] - snake.width:
             game_over = True
