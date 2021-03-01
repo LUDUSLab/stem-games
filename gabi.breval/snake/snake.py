@@ -93,7 +93,10 @@ apple_food = pygame.image.load('C:/Users/55929/Documents/STEM/stem-games/gabi.br
 apple_food = pygame.transform.scale(apple_food, [20, 20])
 apple_food_pos = on_grid_random()
 
-# ------------------------------------------------------------------------------------------------------------ #
+# Grass -------------------------------------------------------------------------------------------------------- #
+grass = pygame.image.load('C:/Users/55929/Documents/STEM/stem-games/gabi.breval/snake/assets/'
+                          'folha.png')
+
 
 my_direction = LEFT
 clock = pygame.time.Clock()  # limit the fps
@@ -190,6 +193,11 @@ while True:
             munch_sound_effect.play()  # sound
             score += 1
             snake.append((0, 0))  # the snake grows, that´s why we add another tuple on it
+
+    screen.blit(grass, ((5, 0), (5, 550)))
+    screen.blit(grass, ((5, 20), (5, 550)))
+    screen.blit(grass, ((565, 20), (550, 50)))
+    screen.blit(grass, ((565, 0), (550, 50)))
 
     screen.blit(apple_food, apple_food_pos)
     screen.blit(score_text, score_text_rect)
