@@ -181,7 +181,7 @@ while True:
             munch_sound_effect.play()  # sound
             score += 1
             snake.append((0, 0))  # the snake grows, that´s why we add another tuple on it
-            
+
     if my_direction == RIGHT:
         snake_head_pos = (snake[0][0] + 20, snake[0][1])
         screen.blit(snake_head_right, snake_head_pos)
