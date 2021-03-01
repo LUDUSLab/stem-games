@@ -1,3 +1,8 @@
+#Allef Ramos 28.02.2021
+# sound game over: https://freesound.org/people/myfox14/sounds/382310/
+# sound apple crunch: https://freesound.org/people/Koops/sounds/20269/
+# font Press Start 2P https://www.fontspace.com/codeman38/press-start-2p
+
 import pygame
 import random
 import sys
