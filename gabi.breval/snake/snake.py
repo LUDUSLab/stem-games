@@ -158,15 +158,38 @@ while True:
     if my_direction == UP:
         snake_head_pos = (snake[0][0], snake[0][1] - 20)
         screen.blit(snake_head_up, snake_head_pos)
+        if collision(snake_head_pos, apple_food_pos):  # two tuples (first matrices´s line and apple food tuple)
+            apple_food_pos = on_grid_random()  # when there´s a collision the apple changes its position
+            munch_sound_effect.play()  # sound
+            score += 1
+            snake.append((0, 0))  # the snake grows, that´s why we add another tuple on it
+
     if my_direction == DOWN:
         snake_head_pos = (snake[0][0], snake[0][1] + 20)
         screen.blit(snake_head_down, snake_head_pos)
+        if collision(snake_head_pos, apple_food_pos):  # two tuples (first matrices´s line and apple food tuple)
+            apple_food_pos = on_grid_random()  # when there´s a collision the apple changes its position
+            munch_sound_effect.play()  # sound
+            score += 1
+            snake.append((0, 0))  # the snake grows, that´s why we add another tuple on it
+
     if my_direction == LEFT:
         snake_head_pos = (snake[0][0] - 20, snake[0][1])
         screen.blit(snake_head_left, snake_head_pos)
+        if collision(snake_head_pos, apple_food_pos):  # two tuples (first matrices´s line and apple food tuple)
+            apple_food_pos = on_grid_random()  # when there´s a collision the apple changes its position
+            munch_sound_effect.play()  # sound
+            score += 1
+            snake.append((0, 0))  # the snake grows, that´s why we add another tuple on it
+            
     if my_direction == RIGHT:
         snake_head_pos = (snake[0][0] + 20, snake[0][1])
         screen.blit(snake_head_right, snake_head_pos)
+        if collision(snake_head_pos, apple_food_pos):  # two tuples (first matrices´s line and apple food tuple)
+            apple_food_pos = on_grid_random()  # when there´s a collision the apple changes its position
+            munch_sound_effect.play()  # sound
+            score += 1
+            snake.append((0, 0))  # the snake grows, that´s why we add another tuple on it
 
     screen.blit(apple_food, apple_food_pos)
     screen.blit(score_text, score_text_rect)

@@ -6,178 +6,97 @@ pygame.init()
 # Colors
 COLOR_LIGHT_GREY = (230, 230, 230)
 COLOR_LIGHT_BLUE = (51, 153, 255)
-COLOR_DARK_GREY = pygame.Color('gray12')
 
 # Window
 window = (960, 720)
 center = (window[0] // 2, window[1] // 2)
 screen = pygame.display.set_mode(window)
-pygame.display.set_caption("Snake")
+pygame.display.set_caption("PySnake")
 
+# Loop variables
 game_clock = pygame.time.Clock()
-game_close = False
+player_record = 0
 
-
-# Create font
+# Fonts
 def font(fontsize):
     font_path = "./assets/PressStart2P.ttf"
     return pygame.font.Font(font_path, fontsize)
-
+game_over_font = font(64)
+continue_msg = font(25)
 
 # Create image
 def img(name):
     img_path = "./assets/natanael.lucena_" + name + ".png"
     return pygame.image.load(img_path).convert_alpha()
 
-
 # Set object coordinates
 def set_obj_coordinates(obj, x, y):
     obj.x = x
     obj.y = y
 
-
+# Display message on screen
 def msg(fnt, message, pos):
     txt = fnt.render(message, True, COLOR_LIGHT_GREY)
     screen.blit(txt, pos)
 
+# Snake properties
+snake_imgs = [img("snake1"), img("snake2"), img("snake3")]
+snake = snake_imgs[0].get_rect()
 
-# Check player key press
-x_move = 0
-y_move = 0
-
-
-def check_player_key(ev):
-    global x_move, y_move, game_close, snake_img1, snake_img2, snake_img3
-    if ev.type == pygame.QUIT:
-        game_close = True
-    elif ev.type == pygame.KEYDOWN:
-        if ev.key == pygame.K_a and x_move <= 0:
-            if y_move <= 0 and x_move == 0:
-                snake_img1 = pygame.transform.rotate(snake_img1, 90)
-                snake_img2 = pygame.transform.rotate(snake_img2, 90)
-                snake_img3 = pygame.transform.rotate(snake_img3, 90)
-            elif y_move > 0:
-                snake_img1 = pygame.transform.rotate(snake_img1, -90)
-                snake_img2 = pygame.transform.rotate(snake_img2, -90)
-                snake_img3 = pygame.transform.rotate(snake_img3, -90)
-            x_move = -snake.w
-            y_move = 0
-        elif ev.key == pygame.K_d and x_move >= 0:
-            if y_move <= 0 and x_move == 0:
-                snake_img1 = pygame.transform.rotate(snake_img1, -90)
-                snake_img2 = pygame.transform.rotate(snake_img2, -90)
-                snake_img3 = pygame.transform.rotate(snake_img3, -90)
-            elif y_move > 0:
-                snake_img1 = pygame.transform.rotate(snake_img1, 90)
-                snake_img2 = pygame.transform.rotate(snake_img2, 90)
-                snake_img3 = pygame.transform.rotate(snake_img3, 90)
-            x_move = snake.w
-            y_move = 0
-
-        elif ev.key == pygame.K_w and y_move <= 0:
-            if x_move > 0 and y_move == 0:
-                snake_img1 = pygame.transform.rotate(snake_img1, 90)
-                snake_img2 = pygame.transform.rotate(snake_img2, 90)
-                snake_img3 = pygame.transform.rotate(snake_img3, 90)
-            elif x_move < 0:
-                snake_img1 = pygame.transform.rotate(snake_img1, -90)
-                snake_img2 = pygame.transform.rotate(snake_img2, -90)
-                snake_img3 = pygame.transform.rotate(snake_img3, -90)
-            y_move = -snake.w
-            x_move = 0
-
-        elif ev.key == pygame.K_s and y_move >= 0:
-            if x_move > 0 and y_move == 0:
-                snake_img1 = pygame.transform.rotate(snake_img1, -90)
-                snake_img2 = pygame.transform.rotate(snake_img2, -90)
-                snake_img3 = pygame.transform.rotate(snake_img3, -90)
-            elif x_move < 0:
-                snake_img1 = pygame.transform.rotate(snake_img1, 90)
-                snake_img2 = pygame.transform.rotate(snake_img2, 90)
-                snake_img3 = pygame.transform.rotate(snake_img3, 90)
-            elif x_move == 0 and y_move == 0:
-                snake_img1 = pygame.transform.rotate(snake_img1, 180)
-                snake_img2 = pygame.transform.rotate(snake_img2, 180)
-                snake_img3 = pygame.transform.rotate(snake_img3, 180)
-            y_move = snake.w
-            x_move = 0
-
-
-game_over_font = font(64)
-continue_msg = font(25)
-
-# Snake
-snake_img1 = img("snake1")
-snake_img2 = img("snake2")
-snake_img3 = img("snake3")
-snake = snake_img1.get_rect()
-snake_len = 1
-# Apple
-apple_imgs, banana_imgs, grape_imgs, avocado_imgs = [pygame.surface, pygame.surface, pygame.surface],\
-    [pygame.surface, pygame.surface, pygame.surface], [pygame.surface, pygame.surface, pygame.surface],\
-    [pygame.surface, pygame.surface, pygame.surface]
-fruits_imgs = [apple_imgs, banana_imgs, grape_imgs, avocado_imgs]
+# Fruits properties
+fruits_imgs = [[] for x in range(4)]
 general_fruit = img("apple1").get_rect()
-general_fruit_x = 0
-general_fruit_y = 0
+general_fruit_x, general_fruit_y = 0, 0
+img_names = ["apple", "banana", "grape", "avocado"]
+for i in range(len(fruits_imgs)):
+    for j in range(3):
+        fruits_imgs[i].insert(j, img(img_names[i] + str(j + 1)))
+
+# Rotates the snake image by the given angle
+def rotate_imgs(angle):
+    global snake_imgs
+    for k in range(len(snake_imgs)):
+        snake_imgs[k] = pygame.transform.rotate(snake_imgs[k], angle)
+
+# Does what needs to be done when game is over
+def game_over_treatment():
+    game_over_sound.play()
+    pygame.mixer.music.stop()
+    return True
+
+# Sounds
 apple_sound = pygame.mixer.Sound('./assets/natanael.lucena.apple_crunch.wav')
 game_over_sound = pygame.mixer.Sound('./assets/natanael.lucena.game_over.wav')
 pygame.mixer.music.load('./assets/natanael.lucena.background_music.mp3')
 
-
-def make_snake(snk_lst):
-    global snake_img1, snake_img2, snake_img3
-    for x in snk_lst:
-        if x == snk_lst[0]:
-            screen.blit(snake_img1, (x[0], x[1]))
-        elif x == snk_lst[len(snk_lst) - 1]:
-            screen.blit(snake_img3, (x[0], x[1]))
-        else:
-            screen.blit(snake_img2, (x[0], x[1]))
-
-
+# Function to randomly spawn a fruit so that it will not be in the same position as the snake
 def random_fruit(pos):
     global general_fruit_x, general_fruit_y
     while True:
         general_fruit_x = randrange(window[0] // snake.w) * snake.w
         general_fruit_y = randrange(window[1] // snake.h) * snake.h
         if len(list(filter(lambda z: pos == (general_fruit_x, general_fruit_y), pos))) > 0:
-            continue
+            continue  # If fruit spawns position is the same position as a snake body, we continue the loop
         else:
-            break
-    set_obj_coordinates(general_fruit, general_fruit_x, general_fruit_y)
+            break  # If not, we are done
+    set_obj_coordinates(general_fruit, general_fruit_x, general_fruit_y)  # set fruit random position
 
-
-player_record = 0
-img_names = ["apple", "banana", "grape", "avocado"]
-for i in range(len(fruits_imgs)):
-    for j in range(3):
-        fruits_imgs[i][j] = img(img_names[i] + str(j + 1))
-
-
-def draw_fruits(rand_num, aux):
-    screen.blit(fruits_imgs[rand_num][aux], general_fruit)
-
-
+# Main game loop
 def game_loop():
-    global x_move, y_move, game_close, snake_len, general_fruit_x, general_fruit_y, snake_img1, snake_img2, snake_img3,\
-        player_record
+    global general_fruit_x, general_fruit_y, player_record, snake_imgs
     set_obj_coordinates(snake, center[0] - snake.w, center[1] - snake.h)
-    game_close = False
-    game_over = False
+    game_close, game_over = False, False
     pygame.mixer.music.play(-1)
-    x_move = 0
-    y_move = 0
+    x_move, y_move = 0, 0
     snake_pos = []
     snake_len = 1
     random_ind = randint(0, 3)
     frame_aux = 0
+    snake_imgs = [img("snake1"), img("snake2"), img("snake3")]
     random_fruit(snake_pos)
-    snake_img1 = img("snake1")
-    snake_img2 = img("snake2")
-    snake_img3 = img("snake3")
+    # The game is not closed, so we either play again or leave the game
     while not game_close:
-        while game_over:
+        while game_over:  # When the snake collides with herself or with the wall, the game is over
             screen.fill(COLOR_LIGHT_BLUE)
             if snake_len - 1 > player_record:
                 player_record = snake_len - 1
@@ -196,54 +115,87 @@ def game_loop():
                         game_loop()
                 if event.type == pygame.QUIT:
                     quit()
-        # Main game loop
-        # score_text = text_render(snake_score)
         game_clock.tick(10)
         screen.fill(COLOR_LIGHT_BLUE)
-        # blit fruit
-        draw_fruits(random_ind, frame_aux)
+        screen.blit(fruits_imgs[random_ind][frame_aux], general_fruit)
         msg(continue_msg, "Score: {}".format(snake_len - 1),
             (center[0] - continue_msg.size("Score: *")[0] / 2, snake.w))
         frame_aux += 1
         if frame_aux > 2:
             frame_aux = 0
 
+        # Listen to players key and rotate the snake image to the respective direction
         for event in pygame.event.get():
-            check_player_key(event)
-
-        if snake.y < 0 or snake.y > window[1] - snake.height or snake.x < 0 or \
-                snake.x > window[0] - snake.width:
-            game_over = True
-            game_over_sound.play()
-            pygame.mixer.music.stop()
-
+            if event.type == pygame.QUIT:
+                game_close = True
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_a and x_move <= 0:
+                    if y_move <= 0 and x_move == 0:
+                        rotate_imgs(90)
+                    elif y_move > 0:
+                        rotate_imgs(-90)
+                    x_move = -snake.w
+                    y_move = 0
+                elif event.key == pygame.K_d and x_move >= 0:
+                    if y_move <= 0 and x_move == 0:
+                        rotate_imgs(-90)
+                    elif y_move > 0:
+                        rotate_imgs(90)
+                    x_move = snake.w
+                    y_move = 0
+                elif event.key == pygame.K_w and y_move <= 0:
+                    if x_move > 0 and y_move == 0:
+                        rotate_imgs(90)
+                    elif x_move < 0:
+                        rotate_imgs(-90)
+                    y_move = -snake.w
+                    x_move = 0
+                elif event.key == pygame.K_s and y_move >= 0:
+                    if x_move > 0 and y_move == 0:
+                        rotate_imgs(-90)
+                    elif x_move < 0:
+                        rotate_imgs(90)
+                    elif x_move == 0 and y_move == 0:
+                        rotate_imgs(180)
+                    y_move = snake.w
+                    x_move = 0
+        # Snake moves
         snake.x += x_move
         snake.y += y_move
         snake_head = (snake.x, snake.y)
         snake_pos.insert(0, snake_head)
-
+        # Snake body "moves"
         if len(snake_pos) > snake_len:
             del snake_pos[len(snake_pos) - 1]
 
+        # The snake collides with the wall
+        if snake.y < 0 or snake.y > window[1] - snake.height or snake.x < 0 or \
+                snake.x > window[0] - snake.width:
+            game_over = game_over_treatment()
+        # The snake collides with herself
         for x in snake_pos[1:]:
             if x == snake_head:
-                game_over = True
-                game_over_sound.play()
-                pygame.mixer.music.stop()
+                game_over = game_over_treatment()
 
-        make_snake(snake_pos)
+        # Draw snake
+        for x in snake_pos:
+            if x == snake_pos[0]:
+                screen.blit(snake_imgs[0], (x[0], x[1]))
+            elif x == snake_pos[len(snake_pos) - 1]:
+                screen.blit(snake_imgs[2], (x[0], x[1]))
+            else:
+                screen.blit(snake_imgs[1], (x[0], x[1]))
 
+        # Fruit eated
         if snake.x == general_fruit_x and snake.y == general_fruit_y:
-            random_fruit(snake_pos)
             random_ind = randint(0, 3)
             snake_len += 1
             apple_sound.play()
+            random_fruit(snake_pos)
+
         pygame.display.update()
-        # Update screen
-        pygame.time.delay(90)
 
     pygame.quit()
     quit()
 
-
-game_loop()
+game_loop()  # Main function called
