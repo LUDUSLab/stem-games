@@ -113,7 +113,7 @@ snake_img3 = img("snake3")
 snake = snake_img1.get_rect()
 snake_len = 1
 # Apple
-apple_imgs, banana_imgs, grape_imgs, avocado_imgs = [pygame.surface, pygame.surface, pygame.surface], \
+apple_imgs, banana_imgs, grape_imgs, avocado_imgs = [pygame.surface, pygame.surface, pygame.surface],\
     [pygame.surface, pygame.surface, pygame.surface], [pygame.surface, pygame.surface, pygame.surface],\
     [pygame.surface, pygame.surface, pygame.surface]
 fruits_imgs = [apple_imgs, banana_imgs, grape_imgs, avocado_imgs]
@@ -124,15 +124,17 @@ apple_sound = pygame.mixer.Sound('./assets/natanael.lucena.apple_crunch.wav')
 game_over_sound = pygame.mixer.Sound('./assets/natanael.lucena.game_over.wav')
 pygame.mixer.music.load('./assets/natanael.lucena.background_music.mp3')
 
+
 def make_snake(snk_lst):
     global snake_img1, snake_img2, snake_img3
     for x in snk_lst:
         if x == snk_lst[0]:
             screen.blit(snake_img1, (x[0], x[1]))
-        elif x == snk_lst[len(snk_lst)-1]:
+        elif x == snk_lst[len(snk_lst) - 1]:
             screen.blit(snake_img3, (x[0], x[1]))
         else:
             screen.blit(snake_img2, (x[0], x[1]))
+
 
 def random_fruit(pos):
     global general_fruit_x, general_fruit_y
@@ -146,16 +148,20 @@ def random_fruit(pos):
     set_obj_coordinates(general_fruit, general_fruit_x, general_fruit_y)
 
 
+player_record = 0
 img_names = ["apple", "banana", "grape", "avocado"]
 for i in range(len(fruits_imgs)):
     for j in range(3):
         fruits_imgs[i][j] = img(img_names[i] + str(j + 1))
 
+
 def draw_fruits(rand_num, aux):
     screen.blit(fruits_imgs[rand_num][aux], general_fruit)
 
+
 def game_loop():
-    global x_move, y_move, game_close, snake_len, general_fruit_x, general_fruit_y, snake_img1, snake_img2, snake_img3
+    global x_move, y_move, game_close, snake_len, general_fruit_x, general_fruit_y, snake_img1, snake_img2, snake_img3,\
+        player_record
     set_obj_coordinates(snake, center[0] - snake.w, center[1] - snake.h)
     game_close = False
     game_over = False
@@ -173,6 +179,10 @@ def game_loop():
     while not game_close:
         while game_over:
             screen.fill(COLOR_LIGHT_BLUE)
+            if snake_len - 1 > player_record:
+                player_record = snake_len - 1
+            msg(continue_msg, "Your record: {}".format(player_record),
+                (center[0] - continue_msg.size("Your record: *")[0] / 2, snake.w))
             msg(game_over_font, "Game Over",
                 (center[0] - game_over_font.size("Game Over")[0] / 2, center[1] - window[1] // 4))
             msg(continue_msg, "Q-Quit/E-Play again",
@@ -192,7 +202,8 @@ def game_loop():
         screen.fill(COLOR_LIGHT_BLUE)
         # blit fruit
         draw_fruits(random_ind, frame_aux)
-        msg(continue_msg, "Score: {}".format(snake_len-1), (center[0] - continue_msg.size("Score: *")[0]/2, snake.w))
+        msg(continue_msg, "Score: {}".format(snake_len - 1),
+            (center[0] - continue_msg.size("Score: *")[0] / 2, snake.w))
         frame_aux += 1
         if frame_aux > 2:
             frame_aux = 0
@@ -212,7 +223,7 @@ def game_loop():
         snake_pos.insert(0, snake_head)
 
         if len(snake_pos) > snake_len:
-            del snake_pos[len(snake_pos)-1]
+            del snake_pos[len(snake_pos) - 1]
 
         for x in snake_pos[1:]:
             if x == snake_head:
@@ -229,7 +240,7 @@ def game_loop():
             apple_sound.play()
         pygame.display.update()
         # Update screen
-        pygame.time.delay(70)
+        pygame.time.delay(90)
 
     pygame.quit()
     quit()
