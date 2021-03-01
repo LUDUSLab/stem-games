@@ -1,5 +1,6 @@
 import pygame
 from random import randrange, randint
+from itertools import cycle
 
 pygame.init()
 
@@ -45,10 +46,8 @@ snake_imgs = []
 for i in range(4):
     aux = []
     for j in range(3):
-        aux.append(img("snake_" + snake_colors[i] + str(j+1)))
+        aux.append(img("snake_" + snake_colors[i] + str(j + 1)))
     snake_imgs.append(aux)
-
-
 snake = snake_imgs[0][0].get_rect()
 
 # Fruits properties
@@ -89,6 +88,15 @@ def random_fruit(pos):
             break  # If not, we are done
     set_obj_coordinates(general_fruit, general_fruit_x, general_fruit_y)  # set fruit random position
 
+# Blink text effect variables
+BLINK_EVENT = pygame.USEREVENT + 0
+on_text_surface = continue_msg.render("Q-Quit/E-Play again", True, COLOR_LIGHT_GREY)
+blink_rect = on_text_surface.get_rect()
+blink_rect.center = screen.get_rect().center
+off_text_surface = pygame.Surface(blink_rect.size)
+off_text_surface.fill(COLOR_LIGHT_BLUE)
+blink_surfaces = cycle([on_text_surface, off_text_surface])
+pygame.time.set_timer(BLINK_EVENT, 580)
 
 # Main game loop
 def game_loop():
@@ -108,6 +116,7 @@ def game_loop():
             aux1.append(img("snake_" + snake_colors[n] + str(m + 1)))
         snake_imgs[n] = aux1
     random_fruit(snake_pos)
+    blink_surface = next(blink_surfaces)
     # The game is not closed, so we either play again or leave the game
     while not game_close:
         while game_over:  # When the snake collides with herself or with the wall, the game is over
@@ -118,20 +127,27 @@ def game_loop():
                 (center[0] - continue_msg.size("Your record: *")[0] / 2, snake.w))
             msg(game_over_font, "Game Over",
                 (center[0] - game_over_font.size("Game Over")[0] / 2, center[1] - window[1] // 4))
-            msg(continue_msg, "Q-Quit/E-Play again",
-                (center[0] - continue_msg.size("Q-Quit/E-Play Again")[0] / 2, center[1]))
-            pygame.display.update()
             for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    quit()
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_q:
                         quit()
                     if event.key == pygame.K_e:
                         game_loop()
-                if event.type == pygame.QUIT:
-                    quit()
+                if event.type == BLINK_EVENT:
+                    blink_surface = next(blink_surfaces)
+
+            # Displays blink message on the screen
+            screen.blit(blink_surface, blink_rect)
+            pygame.display.flip()
+            if blink_surface == on_text_surface:
+                pygame.time.wait(300)
+            game_clock.tick(60)
         game_clock.tick(10)
         screen.fill(COLOR_LIGHT_BLUE)
         screen.blit(fruits_imgs[random_ind2][frame_aux], general_fruit)
+        # Displays score on the game screen
         msg(continue_msg, "Score: {}".format(snake_len - 1),
             (center[0] - continue_msg.size("Score: *")[0] / 2, snake.w))
         # Auxiliary variables
@@ -218,7 +234,7 @@ def game_loop():
                 rotate_imgs(180, random_ind1)
             if y_move < 0:
                 pass
-        pygame.display.update()
+        pygame.display.flip()
     pygame.quit()
     quit()
 
