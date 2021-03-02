@@ -18,27 +18,34 @@ pygame.display.set_caption("PySnake")
 game_clock = pygame.time.Clock()
 player_record = 0
 
+
 # Fonts
 def font(fontsize):
     font_path = "./assets/PressStart2P.ttf"
     return pygame.font.Font(font_path, fontsize)
+
+
 game_over_font = font(64)
 continue_msg = font(25)
+
 
 # Create image
 def img(name):
     img_path = "./assets/natanael.lucena_" + name + ".png"
     return pygame.image.load(img_path).convert_alpha()
 
+
 # Set object coordinates
 def set_obj_coordinates(obj, x, y):
     obj.x = x
     obj.y = y
 
+
 # Display message on screen
 def msg(fnt, message, pos):
     txt = fnt.render(message, True, COLOR_LIGHT_GREY)
     screen.blit(txt, pos)
+
 
 # Snake properties
 snake_colors = ["red", "yellow", "purple", "green"]
@@ -59,11 +66,13 @@ for i in range(len(fruits_imgs)):
     for j in range(3):
         fruits_imgs[i].insert(j, img(img_names[i] + str(j + 1)))
 
+
 # Rotates the snake image by the given angle
 def rotate_imgs(angle, current_snake):
     global snake_imgs
     for k in range(3):
         snake_imgs[current_snake][k] = pygame.transform.rotate(snake_imgs[current_snake][k], angle)
+
 
 # Does what needs to be done when game is over
 def game_over_treatment():
@@ -71,22 +80,24 @@ def game_over_treatment():
     pygame.mixer.music.stop()
     return True
 
+
 # Sounds
 apple_sound = pygame.mixer.Sound('./assets/natanael.lucena.apple_crunch.wav')
 game_over_sound = pygame.mixer.Sound('./assets/natanael.lucena.game_over.wav')
 pygame.mixer.music.load('./assets/natanael.lucena.background_music.mp3')
 
+
 # Function to randomly spawn a fruit so that it will not be in the same position as the snake
-def random_fruit(pos):
-    global general_fruit_x, general_fruit_y
+def random_fruit(body_pos):
+    global general_fruit_x, general_fruit_y  # Fruit rectangle coordinates
     while True:
         general_fruit_x = randrange(window[0] // snake.w) * snake.w
         general_fruit_y = randrange(window[1] // snake.h) * snake.h
-        if len(list(filter(lambda z: pos == (general_fruit_x, general_fruit_y), pos))) > 0:
-            continue  # If fruit spawns position is the same position as a snake body, we continue the loop
-        else:
-            break  # If not, we are done
+        if not any(pos == (general_fruit_x, general_fruit_y) for pos in
+                   body_pos):  # Checks if the fruit spawn position is not the same as the snake's body
+            break
     set_obj_coordinates(general_fruit, general_fruit_x, general_fruit_y)  # set fruit random position
+
 
 # Blink text effect variables
 BLINK_EVENT = pygame.USEREVENT + 0
@@ -98,6 +109,7 @@ off_text_surface.fill(COLOR_LIGHT_BLUE)
 blink_surfaces = cycle([on_text_surface, off_text_surface])
 pygame.time.set_timer(BLINK_EVENT, 580)
 
+
 # Main game loop
 def game_loop():
     global general_fruit_x, general_fruit_y, player_record, snake_imgs
@@ -105,7 +117,7 @@ def game_loop():
     game_close, game_over = False, False
     pygame.mixer.music.play(-1)
     x_move, y_move = 0, 0
-    snake_pos = []
+    snake_pos = [(window[0] // 2, window[1] // 2)]
     snake_len = 1
     random_ind1 = randint(0, 3)
     random_ind2 = randint(0, 3)
@@ -237,5 +249,6 @@ def game_loop():
         pygame.display.flip()
     pygame.quit()
     quit()
+
 
 game_loop()  # Main function called
