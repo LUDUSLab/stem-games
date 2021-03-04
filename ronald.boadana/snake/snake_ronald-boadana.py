@@ -24,12 +24,15 @@ screen = pygame.display.set_mode(screen_size)
 pygame.display.set_caption('Snake v0.9')
 
 # drawing snake
-snake = [(200, 200), (230, 200), (260, 200)]
-snake_head = pygame.image.load('../snake/assets/ronald.boadana_snakehead-right.png')
-snake_body = pygame.Surface((30, 30))
+snake = [(200, 200), (220, 200), (240, 200)]
+snake_head = pygame.image.load('../snake/assets/ronald.boadana_snakehead.png')
+snake_head = pygame.transform.scale(snake_head, [20, 20])
+snake_body = pygame.image.load('../snake/assets/ronald.boadana_snake_body_up_down.png')
+snake_body = pygame.transform.scale(snake_body, [20, 20])
 
 # drawing apple
 apple = pygame.image.load('../snake/assets/ronald.boadana_apple.png')
+apple = pygame.transform.scale(apple, [20, 20])
 apple_pos = ((random.randint(60, 560) // 10 * 10), (random.randint(60, 560) // 10 * 10))
 
 # sounds
@@ -64,16 +67,14 @@ LEFT = 3
 direction = LEFT
 
 
-def collision(c1, c2):
-    return (c1[0] == c2[0]) and (c1[1] == c2[1])
-
-
+# apple randomness positions
 def apple_randomness_movement():
     apple_x = (random.randint(60, 560) // 10 * 10)
     apple_y = (random.randint(60, 560) // 10 * 10)
     return apple_x, apple_y
 
 
+# drawing the borders
 def draw_borders():
     pygame.draw.line(screen, color_white, [10, 50], [590, 50], 3)
     pygame.draw.line(screen, color_white, [10, 590], [590, 590], 3)
@@ -84,7 +85,7 @@ def draw_borders():
 game_on = True
 game_clock = pygame.time.Clock()
 while game_on:
-    game_clock.tick(90)
+    game_clock.tick(15)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             game_on = False
@@ -100,55 +101,78 @@ while game_on:
                 direction = RIGHT
 
         # checking the score
-        if player_score < max_score:
+        if snake[0] == apple_pos:
+            apple_pos = apple_randomness_movement()
+            eating_apple_sound.play()
+            snake.append((600, 600))
+            player_score += 1
 
-            if collision(snake[0], apple_pos):
-                apple_pos = apple_randomness_movement()
-                snake.append((600, 600))
-                player_score += 1
+        # updating score
+        score_text = score_font.render('SCORE:' + str(player_score), True, color_white, color_black)
 
-            if direction == UP:
-                snake[0] = (snake[0][0], snake[0][1] - 10)
-                snake_head = pygame.image.load('../snake/assets/ronald.boadana_snakehead_up.png')
-            if direction == DOWN:
-                snake[0] = (snake[0][0], snake[0][1] + 10)
-                snake_head = pygame.image.load('../snake/assets/ronald.boadana_snakehead.png')
-            if direction == RIGHT:
-                snake[0] = (snake[0][0] + 10, snake[0][1])
-                snake_head = pygame.image.load('../snake/assets/ronald.boadana_snakehead-right.png')
-            if direction == LEFT:
-                snake[0] = (snake[0][0] - 10, snake[0][1])
-                snake_head = pygame.image.load('../snake/assets/ronald.boadana_snakehead-left.png')
-
-            for i in range(len(snake) - 1, 0, 1):
-                snake[i] = (snake[i-1][0], snake[i-1][1])
-
-            # updating score
-            score_text = score_font.render('SCORE:' + str(player_score), True, color_white, color_black)
-
-    # updating screen
-    screen.blit(score_text, score_text_rect)
-    screen.blit(apple, apple_pos)
-    snake_body.fill((0, 0, 0))
-
-    for pos in snake:
-        screen.blit(snake_body, pos)
-    screen.blit(snake_head, snake[0])
-
-    # drawing the borders
-    draw_borders()
+    # defeat condition
+    if (snake[0][0] < 0) or (snake[0][1] < 40) or (snake[0][0] > 570) or (snake[0][1] > 570):
+        screen.fill(color_black)
+        screen.blit(defeat_text, defeat_text_rect)
+        if playing_sound == 0:
+            game_over_sound.play()
+            playing_sound += 1
 
     # victory condition
-    if player_score == 10:
+    elif player_score == 10:
         screen.fill(color_black)
         screen.blit(victory_text, victory_text_rect)
         if playing_sound == 0:
             victory_sound.play()
             playing_sound += 1
 
+    else:
+        if direction == UP:
+            snake[0] = (snake[0][0], snake[0][1] - 10)
+            snake_head = pygame.image.load('../snake/assets/ronald.boadana_snakehead_up.png')
+            snake_head = pygame.transform.scale(snake_head, [20, 20])
+            snake_body = pygame.image.load('../snake/assets/ronald.boadana_snake_body_up_down.png')
+            snake_body = pygame.transform.scale(snake_body, [20, 20])
+            for i in range(len(snake) - 1, 0, -1):
+                snake[i] = (snake[i - 1][0], snake[i - 1][1])
+        if direction == DOWN:
+            snake[0] = (snake[0][0], snake[0][1] + 10)
+            snake_head = pygame.image.load('../snake/assets/ronald.boadana_snakehead.png')
+            snake_head = pygame.transform.scale(snake_head, [20, 20])
+            snake_body = pygame.image.load('../snake/assets/ronald.boadana_snake_body_up_down.png')
+            snake_body = pygame.transform.scale(snake_body, [20, 20])
+            for i in range(len(snake) - 1, 0, -1):
+                snake[i] = (snake[i - 1][0], snake[i - 1][1])
+        if direction == RIGHT:
+            snake[0] = (snake[0][0] + 10, snake[0][1])
+            snake_head = pygame.image.load('../snake/assets/ronald.boadana_snakehead-right.png')
+            snake_head = pygame.transform.scale(snake_head, [20, 20])
+            snake_body = pygame.image.load('../snake/assets/ronald.boadana_snake_body_right_left.png')
+            snake_body = pygame.transform.scale(snake_body, [20, 20])
+            for i in range(len(snake) - 1, 0, -1):
+                snake[i] = (snake[i - 1][0], snake[i - 1][1])
+        if direction == LEFT:
+            snake[0] = (snake[0][0] - 10, snake[0][1])
+            snake_head = pygame.image.load('../snake/assets/ronald.boadana_snakehead-left.png')
+            snake_head = pygame.transform.scale(snake_head, [20, 20])
+            snake_body = pygame.image.load('../snake/assets/ronald.boadana_snake_body_right_left.png')
+            snake_body = pygame.transform.scale(snake_body, [20, 20])
+            for i in range(len(snake) - 1, 0, -1):
+                snake[i] = (snake[i - 1][0], snake[i - 1][1])
+
+        # updating screen
+        screen.blit(score_text, score_text_rect)
+        screen.blit(apple, apple_pos)
+
+        for pos in snake:
+            screen.blit(snake_body, pos)
+        screen.blit(snake_head, snake[0])
+
+        # drawing the borders
+        draw_borders()
+
     # updating screen
-    pygame.display.flip()
+    pygame.display.update()
     screen.fill(color_black)
-    game_clock.tick(90)
 
 pygame.quit()
