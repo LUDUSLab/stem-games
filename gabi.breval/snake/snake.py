@@ -37,7 +37,7 @@ GREEN = (0, 255, 0)
 RED = (255, 0, 0)
 
 # score text --------------------------------------------------------------------------------------------------- #
-score_font = pygame.font.Font('C:/Users/55929/Documents/STEM/stem-games/gabi.breval/snake/assets/gabi.brevalFont.otf',
+score_font = pygame.font.Font('/home/gabibreval/Documentos/stem-games/gabi.breval/snake/assets/gabi.brevalFont.otf',
                               35)
 score_text = score_font.render(' 0', True, COLOR_WHITE, COLOR_BLACK)
 score_text_rect = score_text.get_rect()
@@ -45,7 +45,7 @@ score_text_rect.center = (WIDTH / 2, 30)
 score = 0
 
 # Game over text ----------------------------------------------------------------------------------------------- #
-lose_font = pygame.font.Font('C:/Users/55929/Documents/STEM/stem-games/gabi.breval/snake/assets/gabi.brevalFont.otf',
+lose_font = pygame.font.Font('/home/gabibreval/Documentos/stem-games/gabi.breval/snake/assets/gabi.brevalFont.otf',
                              100)
 lose_text = lose_font.render('Game over!', True, COLOR_WHITE, COLOR_BLACK)
 lose_text_rect = score_text.get_rect()
@@ -62,7 +62,7 @@ LEFT = 3
 Games and screens are represented by matrices
 Every sequence is a tuple
 '''
-snake_head = pygame.image.load('C:/Users/55929/Documents/STEM/stem-games/gabi.breval/snake/assets/'
+snake_head = pygame.image.load('/home/gabibreval/Documentos/stem-games/gabi.breval/snake/assets/'
                                'snake_head_gabi.breval.png')
 snake = [(200, 200), (220, 200), (240, 200)]  # every sequence is a tuple
 snake_head_pos = (snake[0][0] - 20, snake[0][1])
@@ -71,10 +71,10 @@ snake_skin = pygame.Surface((grid_size, grid_size))
 snake_skin.fill((0, 255, 0))  # color
 
 # Sound ------------------------------------------------------------------------------------------------------ #
-munch_sound_effect = pygame.mixer.Sound('C:/Users/55929/Documents/STEM/stem-games/gabi.breval/snake'
-                                        '/assets/gabi.breal.munch-sound.mp3')
-game_over_effect = pygame.mixer.Sound(
-    'C:/Users/55929/Documents/STEM/stem-games/gabi.breval/snake/assets/batida_gabi.breval.mp3')
+munch_sound_effect = pygame.mixer.Sound('/home/gabibreval/Documentos/stem-games/gabi.breval/snake/assets/'
+                                        'gabi.breval.munch-sound.wav')
+game_over_effect = pygame.mixer.Sound('/home/gabibreval/Documentos/stem-games/'
+                                      'gabi.breval/snake/assets/batida_gabi.breval.wav')
 
 # Rotation  -------------------------------------------------------------------------------------------------- #
 snake_copy = snake_head.copy()
@@ -84,17 +84,17 @@ snake_head_right = pygame.transform.rotate(snake_copy, 270)
 snake_head_up = pygame.transform.rotate(snake_copy, 0)
 
 # Apple ------------------------------------------------------------------------------------------------------ #
-apple_1_score = pygame.image.load('C:/Users/55929/Documents/STEM/stem-games/gabi.breval/snake/assets/'
+apple_1_score = pygame.image.load('/home/gabibreval/Documentos/stem-games/gabi.breval/snake/assets/'
                                   'gabi.breval.maca.png')
 apple_1_score = pygame.transform.scale(apple_1_score, [20, 20])
 apple_1_score_y = 10
-apple_food = pygame.image.load('C:/Users/55929/Documents/STEM/stem-games/gabi.breval/snake/assets/'
+apple_food = pygame.image.load('/home/gabibreval/Documentos/stem-games/gabi.breval/snake/assets/'
                                'gabi.breval.maca.png')
 apple_food = pygame.transform.scale(apple_food, [20, 20])
 apple_food_pos = on_grid_random()
 
 # Grass -------------------------------------------------------------------------------------------------------- #
-grass = pygame.image.load('C:/Users/55929/Documents/STEM/stem-games/gabi.breval/snake/assets/'
+grass = pygame.image.load('/home/gabibreval/Documentos/stem-games/gabi.breval/snake/assets/'
                           'folha.png')
 
 
