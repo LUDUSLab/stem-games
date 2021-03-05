@@ -16,6 +16,27 @@ pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))  # width, height, we are matrices
 pygame.display.set_caption('Snake')
 
+def address(name, genre):
+    skins = "/home/gabibreval/Documentos/stem-games/gabi.breval/snakepro/assets/skins/"
+    sounds = "/home/gabibreval/Documentos/stem-games/gabi.breval/snakepro/assets/sounds/"
+    fonts = "/home/gabibreval/Documentos/stem-games/gabi.breval/snakepro/assets/fonts/"
+
+    if genre == "skin":
+        directory = skins + name
+        print(directory)
+        return directory
+    elif genre == "sound":
+        directory = sounds + name
+        print(directory)
+        return directory
+
+    elif genre == "font":
+        directory = fonts + name
+        print(directory)
+        return directory
+
+
+
 
 def on_grid_random():
     x = random.randint(25, 575)
@@ -44,17 +65,15 @@ GREEN = (0, 255, 0)
 RED = (255, 0, 0)
 
 # score text --------------------------------------------------------------------------------------------------- #
-score_font = pygame.font.Font('/home/gabibreval/Documentos/stem-games/gabi.breval/snake/assets/'
-                              'gabi.brevalFont.otf',
-                              35)
+font = address('gabi.brevalFont.otf', 'font')
+score_font = pygame.font.Font(address('gabi.brevalFont.otf', 'font'), 35)
 score_text = score_font.render(' 0', True, COLOR_WHITE, COLOR_BLACK)
 score_text_rect = score_text.get_rect()
 score_text_rect.center = (WIDTH / 2, 30)
 score = 0
 
 # Game over text ----------------------------------------------------------------------------------------------- #
-lose_font = pygame.font.Font('/home/gabibreval/Documentos/stem-games/gabi.breval/snake/assets/'
-                             'gabi.brevalFont.otf',
+lose_font = pygame.font.Font(address('gabi.brevalFont.otf', 'font'),
                              100)
 lose_text = lose_font.render('Game over!', True, COLOR_WHITE, COLOR_BLACK)
 lose_text_rect = score_text.get_rect()
@@ -71,19 +90,17 @@ LEFT = 3
 Games and screens are represented by matrices
 Every sequence is a tuple
 '''
-snake_head = pygame.image.load('/home/gabibreval/Documentos/stem-games/gabi.breval/snake/assets/skins/'
-                               'snake_head_gabi.breval.png')
+
+snake_head = pygame.image.load(address('snake_head_gabi.breval.png', 'skin'))
 snake = [(200, 200), (220, 200), (240, 200)]  # every sequence is a tuple
 snake_head_pos = (snake[0][0] - 20, snake[0][1])
 snake_head = pygame.transform.scale(snake_head, [20, 20])
 snake_skin = pygame.Surface((grid_size, grid_size))
 snake_skin.fill((0, 255, 0))  # color
-
+  
 # Sound ------------------------------------------------------------------------------------------------------ #
-munch_sound_effect = pygame.mixer.Sound('/home/gabibreval/Documentos/stem-games/gabi.breval/snake/assets/sounds/'
-                                        'gabi.breval.munch-sound.wav')
-game_over_effect = pygame.mixer.Sound('/home/gabibreval/Documentos/stem-games/'
-                                      'gabi.breval/snake/assets/sounds/batida_gabi.breval.wav')
+munch_sound_effect = pygame.mixer.Sound(address('gabi.breval.munch-sound.wav', 'sound'))
+game_over_effect = pygame.mixer.Sound(address('batida_gabi.breval.wav', 'sound'))
 
 # Rotation  -------------------------------------------------------------------------------------------------- #
 snake_copy = snake_head.copy()
@@ -93,12 +110,10 @@ snake_head_right = pygame.transform.rotate(snake_copy, 270)
 snake_head_up = pygame.transform.rotate(snake_copy, 0)
 
 # Apple ------------------------------------------------------------------------------------------------------ #
-apple_1_score = pygame.image.load('/home/gabibreval/Documentos/stem-games/gabi.breval/snake/assets/skins/'
-                                  'gabi.breval.maca.png')
+apple_1_score = pygame.image.load(address('gabi.breval.maca.png', 'skin'))
 apple_1_score = pygame.transform.scale(apple_1_score, [20, 20])
 apple_1_score_y = 10
-apple_food = pygame.image.load('/home/gabibreval/Documentos/stem-games/gabi.breval/snake/assets/skins/'
-                               'gabi.breval.maca.png')
+apple_food = pygame.image.load(address('gabi.breval.maca.png', 'skin'))
 apple_food = pygame.transform.scale(apple_food, [20, 20])
 apple_food_pos = on_grid_random()
 
@@ -112,8 +127,7 @@ def after_collision():
     return apple_food_pos
 
 # Grass -------------------------------------------------------------------------------------------------------- #
-grass = pygame.image.load('/home/gabibreval/Documentos/stem-games/gabi.breval/snake/assets/skins/'
-                          'gabi.breval.folha.png')
+grass = pygame.image.load(address('gabi.breval.folha.png', 'skin'))
 
 
 my_direction = LEFT
