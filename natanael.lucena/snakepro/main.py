@@ -84,7 +84,7 @@ def game_over_treatment():
 # Sounds
 apple_sound = pygame.mixer.Sound('./assets/natanael.lucena.apple_crunch.wav')
 game_over_sound = pygame.mixer.Sound('./assets/natanael.lucena.game_over.wav')
-pygame.mixer.music.load('./assets/natanael.lucena.background_music.mp3')
+pygame.mixer.music.load('./assets/natanael.lucena.background_music.wav')
 
 
 # Function to randomly spawn a fruit so that it will not be in the same position as the snake
