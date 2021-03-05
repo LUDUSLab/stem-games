@@ -166,7 +166,7 @@ def game_loop():
         frame_aux += 1
         if frame_aux > 2:
             frame_aux = 0
-        fruit_eated = (snake.x == general_fruit_x and snake.y == general_fruit_y)
+        fruit_eaten = (snake.x == general_fruit_x and snake.y == general_fruit_y)
         # Listen to players key and rotate the snake image to the respective direction
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -229,8 +229,8 @@ def game_loop():
             else:
                 screen.blit(snake_imgs[random_ind1][1], (x[0], x[1]))
 
-        # Fruit eated
-        if fruit_eated:
+        # Fruit eaten
+        if fruit_eaten:
             random_ind1 = random_ind2
             snake_len += 1
             apple_sound.play()
