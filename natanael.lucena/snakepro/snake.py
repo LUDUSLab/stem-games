@@ -1,3 +1,6 @@
+from config import img
+from pygame import transform
+
 # Snake properties
 snake_colors = ["red", "yellow", "purple", "green"]
 snake_imgs = []
@@ -8,8 +11,8 @@ for i in range(4):
     snake_imgs.append(aux)
 snake = snake_imgs[0][0].get_rect()
 
+
 # Rotates the snake image by the given angle
 def rotate_imgs(angle, current_snake):
-    global snake_imgs
     for k in range(3):
-        snake_imgs[current_snake][k] = pygame.transform.rotate(snake_imgs[current_snake][k], angle)
+        snake_imgs[current_snake][k] = transform.rotate(snake_imgs[current_snake][k], angle)

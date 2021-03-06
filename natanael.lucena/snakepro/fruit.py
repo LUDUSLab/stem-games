@@ -1,4 +1,7 @@
 from random import randrange
+from game import img, set_obj_coordinates
+from config import window
+from snake import snake
 
 # Fruits properties
 fruits_imgs = [[] for x in range(4)]
