@@ -1,4 +1,6 @@
 import pygame
+from random import randint
+from itertools import cycle
 
 # Loop variables
 game_clock = time.Clock()
