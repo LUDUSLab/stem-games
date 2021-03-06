@@ -9,8 +9,7 @@ COLOR_LIGHT_GREY = (230, 230, 230)
 COLOR_LIGHT_BLUE = (51, 153, 255)
 
 # Window
-window = (960, 720)
-center = (window[0] // 2, window[1] // 2)
+window = (736, 480)
 screen = pygame.display.set_mode(window)
 pygame.display.set_caption("PySnake")
 
@@ -113,7 +112,7 @@ pygame.time.set_timer(BLINK_EVENT, 580)
 # Main game loop
 def game_loop():
     global general_fruit_x, general_fruit_y, player_record, snake_imgs
-    set_obj_coordinates(snake, center[0] - snake.w, center[1] - snake.h)
+    set_obj_coordinates(snake, (window[0] - snake.w)//2, (window[1] - snake.h)//2)
     game_close, game_over = False, False
     pygame.mixer.music.play(-1)
     x_move, y_move = 0, 0
@@ -136,9 +135,9 @@ def game_loop():
             if snake_len - 1 > player_record:
                 player_record = snake_len - 1
             msg(continue_msg, "Your record: {}".format(player_record),
-                (center[0] - continue_msg.size("Your record: *")[0] / 2, snake.w))
+                (window[0]//2 - continue_msg.size("Your record: *")[0] / 2, snake.w))
             msg(game_over_font, "Game Over",
-                (center[0] - game_over_font.size("Game Over")[0] / 2, center[1] - window[1] // 4))
+                (window[0]//2 - game_over_font.size("Game Over")[0] / 2, window[1]//2 - window[1] // 4))
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     quit()
@@ -161,7 +160,7 @@ def game_loop():
         screen.blit(fruits_imgs[random_ind2][frame_aux], general_fruit)
         # Displays score on the game screen
         msg(continue_msg, "Score: {}".format(snake_len - 1),
-            (center[0] - continue_msg.size("Score: *")[0] / 2, snake.w))
+            (window[0]//2 - continue_msg.size("Score: *")[0] / 2, snake.w))
         # Auxiliary variables
         frame_aux += 1
         if frame_aux > 2:
@@ -191,7 +190,7 @@ def game_loop():
                         rotate_imgs(90, random_ind1)
                     elif x_move < 0:
                         rotate_imgs(-90, random_ind1)
-                    y_move = -snake.w
+                    y_move = -snake.h
                     x_move = 0
                 elif event.key == pygame.K_s and y_move >= 0:
                     if x_move > 0 and y_move == 0:
@@ -200,7 +199,7 @@ def game_loop():
                         rotate_imgs(90, random_ind1)
                     elif x_move == 0 and y_move == 0:
                         rotate_imgs(180, random_ind1)
-                    y_move = snake.w
+                    y_move = snake.h
                     x_move = 0
         # Snake moves
         snake.x += x_move
@@ -232,8 +231,8 @@ def game_loop():
         # Fruit eaten
         if fruit_eaten:
             random_ind1 = random_ind2
-            snake_len += 1
             apple_sound.play()
+            snake_len += 1
             random_fruit(snake_pos)
             for m in range(3):
                 snake_imgs[random_ind1][m] = img("snake_" + snake_colors[random_ind1] + str(m + 1))  # Reset snake image
