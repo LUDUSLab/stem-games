@@ -58,14 +58,14 @@ def collision(c1, c2):
     return c1[0] == c2[0] and c1[1] == c2[1]
 
 
-def missiles_pos():
-    global obstacle_pos
-    x, y = obstacle_pos
+def missiles_pos(position):
+    x, y = position
     x -= 10
     if x < 0:
         x = 800
         y = random.randint(50, 530)
     return x, y
+
 
 def on_grid_random():
     x = random.randint(25, 575)
@@ -184,6 +184,23 @@ obstacle = pygame.image.load(address('gabi.breval.misseis.png', 'skin'))
 obstacle = pygame.transform.scale(obstacle, [60, 60])
 obstacle_pos = (750, 300)  # where does it start
 
+obstacle2 = pygame.image.load(address('gabi.breval.misseis.amarelo.png', 'skin'))
+obstacle2 = pygame.transform.scale(obstacle, [60, 60])
+obstacle_pos2 = (750, 150)  # where does it start
+
+obstacle3 = pygame.image.load(address('gabi.breval.misseis.amarelo.png', 'skin'))
+obstacle3 = pygame.transform.scale(obstacle, [60, 60])
+obstacle_pos3 = (750, 200)  # where does it start
+
+obstacle4 = pygame.image.load(address('gabi.breval.misseis.amarelo.png', 'skin'))
+obstacle4 = pygame.transform.scale(obstacle, [60, 60])
+obstacle_pos4 = (750, 340)  # where does it start
+
+obstacle5 = pygame.image.load(address('gabi.breval.misseis.png', 'skin'))
+obstacle5 = pygame.transform.scale(obstacle, [60, 60])
+obstacle_pos5 = (750, 100)  # where does it start
+
+
 # Rotation  -------------------------------------------------------------------------------------------------- #
 snake_copy = snake_head.copy()
 snake_head_down = pygame.transform.rotate(snake_copy, 180)
@@ -241,17 +258,22 @@ while True:
                     my_direction = RIGHT
 
     snake_moviment()
-    obstacle_pos = missiles_pos()
+    obstacle_pos = missiles_pos(obstacle_pos)
 
     # Checking collision --------------------------------------------------------------------------------------------- #
     cobra = pygame.draw.rect(screen, (0, 255, 0), (snake[0][0], snake[0][1], 32, 32))
     fruit = pygame.draw.rect(screen, (255, 0, 0), (apple_food_pos[0], apple_food_pos[1], 32, 32))
-    bomb = pygame.draw.rect(screen, (255, 0, 0), (obstacle_pos[0], obstacle_pos[1], 40, 40))
+    bomb1 = pygame.draw.rect(screen, (255, 0, 0), (obstacle_pos[0], obstacle_pos[1], 40, 40))
+    bomb2 = pygame.draw.rect(screen, (255, 0, 0), (obstacle_pos2[0], obstacle_pos2[1], 40, 40))
+    bomb3 = pygame.draw.rect(screen, (255, 0, 0), (obstacle_pos3[0], obstacle_pos3[1], 40, 40))
+    bomb4 = pygame.draw.rect(screen, (255, 0, 0), (obstacle_pos4[0], obstacle_pos4[1], 40, 40))
+    bomb5 = pygame.draw.rect(screen, (255, 0, 0), (obstacle_pos5[0], obstacle_pos5[1], 40, 40))
 
     if cobra.colliderect(fruit):
         after_collision()
 
-    if cobra.colliderect(bomb):
+    if cobra.colliderect(bomb1) or cobra.colliderect(bomb2) or cobra.colliderect(bomb3) or \
+            cobra.colliderect(bomb4) or cobra.colliderect(bomb5):
         died = True
         while died:
             game_over_screen()
@@ -312,6 +334,26 @@ while True:
     screen.blit(grass, ((770, 0), (550, 50)))
 
     pygame.draw.line(screen, COLOR_WHITE, [5, 50], [800, 50], 1)
+
+    if score > 2:
+        obstacle_pos2 = missiles_pos(obstacle_pos2)
+        screen.blit(obstacle2, obstacle_pos2)
+
+    if score > 6:
+        obstacle_pos3 = missiles_pos(obstacle_pos3)
+        screen.blit(obstacle3, obstacle_pos3)
+
+    if score > 12:
+        obstacle_pos3 = missiles_pos(obstacle_pos3)
+        screen.blit(obstacle3, obstacle_pos3)
+
+    if score > 18:
+        obstacle_pos3 = missiles_pos(obstacle_pos3)
+        screen.blit(obstacle3, obstacle_pos3)
+
+    if score > 24:
+        obstacle_pos3 = missiles_pos(obstacle_pos3)
+        screen.blit(obstacle3, obstacle_pos3)
 
     screen.blit(obstacle, obstacle_pos)
     screen.blit(apple_food, apple_food_pos)
