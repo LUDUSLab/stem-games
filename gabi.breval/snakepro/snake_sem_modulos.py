@@ -157,7 +157,7 @@ snake_skin = pygame.Surface((grid_size, grid_size))
 snake_skin.fill((0, 255, 0))  # color
 
 # Obstacles -------------------------------------------------------------------------------------------------- #
-obstacle = pygame.image.load(address('gabi.breval.bomba.png', 'skin'))
+obstacle = pygame.image.load(address('gabi.breval.misseis.png', 'skin'))
 obstacle = pygame.transform.scale(obstacle, [60, 60])
 obstacle_pos = on_grid_random()
 
