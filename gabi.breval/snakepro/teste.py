@@ -3,9 +3,10 @@
 from __future__ import absolute_import, division, print_function
 from itertools import cycle
 import pygame
+from snake_sem_modulos import address
 
 
-VISITOR_TTF_FILENAME = '/home/gabibreval/Documentos/stem-games/gabi.breval/snakepro/assets/fonts/gabi.brevalFont.otf'
+VISITOR_TTF_FILENAME = address('gabi.brevalFont.otf', 'font')
 BLINK_EVENT = pygame.USEREVENT + 0
 
 
