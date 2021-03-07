@@ -58,10 +58,34 @@ def collision(c1, c2):
     return c1[0] == c2[0] and c1[1] == c2[1]
 
 
+def missiles_pos():
+    global obstacle_pos, obstacle
+    obstacle_pos = (obstacle_pos[0][0] - 10, obstacle_pos[0][1])
+    #    if obstacle_pos[0][0] < 0:
+    # obstacle_pos = (0, obstacle_pos[0][1])
+
+    return obstacle_pos
+
+
 def on_grid_random():
     x = random.randint(25, 575)
     y = random.randint(50, 530)
     return x // 10 * 10, y // 10 * 10
+
+
+def snake_moviment():
+    global snake, my_direction
+    if my_direction == UP:  # shakes the snake´s head
+        snake[0] = (snake[0][0], snake[0][1] - 10)
+
+    if my_direction == DOWN:  # shakes the snake´s head
+        snake[0] = (snake[0][0], snake[0][1] + 10)
+
+    if my_direction == RIGHT:  # shakes the snake´s head
+        snake[0] = (snake[0][0] + 10, snake[0][1])
+
+    if my_direction == LEFT:  # shakes the snake´s head
+        snake[0] = (snake[0][0] - 10, snake[0][1])
 
 
 def address(name, genre):
@@ -159,7 +183,7 @@ snake_skin.fill((0, 255, 0))  # color
 # Obstacles -------------------------------------------------------------------------------------------------- #
 obstacle = pygame.image.load(address('gabi.breval.misseis.png', 'skin'))
 obstacle = pygame.transform.scale(obstacle, [60, 60])
-obstacle_pos = on_grid_random()
+obstacle_pos = (0, 300)
 
 # Rotation  -------------------------------------------------------------------------------------------------- #
 snake_copy = snake_head.copy()
@@ -217,17 +241,7 @@ while True:
                 else:
                     my_direction = RIGHT
 
-    if my_direction == UP:  # shakes the snake´s head
-        snake[0] = (snake[0][0], snake[0][1] - 10)
-
-    if my_direction == DOWN:  # shakes the snake´s head
-        snake[0] = (snake[0][0], snake[0][1] + 10)
-
-    if my_direction == RIGHT:  # shakes the snake´s head
-        snake[0] = (snake[0][0] + 10, snake[0][1])
-
-    if my_direction == LEFT:  # shakes the snake´s head
-        snake[0] = (snake[0][0] - 10, snake[0][1])
+    snake_moviment()
 
     # Checking collision --------------------------------------------------------------------------------------------- #
     cobra = pygame.draw.rect(screen, (0, 255, 0), (snake[0][0], snake[0][1], 32, 32))
