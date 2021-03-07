@@ -59,13 +59,13 @@ def collision(c1, c2):
 
 
 def missiles_pos():
-    global obstacle_pos, obstacle
-    obstacle_pos = (obstacle_pos[0][0] - 10, obstacle_pos[0][1])
-    #    if obstacle_pos[0][0] < 0:
-    # obstacle_pos = (0, obstacle_pos[0][1])
-
-    return obstacle_pos
-
+    global obstacle_pos
+    x, y = obstacle_pos
+    x -= 10
+    if x < 0:
+        x = 800
+        y = random.randint(50, 530)
+    return x, y
 
 def on_grid_random():
     x = random.randint(25, 575)
@@ -111,13 +111,12 @@ def address(name, genre):
 
 
 def after_collision():
-    global score, apple_food_pos, snake, obstacle_pos
+    global score, apple_food_pos, snake
     apple_food_pos = on_grid_random()  # when there´s a collision the apple changes its position
-    obstacle_pos = on_grid_random()
     munch_sound_effect.play()  # sound
     score += 1
     snake.append((0, 0))
-    return apple_food_pos, obstacle_pos
+    return apple_food_pos
 
 
 def restart():
@@ -183,7 +182,7 @@ snake_skin.fill((0, 255, 0))  # color
 # Obstacles -------------------------------------------------------------------------------------------------- #
 obstacle = pygame.image.load(address('gabi.breval.misseis.png', 'skin'))
 obstacle = pygame.transform.scale(obstacle, [60, 60])
-obstacle_pos = (0, 300)
+obstacle_pos = (750, 300)  # where does it start
 
 # Rotation  -------------------------------------------------------------------------------------------------- #
 snake_copy = snake_head.copy()
@@ -242,6 +241,7 @@ while True:
                     my_direction = RIGHT
 
     snake_moviment()
+    obstacle_pos = missiles_pos()
 
     # Checking collision --------------------------------------------------------------------------------------------- #
     cobra = pygame.draw.rect(screen, (0, 255, 0), (snake[0][0], snake[0][1], 32, 32))
