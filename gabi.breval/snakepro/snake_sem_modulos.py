@@ -174,7 +174,11 @@ while True:
     if my_direction == LEFT:  # shakes the snake´s head
         snake[0] = (snake[0][0] - 10, snake[0][1])
 
-    if collision(snake[0], apple_food_pos):  # two tuples (first matrices´s line and apple food tuple)
+    # Checking collision --------------------------------------------------------------------------------------------- #
+    cobra = pygame.draw.rect(screen, (0, 255, 0), (snake[0][0], snake[0][1], 32, 32))
+    fruit = pygame.draw.rect(screen, (255, 0, 0), (apple_food_pos[0], apple_food_pos[1], 32, 32))
+
+    if cobra.colliderect(fruit):
         after_collision()
 
     # Checking if there was a collision with herself ---------------------------------------------------------------- #
