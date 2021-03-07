@@ -1,7 +1,7 @@
 import pygame
 import random
 import game
-import snake
+from snake import *
 
 from pygame.locals import *
 
@@ -13,6 +13,7 @@ grid_size = 20
 pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))  # width, height, we are matrices
 pygame.display.set_caption('Snake')
+
 
 
 def on_grid_random():
@@ -44,3 +45,37 @@ def after_collision():
     score += 1
     snake.append((0, 0))
     return apple_food_pos
+
+
+# Colors ------------------------------------------------------------------------------------------------------- #
+light_grey = (200, 200, 200)
+bg_color = pygame.Color('grey12')
+COLOR_BLACK = (0, 0, 0)
+COLOR_WHITE = (255, 255, 255)
+GREEN = (0, 255, 0)
+RED = (255, 0, 0)
+
+# score text --------------------------------------------------------------------------------------------------- #
+font = address('gabi.brevalFont.otf', 'font')
+score_font = pygame.font.Font(address('gabi.brevalFont.otf', 'font'), 35)
+score_text = score_font.render(' 0', True, COLOR_WHITE, COLOR_BLACK)
+score_text_rect = score_text.get_rect()
+score_text_rect.center = (WIDTH / 2, 30)
+score = 0
+
+# Game over text ----------------------------------------------------------------------------------------------- #
+lose_font = pygame.font.Font(address('gabi.brevalFont.otf', 'font'),
+                             100)
+lose_text = lose_font.render('Game over!', True, COLOR_WHITE, COLOR_BLACK)
+lose_text_rect = score_text.get_rect()
+lose_text_rect.center = (600, 350)
+# -------------------------------------------------------------------------------------------------------------- #
+
+# Sound ------------------------------------------------------------------------------------------------------ #
+munch_sound_effect = pygame.mixer.Sound(address('gabi.breval.munch-sound.wav', 'sound'))
+game_over_effect = pygame.mixer.Sound(address('batida_gabi.breval.wav', 'sound'))
+
+
+# Grass -------------------------------------------------------------------------------------------------------- #
+grass = pygame.image.load(address('gabi.breval.folha.png', 'skin'))
+
