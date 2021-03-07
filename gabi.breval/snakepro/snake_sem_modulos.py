@@ -120,13 +120,19 @@ def after_collision():
 
 
 def restart():
-    global score, snake, snake_head_pos, apple_food_pos, my_direction, died
+    global score, snake, snake_head_pos, apple_food_pos, my_direction, died, obstacle_pos, \
+        obstacle_pos2, obstacle_pos3, obstacle_pos4, obstacle_pos5
     score = 0
     snake.clear()  # limpando a lista
     snake = [(200, 200), (220, 200), (240, 200)]  # desenhando ela dnv
     my_direction = LEFT
     snake_head_pos = (snake[0][0] - 20, snake[0][1])
     apple_food_pos = on_grid_random()
+    obstacle_pos = (750, 300)
+    obstacle_pos2 = (750, 150)  # where does it start
+    obstacle_pos3 = (750, 200)  # where does it start
+    obstacle_pos4 = (750, 340)  # where does it start
+    obstacle_pos5 = (750, 100)  # where does it start
     died = False
 
 
