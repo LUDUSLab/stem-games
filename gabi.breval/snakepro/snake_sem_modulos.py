@@ -11,6 +11,12 @@ pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))  # width, height, we are matrices
 pygame.display.set_caption('Snake')
 
+UP = 0
+RIGHT = 1
+DOWN = 2
+LEFT = 3
+my_direction = LEFT
+
 
 def collision(c1, c2):
     return c1[0] == c2[0] and c1[1] == c2[1]
@@ -53,6 +59,17 @@ def after_collision():
     return apple_food_pos
 
 
+def restart():
+    global score, snake, snake_head_pos, apple_food_pos, my_direction, died
+    score = 0
+    snake.clear()  # limpando a lista
+    snake = [(200, 200), (220, 200), (240, 200)]  # desenhando ela dnv
+    my_direction = LEFT
+    snake_head_pos = (snake[0][0] - 20, snake[0][1])
+    apple_food_pos = on_grid_random()
+    died = False
+
+
 # Colors ------------------------------------------------------------------------------------------------------- #
 light_grey = (200, 200, 200)
 bg_color = pygame.Color('grey12')
@@ -92,12 +109,6 @@ Games and screens are represented by matrices
 Every sequence is a tuple
 '''
 
-UP = 0
-RIGHT = 1
-DOWN = 2
-LEFT = 3
-my_direction = LEFT
-
 snake_head = pygame.image.load('C:/Users/55929/Documents/stem-games/gabi.breval/snakepro/assets/skin/'
                                'snake_head_gabi.breval.png')
 snake = [(200, 200), (220, 200), (240, 200)]  # every sequence is a tuple
@@ -114,11 +125,11 @@ snake_head_right = pygame.transform.rotate(snake_copy, 270)
 snake_head_up = pygame.transform.rotate(snake_copy, 0)
 
 clock = pygame.time.Clock()  # limit the fps
-
+died = False
 
 while True:
 
-    clock.tick(10)
+    clock.tick(20)
 
     snake_head_pos = (snake[0])
 
@@ -128,16 +139,28 @@ while True:
         if event.type == KEYDOWN:
 
             if event.key == K_UP:
-                my_direction = UP
+                if my_direction == DOWN:
+                    pass
+                else:
+                    my_direction = UP
 
             if event.key == K_DOWN:
-                my_direction = DOWN
+                if my_direction == UP:
+                    pass
+                else:
+                    my_direction = DOWN
 
             if event.key == K_LEFT:
-                my_direction = LEFT
+                if my_direction == RIGHT:
+                    pass
+                else:
+                    my_direction = LEFT
 
             if event.key == K_RIGHT:
-                my_direction = RIGHT
+                if my_direction == LEFT:
+                    pass
+                else:
+                    my_direction = RIGHT
 
     if my_direction == UP:  # shakes the snake´s head
         snake[0] = (snake[0][0], snake[0][1] - 10)
@@ -154,16 +177,44 @@ while True:
     if collision(snake[0], apple_food_pos):  # two tuples (first matrices´s line and apple food tuple)
         after_collision()
 
-    if snake[0][0] > 780 or snake[0][1] < 50 or snake[0][1] > 560 or snake[0][0] < 5:  # exceptions
-        game_over_effect.play()
-        showinfo(title="Game Over", message="GAME OVER!!!")
-        exit()
+    # Checking if there was a collision with herself ---------------------------------------------------------------- #
+    if snake.count(snake_head_pos) > 1:
+        font = pygame.font.SysFont('C:/Users/55929/Documents/stem-games/'
+                                      'gabi.breval/snakepro/assets/font/gabi.brevalFont.otf', 35,
+                                      True, True)
+        message = "Press R to Start Again"
+        formatted_text = font.render(message, True, COLOR_WHITE, COLOR_BLACK)
+        ret_text = formatted_text.get_rect()
+
+        died = True
+
+        while died:
+            screen.fill((0, 0, 0))
+            for event in pygame.event.get():  # identifies what was clicked
+                if event.type == QUIT:
+                    pygame.quit()
+                if event.type == KEYDOWN:
+                    if event.key == K_r:
+                        restart()
+
+            ret_text.center = ((WIDTH / 2), HEIGHT/ 2)
+            screen.blit(formatted_text, ret_text)
+            pygame.display.update()
+
+    # Checking if the snake has reached the limits of the screen ---------------------------------------------------- #
+    if snake[0][0] > 800:
+        snake[0] = (0, snake[0][1])
+    if snake[0][0] < 0:
+        snake[0] = (800, snake[0][1])
+    if snake[0][1] > 600:
+        snake[0] = (snake[0][0], 0)
+    if snake[0][1] < 55:
+        snake[0] = (snake[0][0], 600)
 
     for i in range(len(snake) - 1, 0, -1):  # shakes the rest of snakes´s body
         snake[i] = (snake[i - 1][0], snake[i - 1][1])
 
     # Update score hud --------------------------------------------------------------------------------- #
-
     snake_head_pos = (snake[0][0] - 20, snake[0][1])
     score_text = score_font.render(str(score), True, COLOR_WHITE, COLOR_BLACK)
     screen.fill((0, 0, 0))  # cleaning the screen
