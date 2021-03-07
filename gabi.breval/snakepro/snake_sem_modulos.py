@@ -5,7 +5,7 @@ from tkinter.messagebox import showinfo
 
 WIDTH = 800
 HEIGHT = 600
-grid_size = 20
+grid_size = 32
 
 pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))  # width, height, we are matrices
@@ -83,7 +83,7 @@ apple_1_score = pygame.transform.scale(apple_1_score, [20, 20])
 apple_1_score_y = 10
 apple_food = pygame.image.load('C:/Users/55929/Documents/stem-games/gabi.breval/snakepro/assets/skin/'
                                'gabi.breval.maca.png')
-apple_food = pygame.transform.scale(apple_food, [20, 20])
+apple_food = pygame.transform.scale(apple_food, [grid_size, grid_size])
 apple_food_pos = on_grid_random()
 
 # Snake ------------------------------------------------------------------------------------------------------- #
@@ -102,7 +102,7 @@ snake_head = pygame.image.load('C:/Users/55929/Documents/stem-games/gabi.breval/
                                'snake_head_gabi.breval.png')
 snake = [(200, 200), (220, 200), (240, 200)]  # every sequence is a tuple
 snake_head_pos = (snake[0][0] - 20, snake[0][1])
-snake_head = pygame.transform.scale(snake_head, [20, 20])
+snake_head = pygame.transform.scale(snake_head, [grid_size, grid_size])
 snake_skin = pygame.Surface((grid_size, grid_size))
 snake_skin.fill((0, 255, 0))  # color
 
@@ -114,7 +114,8 @@ snake_head_right = pygame.transform.rotate(snake_copy, 270)
 snake_head_up = pygame.transform.rotate(snake_copy, 0)
 
 clock = pygame.time.Clock()  # limit the fps
-c = after_collision()
+
+
 while True:
 
     clock.tick(10)
@@ -153,7 +154,7 @@ while True:
     if collision(snake[0], apple_food_pos):  # two tuples (first matrices´s line and apple food tuple)
         after_collision()
 
-    if snake[0][0] > 575 or snake[0][1] < 50 or snake[0][1] > 530 or snake[0][0] < 5:  # exceptions
+    if snake[0][0] > 780 or snake[0][1] < 50 or snake[0][1] > 560 or snake[0][0] < 5:  # exceptions
         game_over_effect.play()
         showinfo(title="Game Over", message="GAME OVER!!!")
         exit()
@@ -195,8 +196,10 @@ while True:
 
     screen.blit(grass, ((5, 0), (5, 550)))
     screen.blit(grass, ((5, 20), (5, 550)))
-    screen.blit(grass, ((565, 20), (550, 50)))
-    screen.blit(grass, ((565, 0), (550, 50)))
+    screen.blit(grass, ((770, 20), (550, 50)))
+    screen.blit(grass, ((770, 0), (550, 50)))
+
+    pygame.draw.line(screen, COLOR_WHITE, [5, 50], [800, 50], 1)
 
     screen.blit(apple_food, apple_food_pos)
     screen.blit(score_text, score_text_rect)
