@@ -2,10 +2,12 @@ from random import randint
 from config import *
 import fruit
 from snake import *
+from wall import *
 
 
 player_record = 0
 
+create_wall_img()
 
 # Main game loop
 def game_loop():
@@ -26,6 +28,7 @@ def game_loop():
         snake_imgs[n] = aux1
     fruit.random_fruit(snake_pos)
     blink_surface = next(blink_surfaces)
+
     # The game is not closed, so we either play again or leave the game
     while not game_close:
         while game_over:  # When the snake collides with herself or with the wall, the game is over
@@ -55,6 +58,7 @@ def game_loop():
             game_clock.tick(60)
         game_clock.tick(10)
         screen.fill(COLOR_LIGHT_BLUE)
+        draw_wall()
         screen.blit(fruit.fruits_imgs[random_ind2][frame_aux], fruit.general_fruit)
         # Displays score on the game screen
         msg(continue_msg, "Score: {}".format(snake_len - 1),
@@ -63,7 +67,7 @@ def game_loop():
         frame_aux += 1
         if frame_aux > 2:
             frame_aux = 0
-        fruit_eaten = (snake.x == fruit.general_fruit_x and snake.y == fruit.general_fruit_y)
+        fruit_eaten = (snake.x == fruit.general_fruit.x and snake.y == fruit.general_fruit.y)
         # Listen to players key and rotate the snake image to the respective direction
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -109,8 +113,8 @@ def game_loop():
             del snake_pos[len(snake_pos) - 1]
 
         # The snake collides with the wall
-        if snake.y < 0 or snake.y > window[1] - snake.height or snake.x < 0 or \
-                snake.x > window[0] - snake.width:
+        if snake.y < 32 or snake.y > window[1] - snake.height - 32 or snake.x < 32 or \
+                snake.x > window[0] - snake.width - 32:
             game_over = game_over_treatment()
         # The snake collides with herself
         for x in snake_pos[1:]:
@@ -118,13 +122,13 @@ def game_loop():
                 game_over = game_over_treatment()
 
         # Draw snake
-        for x in snake_pos:
-            if x == snake_pos[0]:
-                screen.blit(snake_imgs[random_ind1][0], (x[0], x[1]))
-            elif x == snake_pos[len(snake_pos) - 1]:
-                screen.blit(snake_imgs[random_ind1][2], (x[0], x[1]))
+        for pos in snake_pos:
+            if pos == snake_pos[0]:
+                screen.blit(snake_imgs[random_ind1][0], (pos[0], pos[1]))
+            elif pos == snake_pos[len(snake_pos) - 1]:
+                screen.blit(snake_imgs[random_ind1][2], (pos[0], pos[1]))
             else:
-                screen.blit(snake_imgs[random_ind1][1], (x[0], x[1]))
+                screen.blit(snake_imgs[random_ind1][1], (pos[0], pos[1]))
 
         # Fruit eaten
         if fruit_eaten:
