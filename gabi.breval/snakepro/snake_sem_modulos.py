@@ -186,6 +186,13 @@ snake_head = pygame.transform.scale(snake_head, [grid_size, grid_size])
 snake_skin = pygame.Surface((grid_size, grid_size))
 snake_skin.fill((0, 255, 0))  # color
 
+# Metal Bar -------------------------------------------------------------------------------------------------- #
+metal = pygame.image.load(address('gabi.breval.metal.png', 'skin'))
+metal = pygame.transform.scale(metal, [200, 550])
+metal_copy = metal.copy()
+metal_copy = pygame.transform.rotate(metal_copy, 180)
+
+
 # Obstacles -------------------------------------------------------------------------------------------------- #
 obstacle = pygame.image.load(address('gabi.breval.misseis.png', 'skin'))
 obstacle = pygame.transform.scale(obstacle, [60, 60])
@@ -362,6 +369,8 @@ while True:
         obstacle_pos3 = missiles_pos(obstacle_pos3)
         screen.blit(obstacle3, obstacle_pos3)
 
+    screen.blit(metal_copy, (600, 50))
+    screen.blit(metal, (0, 50))
     screen.blit(obstacle, obstacle_pos)
     screen.blit(apple_food, apple_food_pos)
     screen.blit(score_text, score_text_rect)
