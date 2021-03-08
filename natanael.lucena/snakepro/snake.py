@@ -10,6 +10,8 @@ for i in range(4):
         aux.append(img("snake_" + snake_colors[i] + str(j + 1)))
     snake_imgs.append(aux)
 snake = snake_imgs[0][0].get_rect()
+x_move = 0
+y_move = 0
 
 
 # Rotates the snake image by the given angle
