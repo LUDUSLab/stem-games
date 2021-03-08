@@ -4,7 +4,6 @@ import fruit
 from snake import *
 from wall import *
 
-
 player_record = 0
 
 create_wall_img()
@@ -59,6 +58,7 @@ def game_loop():
             game_clock.tick(60)
         game_clock.tick(10)
         screen.fill(COLOR_LIGHT_BLUE)
+        draw_blue_square()
         draw_wall()
         screen.blit(fruit.fruits_imgs[random_ind2][frame_aux], fruit.general_fruit)
         # Displays score on the game screen

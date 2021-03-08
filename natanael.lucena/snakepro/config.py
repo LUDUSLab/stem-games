@@ -6,6 +6,7 @@ pygame.init()
 # Colors
 COLOR_LIGHT_GREY = (230, 230, 230)
 COLOR_LIGHT_BLUE = (51, 153, 255)
+COLOR_DARK_BLUE = (44, 137, 230)
 
 # Window
 window = (800, 600)
@@ -44,6 +45,16 @@ def game_over_treatment():
     game_over_sound.play()
     pygame.mixer.music.stop()
     return True
+
+
+def draw_blue_square():
+    for i in range(0, window[1] - 120, 32):
+        if (i // 32) % 2:
+            aux = 32
+        else:
+            aux = 0
+        for j in range(aux, window[0], 64):
+            pygame.draw.rect(screen, COLOR_DARK_BLUE, (j, 128 + i, 32, 32))
 
 
 # Sounds
