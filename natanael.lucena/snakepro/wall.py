@@ -2,6 +2,7 @@ from config import img, window, screen
 
 wall_imgs = []
 
+
 def create_wall_img():
     for i in range(3):
         wall_imgs.insert(i, img("stone-block" + str(i+1)))
