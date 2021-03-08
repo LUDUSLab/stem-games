@@ -114,8 +114,8 @@ def game_loop():
             del snake_pos[len(snake_pos) - 1]
 
         # The snake collides with the wall
-        if snake.y < 0 or snake.y > window[1] - snake.height or snake.x < 0 or \
-                snake.x > window[0] - snake.width:
+        if snake.y < 120 or snake.y > window[1] - 25 or snake.x < snake.w or \
+                snake.x > window[0] - 2*snake.w:
             game_over = game_over_treatment()
         # The snake collides with herself
         for x in snake_pos[1:]:
