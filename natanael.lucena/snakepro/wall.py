@@ -12,7 +12,7 @@ def draw_wall():
     general_wall = wall_imgs[0].get_rect()
     aux = 0
     while general_wall.x < window[0]:
-        general_wall.y = 104
+        general_wall.y = 72
         screen.blit(wall_imgs[aux], general_wall)
         general_wall.y = window[1] - general_wall.h
         screen.blit(wall_imgs[aux], general_wall)
@@ -20,7 +20,7 @@ def draw_wall():
         aux += 1
         if aux > 2:
             aux = 0
-    general_wall.y = general_wall.h*5
+    general_wall.y = general_wall.h*4
     while general_wall.y < window[1] - general_wall.h:
         general_wall.x = 0
         screen.blit(wall_imgs[aux], general_wall)

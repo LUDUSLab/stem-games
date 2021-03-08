@@ -54,7 +54,7 @@ def draw_blue_square():
         else:
             aux = 0
         for j in range(aux, window[0], 64):
-            pygame.draw.rect(screen, COLOR_DARK_BLUE, (j, 128 + i, 32, 32))
+            pygame.draw.rect(screen, COLOR_DARK_BLUE, (j, 96 + i, 32, 32))
 
 
 # Sounds
