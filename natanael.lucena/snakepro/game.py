@@ -9,10 +9,11 @@ player_record = 0
 
 create_wall_img()
 
+
 # Main game loop
 def game_loop():
     global player_record
-    set_obj_coordinates(snake, (window[0] - snake.w) // 2, (window[1] - snake.h) // 2)
+    set_obj_coordinates(snake, (window[0] - snake.w) // 2, (window[1] - snake.h) // 2 - 28)
     game_close, game_over = False, False
     pygame.mixer.music.play(-1)
     x_move, y_move = 0, 0
@@ -113,8 +114,8 @@ def game_loop():
             del snake_pos[len(snake_pos) - 1]
 
         # The snake collides with the wall
-        if snake.y < 32 or snake.y > window[1] - snake.height - 32 or snake.x < 32 or \
-                snake.x > window[0] - snake.width - 32:
+        if snake.y < 0 or snake.y > window[1] - snake.height or snake.x < 0 or \
+                snake.x > window[0] - snake.width:
             game_over = game_over_treatment()
         # The snake collides with herself
         for x in snake_pos[1:]:

@@ -8,7 +8,7 @@ COLOR_LIGHT_GREY = (230, 230, 230)
 COLOR_LIGHT_BLUE = (51, 153, 255)
 
 # Window
-window = (736, 480)
+window = (800, 600)
 screen = pygame.display.set_mode(window)
 pygame.display.set_caption("PySnake")
 
