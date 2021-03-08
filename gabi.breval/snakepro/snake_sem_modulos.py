@@ -187,7 +187,7 @@ snake_skin = pygame.Surface((grid_size, grid_size))
 snake_skin.fill((0, 255, 0))  # color
 
 # Metal Bar -------------------------------------------------------------------------------------------------- #
-metal = pygame.image.load(address('gabi.breval.metal.png', 'skin'))
+metal = pygame.image.load(address('gabi.breval.metal_vazado.png', 'skin'))
 metal = pygame.transform.scale(metal, [200, 550])
 metal_copy = metal.copy()
 metal_copy = pygame.transform.rotate(metal_copy, 180)
