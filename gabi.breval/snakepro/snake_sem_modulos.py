@@ -16,6 +16,7 @@ pygame.display.set_caption('Snake')
 clock = pygame.time.Clock()  # limit the fps
 BLINK_EVENT = pygame.USEREVENT + 0
 died = False
+menu = True
 
 UP = 0
 RIGHT = 1
@@ -123,8 +124,8 @@ def restart():
     global score, snake, snake_head_pos, apple_food_pos, my_direction, died, obstacle_pos, \
         obstacle_pos2, obstacle_pos3, obstacle_pos4, obstacle_pos5
     score = 0
-    snake.clear()  # limpando a lista
-    snake = [(200, 200), (220, 200), (240, 200)]  # desenhando ela dnv
+    snake.clear()  # cleaning the list
+    snake = [(200, 200), (220, 200), (240, 200)]  # drawing it again
     my_direction = LEFT
     snake_head_pos = (snake[0][0] - 20, snake[0][1])
     apple_food_pos = on_grid_random()
@@ -207,14 +208,14 @@ obstacle5 = pygame.transform.scale(obstacle, [60, 60])
 obstacle_pos5 = (750, 100)  # where does it start
 
 
-# Rotation  -------------------------------------------------------------------------------------------------- #
+# Rotation  --------------------------------------------------------------------------------------------------------- #
 snake_copy = snake_head.copy()
 snake_head_down = pygame.transform.rotate(snake_copy, 180)
 snake_head_left = pygame.transform.rotate(snake_copy, 90)
 snake_head_right = pygame.transform.rotate(snake_copy, 270)
 snake_head_up = pygame.transform.rotate(snake_copy, 0)
 
-# BLINK TEXT ------------------------------------------------------------------------------------------------- #
+# BLINK TEXT -------------------------------------------------------------------------------------------------------- #
 font = pygame.font.Font(address('gabi.brevalFont.otf', 'font'), 35)
 message = "Press R to Start Again"
 formatted_text = font.render(message, True, COLOR_WHITE, COLOR_BLACK)
@@ -266,7 +267,7 @@ while True:
     snake_moviment()
     obstacle_pos = missiles_pos(obstacle_pos)
 
-    # Checking collision --------------------------------------------------------------------------------------------- #
+    # Checking collision -------------------------------------------------------------------------------------------- #
     cobra = pygame.draw.rect(screen, (0, 255, 0), (snake[0][0], snake[0][1], 32, 32))
     fruit = pygame.draw.rect(screen, (255, 0, 0), (apple_food_pos[0], apple_food_pos[1], 32, 32))
     bomb1 = pygame.draw.rect(screen, (255, 0, 0), (obstacle_pos[0], obstacle_pos[1], 40, 40))
