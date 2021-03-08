@@ -299,10 +299,10 @@ while True:
             game_over_screen()
 
     # Checking if the snake has reached the limits of the screen ---------------------------------------------------- #
-    if snake[0][0] > 800:
-        snake[0] = (0, snake[0][1])
-    if snake[0][0] < 0:
-        snake[0] = (800, snake[0][1])
+    if snake[0][0] > 750:
+        snake[0] = (50, snake[0][1])
+    if snake[0][0] < 50:
+        snake[0] = (750, snake[0][1])
     if snake[0][1] > 600:
         snake[0] = (snake[0][0], 55)
     if snake[0][1] < 55:
