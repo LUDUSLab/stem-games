@@ -29,6 +29,8 @@ def game_loop():
         snake.snake_imgs[n] = aux1
     fruit.random_fruit(snake_pos)
     blink_surface = next(blink_surfaces)
+    blocks.clear()
+    blocks.append(stone_block_img.get_rect())
     random_block(snake_pos, snake_len-1)
     # The game is not closed, so we either play again or leave the game
     while not game_close:
