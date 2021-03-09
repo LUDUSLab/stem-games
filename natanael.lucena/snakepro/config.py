@@ -42,6 +42,7 @@ def msg(fnt, message, pos):
 
 # Does what needs to be done when game is over
 def game_over_treatment():
+    wall_hit.play()
     game_over_sound.play()
     pygame.mixer.music.stop()
     return True
@@ -59,6 +60,7 @@ def draw_blue_square():
 
 # Sounds
 apple_sound = pygame.mixer.Sound('./assets/natanael.lucena.apple_crunch.wav')
+wall_hit = pygame.mixer.Sound('./assets/natanael.lucena.wall_hit.wav')
 game_over_sound = pygame.mixer.Sound('./assets/natanael.lucena.game_over.wav')
 pygame.mixer.music.load('./assets/natanael.lucena.background_music.wav')
 
