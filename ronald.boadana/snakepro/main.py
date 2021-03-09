@@ -1,2 +1,3 @@
-import pygame
-import random
+from game import *
+
+game_loop()

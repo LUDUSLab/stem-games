@@ -1,5 +1,5 @@
-import pygame
 import random
+from config import *
 
 apple = pygame.image.load('../snakepro/assets/ronald.boadana_apple.png')
 apple_pos = ((random.randint(60, 560) // 10 * 10), (random.randint(60, 560) // 10 * 10))
@@ -16,7 +16,7 @@ grape_pos = ((random.randint(60, 560) // 10 * 10), (random.randint(60, 560) // 1
 
 
 def grape_randomness_movement():
-    if random.randrange(150) == 150:
+    if random.randrange(1000) == 150:
         grape_x = (random.randint(60, 560) // 10 * 10)
         grape_y = (random.randint(60, 560) // 10 * 10)
         return grape_x, grape_y
@@ -27,7 +27,7 @@ strawberry_pos = ((random.randint(60, 560) // 10 * 10), (random.randint(60, 560)
 
 
 def strawberry_randomness_movement():
-    if random.randrange(75) == 75:
+    if random.randrange(500) == 75:
         strawberry_x = (random.randint(60, 560) // 10 * 10)
         strawberry_y = (random.randint(60, 560) // 10 * 10)
         return strawberry_x, strawberry_y

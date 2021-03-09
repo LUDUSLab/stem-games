@@ -1,4 +1,3 @@
-import pygame
 from snake import *
 from fruit import *
 from config import *
@@ -31,28 +30,28 @@ def victory():
 
 
 def score_points_apple():
-    global apple_pos, player_score
+    global player_score
     apple_pos = apple_randomness_movement()
     eating_fruit_sound.play()
-    snake.append((600, 600))
+    snake.append((800, 600))
     player_score += 1
     return apple_pos, player_score
 
 
 def score_points_grape():
-    global grape_pos, player_score
+    global player_score
     grape_pos = grape_randomness_movement()
     eating_fruit_sound.play()
-    snake.append((600, 600))
+    snake.append((800, 600))
     player_score += 3
     return grape_pos, player_score
 
 
 def score_points_strawberry():
-    global strawberry_pos, player_score
+    global player_score
     strawberry_pos = strawberry_randomness_movement()
     eating_fruit_sound.play()
-    snake.append((600, 600))
+    snake.append((800, 600))
     player_score += 2
     return strawberry_pos, player_score
 
@@ -66,7 +65,7 @@ direction = LEFT
 
 
 def game_loop():
-    global direction, apple_pos, playing_sound, player_score, snake_body, snake_head, grape_pos, strawberry_pos
+    global direction, playing_sound, player_score
     game_on = True
     game_clock = pygame.time.Clock()
     while game_on:
@@ -110,6 +109,12 @@ def game_loop():
 
         for i in range(len(snake) - 1, 0, -1):
             snake[i] = (snake[i - 1][0], snake[i - 1][1])
+        # defeat condition
+        if (snake[0][0] < 0) or (snake[0][1] < 40) or (snake[0][0] > 570) or (snake[0][1] > 570):
+            game_over()
+        # victory condition
+        elif player_score == 10:
+            victory()
 
         else:
             body_snake_move()
@@ -124,13 +129,8 @@ def game_loop():
                 screen.blit(snake_body, pos)
             screen.blit(snake_head, snake_head_pos)
 
-            # drawing the borders
-            draw_borders()
+            # drawing the wall
 
-
-if (snake[0][0] < 0) or (snake[0][1] < 40) or (snake[0][0] > 570) or (snake[0][1] > 570):
-    game_over()
-elif player_score == 10:
-    victory()
-
-game_loop()
+        pygame.display.update()
+        screen.fill(color_black)
+    pygame.quit()
