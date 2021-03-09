@@ -41,7 +41,7 @@ def body_snake_move():
 pygame.init()
 
 # Screen configuration
-screen = pygame.display.set_mode((500, 500))
+screen = pygame.display.set_mode((800, 600))
 pygame.display.set_caption('Snake')
 
 # setting snake

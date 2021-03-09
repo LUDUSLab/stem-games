@@ -39,7 +39,7 @@ def snake_draw():
             screen.blit(snake, snake_position[c])
 
 
-snake_position = [(64, 0), (32, 0), (0, 0)]
+snake_position = [(160, 320), (128, 320), (96, 320)]
 
 # keys
 LEFT, UP, RIGHT, DOWN = 37, 38, 39, 40

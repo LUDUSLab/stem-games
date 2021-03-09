@@ -32,4 +32,4 @@ def fruit_draw():
     screen.blit(apple_sprite, fruit_position())
 
 
-fruit_pos = (128, 128)
+fruit_pos = (640, 320)

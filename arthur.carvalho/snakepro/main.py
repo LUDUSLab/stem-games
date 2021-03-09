@@ -1,6 +1,8 @@
-from fruit import fruit_draw
+from fruit import *
 from config import *
 from snakebody import *
+from game import *
+from wall import wall_draw
 import pygame
 
 pygame.init()
@@ -31,7 +33,10 @@ while game_loop:
 
     screen.fill(color_black)
 
+    wall_draw()
     snake_draw()
     fruit_draw()
+
+    scoring(snake_position[0], fruit_pos)
 
     pygame.display.update()
