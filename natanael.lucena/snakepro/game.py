@@ -122,6 +122,12 @@ def game_loop():
         if snake.snake.y < 84 or snake.snake.y > window[1] - 25 or snake.snake.x < snake.snake.w or \
                 snake.snake.x > window[0] - 2*snake.snake.w:
             game_over = game_over_treatment()
+
+        # The snake collides with an obstacle
+        for block in blocks:
+            if block.x == snake.snake.x and block.y == snake.snake.y:
+                game_over = game_over_treatment()
+
         # The snake collides with herself
         for x in snake_pos[1:]:
             if x == snake_head:
