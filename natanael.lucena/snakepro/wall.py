@@ -5,7 +5,7 @@ from snake import x_move, y_move
 
 wall_imgs = []
 stone_block_img = img("stone-block")
-general_block = stone_block_img.get_rect()
+blocks = [stone_block_img.get_rect()]
 
 
 def create_wall_img():
@@ -37,18 +37,20 @@ def draw_wall():
             aux = 0
 
 
-def random_block(body_pos):
-    while True:
-        general_block.x = randrange(1, (window[0] // general_block.w) - 1) * general_block.w
-        general_block.y = randrange(3, (window[1] // general_block.h) - 1) * general_block.h
-        if not any(pos == (general_block.x, general_block.y) for pos in
-                   body_pos):  # Checks if
-            if not (general_block.x == general_fruit.x and general_block.y == general_block.y):
-                if y_move == 0:
-                    if not (abs(general_block.x - body_pos[0][0]) < 5 * 32):
-                        break
-                elif x_move == 0:
-                    if not (abs(general_block.x - body_pos[0][0]) < 5*32):
-                        break
-
-    set_obj_coordinates(general_block, general_block.x, general_block.y)  # set fruit random position
+def random_block(body_pos, player_score):
+    if player_score % 10 == 0 and player_score != 0:
+        blocks.append(stone_block_img.get_rect())
+    for block in blocks:
+        while True:
+            block.x = randrange(1, (window[0] // block.w) - 1) * block.w
+            block.y = randrange(3, (window[1] // block.h) - 1) * block.h
+            if not any(pos == (block.x, block.y) for pos in
+                       body_pos):  # Checks if
+                if not (block.x == general_fruit.x and block.y == general_fruit.y):
+                    if y_move == 0:
+                        if not (abs(block.x - body_pos[0][0]) < 5 * 32):
+                            break
+                    elif x_move == 0:
+                        if not (abs(block.y - body_pos[0][0]) < 5*32):
+                            break
+        set_obj_coordinates(block, block.x, block.y)  # set fruit random position

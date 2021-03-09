@@ -29,7 +29,7 @@ def game_loop():
         snake.snake_imgs[n] = aux1
     fruit.random_fruit(snake_pos)
     blink_surface = next(blink_surfaces)
-    random_block(snake_pos)
+    random_block(snake_pos, snake_len-1)
     # The game is not closed, so we either play again or leave the game
     while not game_close:
         while game_over:  # When the snake collides with herself or with the wall, the game is over
@@ -61,7 +61,8 @@ def game_loop():
         screen.fill(COLOR_LIGHT_BLUE)
         draw_blue_square()
         draw_wall()
-        screen.blit(stone_block_img, general_block)
+        for block in blocks:
+            screen.blit(stone_block_img, block)
         screen.blit(fruit.fruits_imgs[random_ind2][frame_aux], fruit.general_fruit)
         # Displays score on the game screen
         msg(continue_msg, "Score: {}".format(snake_len - 1),
@@ -139,7 +140,7 @@ def game_loop():
             apple_sound.play()
             snake_len += 1
             fruit.random_fruit(snake_pos)
-            random_block(snake_pos)
+            random_block(snake_pos, snake_len-1)
             # Reset snake image
             for m in range(3):
                 snake.snake_imgs[random_ind1][m] = img("snake_" + snake.snake_colors[random_ind1] + str(m + 1))
