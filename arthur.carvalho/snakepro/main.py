@@ -5,6 +5,8 @@ import pygame
 
 pygame.init()
 
+snake_direction = 0
+
 while game_loop:
     game_clock.tick(15)
 
@@ -25,9 +27,7 @@ while game_loop:
             if event.key == pygame.K_DOWN:
                 snake_direction = DOWN
 
-    snake_move()
-
-    print(snake_direction)
+    snake_move(snake_direction)
 
     screen.fill(color_black)
 
