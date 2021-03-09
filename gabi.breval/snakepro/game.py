@@ -124,8 +124,8 @@ while True:
                         snake.snake.clear()  # cleaning the list
                         snake.snake = [(200, 200), (220, 200), (240, 200)]  # drawing it again
                         config.my_direction = config.LEFT
-                        snake.snake_head_pos = (snake[0][0] - 20, snake[0][1])
-                        fruit.apple_food_pos = on_grid_random()
+                        snake.snake_head_pos = (snake.snake[0][0] - 20, snake.snake[0][1])
+                        fruit.apple_food_pos = config.on_grid_random()
                         obstacles.obstacle_pos = (750, 300)
                         obstacles.obstacle_pos2 = (750, 150)  # where does it start
                         obstacles.obstacle_pos3 = (750, 200)  # where does it start
