@@ -1,4 +1,6 @@
-import pygame
+from config import *
+
+wall = pygame.image.load('../snakepro/assets/ronald.boadana_wall.png')
 
 
 def draw_borders():
