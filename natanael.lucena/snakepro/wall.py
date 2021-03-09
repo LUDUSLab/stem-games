@@ -47,10 +47,20 @@ def random_block(body_pos, player_score):
             if not any(pos == (block.x, block.y) for pos in
                        body_pos):  # Checks if
                 if not (block.x == general_fruit.x and block.y == general_fruit.y):
-                    if y_move == 0:
-                        if not (abs(block.x - body_pos[0][0]) < 5 * 32):
-                            break
-                    elif x_move == 0:
-                        if not (abs(block.y - body_pos[0][0]) < 5*32):
-                            break
+                    if block.y == body_pos[0][1]:
+                        if x_move > 0:
+                            if not (block.x - body_pos[0][0] < 5 * 32):
+                                break
+                        else:
+                            if not (body_pos[0][0] - block.x < 5 * 32):
+                                break
+                    elif block.x == body_pos[0][0]:
+                        if y_move > 0:
+                            if not (block.y - body_pos[0][0] < 5 * 32):
+                                break
+                        else:
+                            if not (body_pos[0][0] - block.y < 5 * 32):
+                                break
+                    else:
+                        break
         set_obj_coordinates(block, block.x, block.y)  # set fruit random position
