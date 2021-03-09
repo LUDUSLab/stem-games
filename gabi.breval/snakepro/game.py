@@ -168,8 +168,8 @@ while True:
         snake.snake_head_pos = (snake.snake[0][0], snake.snake[0][1] - 20)
         screen.blit(snake.snake_head_up, snake.snake_head_pos)
         if collision(snake.snake_head_pos, fruit.apple_food_pos):  # two tuples (first matrices´s line and apple food tuple)
-            apple_food_pos = on_grid_random()  # when there´s a collision the apple changes its position
-            munch_sound_effect.play()  # sound
+            fruit.apple_food_pos = on_grid_random()  # when there´s a collision the apple changes its position
+            config.munch_sound_effect.play()  # sound
             config.score += 1
             snake.snake.append((0, 0))
 
@@ -177,8 +177,8 @@ while True:
         snake.snake_head_pos = (snake.snake[0][0], snake.snake[0][1] + 20)
         screen.blit(snake.snake_head_down, snake.snake_head_pos)
         if collision(snake.snake_head_pos, fruit.apple_food_pos):  # two tuples (first matrices´s line and apple food tuple)
-            apple_food_pos = on_grid_random()  # when there´s a collision the apple changes its position
-            munch_sound_effect.play()  # sound
+            fruit.apple_food_pos = on_grid_random()  # when there´s a collision the apple changes its position
+            config.munch_sound_effect.play()  # sound
             config.score += 1
             snake.snake.append((0, 0))
 
@@ -186,8 +186,8 @@ while True:
         snake.snake_head_pos = (snake.snake[0][0] - 20, snake.snake[0][1])
         config.screen.blit(snake.snake_head_left, snake.snake_head_pos)
         if config.collision(snake.snake_head_pos, fruit.apple_food_pos):  # two tuples (first matrices´s line and apple food tuple)
-            apple_food_pos = on_grid_random()  # when there´s a collision the apple changes its position
-            munch_sound_effect.play()  # sound
+            fruit.apple_food_pos = on_grid_random()  # when there´s a collision the apple changes its position
+            config.munch_sound_effect.play()  # sound
             config.score += 1
             snake.snake.append((0, 0))
 
@@ -195,8 +195,8 @@ while True:
         snake.snake_head_pos = (snake.snake[0][0] + 20, snake.snake[0][1])
         screen.blit(snake.snake_head_right, snake.snake_head_pos)
         if config.collision(snake.snake_head_pos, fruit.apple_food_pos):  # two tuples (first matrices´s line and apple food tuple)
-            apple_food_pos = on_grid_random()  # when there´s a collision the apple changes its position
-            munch_sound_effect.play()  # sound
+            fruit.apple_food_pos = on_grid_random()  # when there´s a collision the apple changes its position
+            config.munch_sound_effect.play()  # sound
             config.score += 1
             snake.snake.append((0, 0))
 
