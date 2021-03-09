@@ -1,10 +1,9 @@
-import pygame
+from __future__ import absolute_import, division, print_function
 import random
-from pygame.locals import *
-from itertools import cycle
-from snake import *
 from fruit import *
+from itertools import cycle
 
+# Config ----------------------------------------------------------------------------------------------------------- #
 
 WIDTH = 800
 HEIGHT = 600
@@ -27,36 +26,6 @@ LEFT = 3
 my_direction = LEFT
 
 
-def verifying_score_max():
-    global score, SCORE_MAX
-    if score > SCORE_MAX:
-        SCORE_MAX = score
-
-    return SCORE_MAX
-
-
-def game_over_screen():
-    global highest_score, highest_score_txt, blink_surface, blink_rect
-    screen.fill((0, 0, 0))
-    for event_over in pygame.event.get():  # identifies what was clicked
-        if event_over.type == QUIT:
-            pygame.quit()
-        if event_over.type == KEYDOWN:
-            if event_over.key == K_r:
-                restart()
-        if event_over.type == BLINK_EVENT:
-            blink_surface = next(blink_surfaces)
-
-    highest_score = verifying_score_max()
-    highest_score_txt = score_font.render('HIGHEST SCORE : ' + str(highest_score), True, COLOR_WHITE, COLOR_BLACK)
-    screen.blit(highest_score_txt, highest_score_txt_rect)
-    screen.blit(blink_surface, blink_rect)
-    screen.blit(score_text, (WIDTH / 2, 330))
-    screen.blit(apple_1_score, ((WIDTH / 2) - 50, 330))
-    clock.tick(50)
-    pygame.display.update()
-
-
 def collision(c1, c2):
     return c1[0] == c2[0] and c1[1] == c2[1]
 
@@ -74,21 +43,6 @@ def on_grid_random():
     x = random.randint(25, 575)
     y = random.randint(50, 530)
     return x // 10 * 10, y // 10 * 10
-
-
-def snake_moviment():
-    global snake, my_direction
-    if my_direction == UP:  # shakes the snake´s head
-        snake[0] = (snake[0][0], snake[0][1] - 10)
-
-    if my_direction == DOWN:  # shakes the snake´s head
-        snake[0] = (snake[0][0], snake[0][1] + 10)
-
-    if my_direction == RIGHT:  # shakes the snake´s head
-        snake[0] = (snake[0][0] + 10, snake[0][1])
-
-    if my_direction == LEFT:  # shakes the snake´s head
-        snake[0] = (snake[0][0] - 10, snake[0][1])
 
 
 def address(name, genre):
@@ -111,32 +65,6 @@ def address(name, genre):
     elif genre == "font":
         directory = fonts + name
         return directory
-
-
-def after_collision():
-    global score, apple_food_pos, snake
-    apple_food_pos = on_grid_random()  # when there´s a collision the apple changes its position
-    munch_sound_effect.play()  # sound
-    score += 1
-    snake.append((0, 0))
-    return apple_food_pos
-
-
-def restart():
-    global score, snake, snake_head_pos, apple_food_pos, my_direction, died, obstacle_pos, \
-        obstacle_pos2, obstacle_pos3, obstacle_pos4, obstacle_pos5
-    score = 0
-    snake.clear()  # cleaning the list
-    snake = [(200, 200), (220, 200), (240, 200)]  # drawing it again
-    my_direction = LEFT
-    snake_head_pos = (snake[0][0] - 20, snake[0][1])
-    apple_food_pos = on_grid_random()
-    obstacle_pos = (750, 300)
-    obstacle_pos2 = (750, 150)  # where does it start
-    obstacle_pos3 = (750, 200)  # where does it start
-    obstacle_pos4 = (750, 340)  # where does it start
-    obstacle_pos5 = (750, 100)  # where does it start
-    died = False
 
 
 # Colors ------------------------------------------------------------------------------------------------------- #
@@ -164,6 +92,9 @@ highest_score_txt_rect.center = (WIDTH / 2 - 95, 580)
 munch_sound_effect = pygame.mixer.Sound(address('gabi.breval.munch-sound.wav', 'sound'))
 game_over_effect = pygame.mixer.Sound(address('batida_gabi.breval.wav', 'sound'))
 
+# Grass -------------------------------------------------------------------------------------------------------- #
+grass = pygame.image.load(address('gabi.breval.folha.png', 'skin'))
+
 # BLINK TEXT -------------------------------------------------------------------------------------------------------- #
 font = pygame.font.Font(address('gabi.brevalFont.otf', 'font'), 35)
 message = "Press R to Start Again"
@@ -176,7 +107,6 @@ blink_rect.center = screen_rect.center
 off_text_surface = pygame.Surface(blink_rect.size)
 blink_surfaces = cycle([formatted_text, off_text_surface])
 blink_surface = next(blink_surfaces)
-pygame.time.set_timer(BLINK_EVENT, 150)
+pygame.time.set_timer(BLINK_EVENT, 150),
 
-# Grass -------------------------------------------------------------------------------------------------------- #
-grass = pygame.image.load(address('gabi.breval.folha.png', 'skin'))
+# ------------------------------------------------------------------------------------------------------------------ #

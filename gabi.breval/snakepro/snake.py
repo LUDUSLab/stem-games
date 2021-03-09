@@ -1,4 +1,5 @@
-from config import *
+from config import address, grid_size
+import pygame
 
 # Snake ------------------------------------------------------------------------------------------------------- #
 '''
@@ -13,10 +14,18 @@ snake_head = pygame.transform.scale(snake_head, [grid_size, grid_size])
 snake_skin = pygame.Surface((grid_size, grid_size))
 snake_skin.fill((0, 255, 0))  # color
 
-
 # Rotation  --------------------------------------------------------------------------------------------------------- #
 snake_copy = snake_head.copy()
 snake_head_down = pygame.transform.rotate(snake_copy, 180)
 snake_head_left = pygame.transform.rotate(snake_copy, 90)
 snake_head_right = pygame.transform.rotate(snake_copy, 270)
 snake_head_up = pygame.transform.rotate(snake_copy, 0)
+
+'''
+snake_head
+snake_head_pos
+snake_head_down
+snake_head_left
+snake_head_right
+snake_head_up
+'''

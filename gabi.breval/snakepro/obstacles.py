@@ -1,7 +1,5 @@
 from config import *
-import pygame
-
-# Obstacles -------------------------------------------------------------------------------------------------- #
+# Obstacles ------------------------------------------------------------------------------------------- #
 obstacle = pygame.image.load(address('gabi.breval.misseis.png', 'skin'))
 obstacle = pygame.transform.scale(obstacle, [60, 60])
 obstacle_pos = (750, 300)  # where does it start

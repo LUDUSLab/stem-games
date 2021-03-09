@@ -4,6 +4,8 @@ import random
 from pygame.locals import *
 from itertools import cycle
 
+# Config ----------------------------------------------------------------------------------------------------------- #
+
 WIDTH = 800
 HEIGHT = 600
 grid_size = 32
@@ -165,6 +167,22 @@ game_over_effect = pygame.mixer.Sound(address('batida_gabi.breval.wav', 'sound')
 # Grass -------------------------------------------------------------------------------------------------------- #
 grass = pygame.image.load(address('gabi.breval.folha.png', 'skin'))
 
+# BLINK TEXT -------------------------------------------------------------------------------------------------------- #
+font = pygame.font.Font(address('gabi.brevalFont.otf', 'font'), 35)
+message = "Press R to Start Again"
+formatted_text = font.render(message, True, COLOR_WHITE, COLOR_BLACK)
+ret_text = formatted_text.get_rect()
+screen_rect = screen.get_rect()
+
+blink_rect = formatted_text.get_rect()
+blink_rect.center = screen_rect.center
+off_text_surface = pygame.Surface(blink_rect.size)
+blink_surfaces = cycle([formatted_text, off_text_surface])
+blink_surface = next(blink_surfaces)
+pygame.time.set_timer(BLINK_EVENT, 150),
+
+# ------------------------------------------------------------------------------------------------------------------ #
+
 # Apple ------------------------------------------------------------------------------------------------------ #
 apple_1_score = pygame.image.load(address('gabi.breval.maca.png', 'skin'))
 apple_1_score = pygame.transform.scale(apple_1_score, [32, 32])
@@ -186,14 +204,20 @@ snake_head = pygame.transform.scale(snake_head, [grid_size, grid_size])
 snake_skin = pygame.Surface((grid_size, grid_size))
 snake_skin.fill((0, 255, 0))  # color
 
-# Metal Bar -------------------------------------------------------------------------------------------------- #
+# Rotation  --------------------------------------------------------------------------------------------------------- #
+snake_copy = snake_head.copy()
+snake_head_down = pygame.transform.rotate(snake_copy, 180)
+snake_head_left = pygame.transform.rotate(snake_copy, 90)
+snake_head_right = pygame.transform.rotate(snake_copy, 270)
+snake_head_up = pygame.transform.rotate(snake_copy, 0)
+
+# Wall -------------------------------------------------------------------------------------------------- #
 metal = pygame.image.load(address('gabi.breval.metal_vazado.png', 'skin'))
 metal = pygame.transform.scale(metal, [200, 550])
 metal_copy = metal.copy()
 metal_copy = pygame.transform.rotate(metal_copy, 180)
 
-
-# Obstacles -------------------------------------------------------------------------------------------------- #
+# Obstacles ------------------------------------------------------------------------------------------- #
 obstacle = pygame.image.load(address('gabi.breval.misseis.png', 'skin'))
 obstacle = pygame.transform.scale(obstacle, [60, 60])
 obstacle_pos = (750, 300)  # where does it start
@@ -214,27 +238,6 @@ obstacle5 = pygame.image.load(address('gabi.breval.misseis.png', 'skin'))
 obstacle5 = pygame.transform.scale(obstacle, [60, 60])
 obstacle_pos5 = (750, 100)  # where does it start
 
-
-# Rotation  --------------------------------------------------------------------------------------------------------- #
-snake_copy = snake_head.copy()
-snake_head_down = pygame.transform.rotate(snake_copy, 180)
-snake_head_left = pygame.transform.rotate(snake_copy, 90)
-snake_head_right = pygame.transform.rotate(snake_copy, 270)
-snake_head_up = pygame.transform.rotate(snake_copy, 0)
-
-# BLINK TEXT -------------------------------------------------------------------------------------------------------- #
-font = pygame.font.Font(address('gabi.brevalFont.otf', 'font'), 35)
-message = "Press R to Start Again"
-formatted_text = font.render(message, True, COLOR_WHITE, COLOR_BLACK)
-ret_text = formatted_text.get_rect()
-screen_rect = screen.get_rect()
-
-blink_rect = formatted_text.get_rect()
-blink_rect.center = screen_rect.center
-off_text_surface = pygame.Surface(blink_rect.size)
-blink_surfaces = cycle([formatted_text, off_text_surface])
-blink_surface = next(blink_surfaces)
-pygame.time.set_timer(BLINK_EVENT, 150)
 
 while True:
 

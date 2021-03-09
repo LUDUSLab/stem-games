@@ -1,8 +1,9 @@
-from obstacles import *
-from snake import *
-from fruit import *
-from wall import *
+from random import randint
 from config import *
+import fruit
+from snake import *
+from wall import *
+from obstacles import *
 
 while True:
 
@@ -39,7 +40,17 @@ while True:
                 else:
                     my_direction = RIGHT
 
-    snake_moviment()
+    if my_direction == UP:  # shakes the snake´s head
+        snake[0] = (snake[0][0], snake[0][1] - 10)
+
+    if my_direction == DOWN:  # shakes the snake´s head
+        snake[0] = (snake[0][0], snake[0][1] + 10)
+
+    if my_direction == RIGHT:  # shakes the snake´s head
+        snake[0] = (snake[0][0] + 10, snake[0][1])
+
+    if my_direction == LEFT:  # shakes the snake´s head
+        snake[0] = (snake[0][0] - 10, snake[0][1])
     obstacle_pos = missiles_pos(obstacle_pos)
 
     # Checking collision -------------------------------------------------------------------------------------------- #
@@ -52,25 +63,89 @@ while True:
     bomb5 = pygame.draw.rect(screen, (255, 0, 0), (obstacle_pos5[0], obstacle_pos5[1], 40, 40))
 
     if cobra.colliderect(fruit):
-        after_collision()
+        apple_food_pos = on_grid_random()  # when there´s a collision the apple changes its position
+        munch_sound_effect.play()  # sound
+        score += 1
+        snake.append((0, 0))
 
     if cobra.colliderect(bomb1) or cobra.colliderect(bomb2) or cobra.colliderect(bomb3) or \
             cobra.colliderect(bomb4) or cobra.colliderect(bomb5):
         died = True
         while died:
-            game_over_screen()
+            screen.fill((0, 0, 0))
+            for event_over in pygame.event.get():  # identifies what was clicked
+                if event_over.type == QUIT:
+                    pygame.quit()
+                if event_over.type == KEYDOWN:
+                    if event_over.key == K_r:
+                        score = 0
+                        snake.clear()  # cleaning the list
+                        snake = [(200, 200), (220, 200), (240, 200)]  # drawing it again
+                        my_direction = LEFT
+                        snake_head_pos = (snake[0][0] - 20, snake[0][1])
+                        apple_food_pos = on_grid_random()
+                        obstacle_pos = (750, 300)
+                        obstacle_pos2 = (750, 150)  # where does it start
+                        obstacle_pos3 = (750, 200)  # where does it start
+                        obstacle_pos4 = (750, 340)  # where does it start
+                        obstacle_pos5 = (750, 100)  # where does it start
+                        died = False
+                if event_over.type == BLINK_EVENT:
+                    blink_surface = next(blink_surfaces)
+
+            if score > SCORE_MAX:
+                SCORE_MAX = score
+            highest_score = SCORE_MAX
+            highest_score_txt = score_font.render('HIGHEST SCORE : ' + str(highest_score), True, COLOR_WHITE,
+                                                  COLOR_BLACK)
+            screen.blit(highest_score_txt, highest_score_txt_rect)
+            screen.blit(blink_surface, blink_rect)
+            screen.blit(score_text, (WIDTH / 2, 330))
+            screen.blit(apple_1_score, ((WIDTH / 2) - 50, 330))
+            clock.tick(50)
+            pygame.display.update()
 
     # Checking if there was a collision with herself ---------------------------------------------------------------- #
     if snake.count(snake_head_pos) > 1:
         died = True
         while died:
-            game_over_screen()
+            screen.fill((0, 0, 0))
+            for event_over in pygame.event.get():  # identifies what was clicked
+                if event_over.type == QUIT:
+                    pygame.quit()
+                if event_over.type == KEYDOWN:
+                    if event_over.key == K_r:
+                        score = 0
+                        snake.clear()  # cleaning the list
+                        snake = [(200, 200), (220, 200), (240, 200)]  # drawing it again
+                        my_direction = LEFT
+                        snake_head_pos = (snake[0][0] - 20, snake[0][1])
+                        apple_food_pos = on_grid_random()
+                        obstacle_pos = (750, 300)
+                        obstacle_pos2 = (750, 150)  # where does it start
+                        obstacle_pos3 = (750, 200)  # where does it start
+                        obstacle_pos4 = (750, 340)  # where does it start
+                        obstacle_pos5 = (750, 100)  # where does it start
+                        died = False
+                if event_over.type == BLINK_EVENT:
+                    blink_surface = next(blink_surfaces)
+            if score > SCORE_MAX:
+                SCORE_MAX = score
+            highest_score = SCORE_MAX
+            highest_score_txt = score_font.render('HIGHEST SCORE : ' + str(highest_score), True, COLOR_WHITE,
+                                                  COLOR_BLACK)
+            screen.blit(highest_score_txt, highest_score_txt_rect)
+            screen.blit(blink_surface, blink_rect)
+            screen.blit(score_text, (WIDTH / 2, 330))
+            screen.blit(apple_1_score, ((WIDTH / 2) - 50, 330))
+            clock.tick(50)
+            pygame.display.update()
 
     # Checking if the snake has reached the limits of the screen ---------------------------------------------------- #
-    if snake[0][0] > 800:
-        snake[0] = (0, snake[0][1])
-    if snake[0][0] < 0:
-        snake[0] = (800, snake[0][1])
+    if snake[0][0] > 750:
+        snake[0] = (50, snake[0][1])
+    if snake[0][0] < 50:
+        snake[0] = (750, snake[0][1])
     if snake[0][1] > 600:
         snake[0] = (snake[0][0], 55)
     if snake[0][1] < 55:
@@ -90,25 +165,37 @@ while True:
         snake_head_pos = (snake[0][0], snake[0][1] - 20)
         screen.blit(snake_head_up, snake_head_pos)
         if collision(snake_head_pos, apple_food_pos):  # two tuples (first matrices´s line and apple food tuple)
-            after_collision()
+            apple_food_pos = on_grid_random()  # when there´s a collision the apple changes its position
+            munch_sound_effect.play()  # sound
+            score += 1
+            snake.append((0, 0))
 
     if my_direction == DOWN:
         snake_head_pos = (snake[0][0], snake[0][1] + 20)
         screen.blit(snake_head_down, snake_head_pos)
         if collision(snake_head_pos, apple_food_pos):  # two tuples (first matrices´s line and apple food tuple)
-            after_collision()  # the snake grows, that´s why we add another tuple on it
+            apple_food_pos = on_grid_random()  # when there´s a collision the apple changes its position
+            munch_sound_effect.play()  # sound
+            score += 1
+            snake.append((0, 0))
 
     if my_direction == LEFT:
         snake_head_pos = (snake[0][0] - 20, snake[0][1])
         screen.blit(snake_head_left, snake_head_pos)
         if collision(snake_head_pos, apple_food_pos):  # two tuples (first matrices´s line and apple food tuple)
-            after_collision()
+            apple_food_pos = on_grid_random()  # when there´s a collision the apple changes its position
+            munch_sound_effect.play()  # sound
+            score += 1
+            snake.append((0, 0))
 
     if my_direction == RIGHT:
         snake_head_pos = (snake[0][0] + 20, snake[0][1])
         screen.blit(snake_head_right, snake_head_pos)
         if collision(snake_head_pos, apple_food_pos):  # two tuples (first matrices´s line and apple food tuple)
-            after_collision()
+            apple_food_pos = on_grid_random()  # when there´s a collision the apple changes its position
+            munch_sound_effect.play()  # sound
+            score += 1
+            snake.append((0, 0))
 
     screen.blit(grass, ((5, 0), (5, 550)))
     screen.blit(grass, ((5, 20), (5, 550)))
