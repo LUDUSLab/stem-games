@@ -8,7 +8,7 @@ import wall
 import obstacles
 
 while True:
-    clock.tick(20)
+    config.clock.tick(20)
     snake.snake_head_pos = (snake.snake[0])
 
     for event in pygame.event.get():  # identifies what was clicked
@@ -64,7 +64,7 @@ while True:
 
     if cobra.colliderect(fruit1):
         fruit.apple_food_pos = config.on_grid_random()  # when there´s a collision the apple changes its position
-        munch_sound_effect.play()  # sound
+        config.munch_sound_effect.play()  # sound
         config.score += 1
         snake.snake.append((0, 0))
 
@@ -81,17 +81,17 @@ while True:
                         score = 0
                         snake.snake.clear()  # cleaning the list
                         snake.snake = [(200, 200), (220, 200), (240, 200)]  # drawing it again
-                        my_direction = LEFT
+                        config.my_direction = config.LEFT
                         snake.snake_head_pos = (snake.snake[0][0] - 20, snake.snake[0][1])
-                        apple_food_pos = on_grid_random()
+                        fruit.apple_food_pos = config.on_grid_random()
                         obstacle_pos = (750, 300)
                         obstacle_pos2 = (750, 150)  # where does it start
                         obstacle_pos3 = (750, 200)  # where does it start
                         obstacle_pos4 = (750, 340)  # where does it start
                         obstacle_pos5 = (750, 100)  # where does it start
                         died = False
-                if event_over.type == BLINK_EVENT:
-                    blink_surface = next(blink_surfaces)
+                if event_over.type == config.BLINK_EVENT:
+                    config.blink_surface = next(config.blink_surfaces)
 
             if config.score > config.SCORE_MAX:
                 config.SCORE_MAX = config.score
@@ -103,7 +103,7 @@ while True:
             config.screen.blit(config.blink_surface, config.blink_rect)
             config.screen.blit(config.score_text, (config.WIDTH / 2, 330))
             config.screen.blit(fruit.apple_1_score, ((config.WIDTH / 2) - 50, 330))
-            clock.tick(50)
+            config.clock.tick(50)
             pygame.display.update()
 
     # Checking if there was a collision with herself ---------------------------------------------------------------- #
@@ -164,8 +164,8 @@ while True:
 
     if config.my_direction == config.UP:
         snake.snake_head_pos = (snake.snake[0][0], snake.snake[0][1] - 20)
-        screen.blit(snake.snake_head_up, snake.snake_head_pos)
-        if collision(snake.snake_head_pos, fruit.apple_food_pos):  # two tuples (first matrices´s line and apple food tuple)
+        config.screen.blit(snake.snake_head_up, snake.snake_head_pos)
+        if config.collision(snake.snake_head_pos, fruit.apple_food_pos):  # two tuples (first matrices´s line and apple food tuple)
             fruit.apple_food_pos = config.on_grid_random()  # when there´s a collision the apple changes its position
             config.munch_sound_effect.play()  # sound
             config.score += 1
@@ -173,8 +173,8 @@ while True:
 
     if config.my_direction == config.DOWN:
         snake.snake_head_pos = (snake.snake[0][0], snake.snake[0][1] + 20)
-        screen.blit(snake.snake_head_down, snake.snake_head_pos)
-        if collision(snake.snake_head_pos, fruit.apple_food_pos):  # two tuples (first matrices´s line and apple food tuple)
+        config.screen.blit(snake.snake_head_down, snake.snake_head_pos)
+        if config.collision(snake.snake_head_pos, fruit.apple_food_pos):  # two tuples (first matrices´s line and apple food tuple)
             fruit.apple_food_pos = config.on_grid_random()  # when there´s a collision the apple changes its position
             config.munch_sound_effect.play()  # sound
             config.score += 1
@@ -191,7 +191,7 @@ while True:
 
     if config.my_direction == config.RIGHT:
         snake.snake_head_pos = (snake.snake[0][0] + 20, snake.snake[0][1])
-        screen.blit(snake.snake_head_right, snake.snake_head_pos)
+        config.screen.blit(snake.snake_head_right, snake.snake_head_pos)
         if config.collision(snake.snake_head_pos, fruit.apple_food_pos):  # two tuples (first matrices´s line and apple food tuple)
             fruit.apple_food_pos = config.on_grid_random()  # when there´s a collision the apple changes its position
             config.munch_sound_effect.play()  # sound
@@ -206,24 +206,24 @@ while True:
     pygame.draw.line(config.screen, config.COLOR_WHITE, [5, 50], [800, 50], 1)
 
     if config.score > 2:
-        obstacles.obstacle_pos2 = missiles_pos(obstacles.obstacle_pos2)
-        config.screen.blit(obstacle2, obstacle_pos2)
+        obstacles.obstacle_pos2 = config.missiles_pos(obstacles.obstacle_pos2)
+        config.screen.blit(obstacles.obstacle2, obstacles.obstacle_pos2)
 
     if config.score > 6:
-        obstacles.obstacle_pos3 = missiles_pos(obstacles.obstacle_pos3)
-        config.screen.blit(obstacle3, obstacle_pos3)
+        obstacles.obstacle_pos3 = config.missiles_pos(obstacles.obstacle_pos3)
+        config.screen.blit(obstacles.obstacle3, obstacles.obstacle_pos3)
 
     if config.score > 12:
-        obstacles.obstacle_pos3 = missiles_pos(obstacles.obstacle_pos3)
-        config.screen.blit(obstacle3, obstacle_pos3)
+        obstacles.obstacle_pos3 = config.missiles_pos(obstacles.obstacle_pos3)
+        config.screen.blit(obstacles.obstacle3, obstacles.obstacle_pos3)
 
     if config.score > 18:
-        obstacles.obstacle_pos3 = missiles_pos(obstacles.obstacle_pos3)
-        config.screen.blit(obstacle3, obstacle_pos3)
+        obstacles.obstacle_pos3 = config.missiles_pos(obstacles.obstacle_pos3)
+        config.screen.blit(obstacles.obstacle3, obstacles.obstacle_pos3)
 
     if config.score > 24:
-        obstacles.obstacle_pos3 = missiles_pos(obstacles.obstacle_pos3)
-        config.screen.blit(obstacle3, obstacle_pos3)
+        obstacles.obstacle_pos3 = config.missiles_pos(obstacles.obstacle_pos3)
+        config.screen.blit(obstacles.obstacle3, obstacles.obstacle_pos3)
 
     config.screen.blit(wall.metal_copy, (600, 50))
     config.screen.blit(wall.metal, (0, 50))
