@@ -13,6 +13,8 @@ snake_head_pos = (snake[0][0] - 20, snake[0][1])
 snake_head = pygame.transform.scale(snake_head, [config.grid_size, config.grid_size])
 snake_skin = pygame.Surface((config.grid_size, config.grid_size))
 snake_skin.fill((0, 255, 0))  # color
+snake_dead = pygame.image.load(config.address('gabi.breval.dead_snake.png', 'skin'))
+snake_dead = pygame.transform.scale(snake_dead, [config.grid_size, config.grid_size])
 
 # Rotation  --------------------------------------------------------------------------------------------------------- #
 snake_copy = snake_head.copy()

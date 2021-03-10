@@ -111,6 +111,7 @@ def game():
                 config.screen.blit(config.blink_surface, config.blink_rect)
                 config.screen.blit(config.score_text, (config.WIDTH / 2, 330))
                 config.screen.blit(fruit.apple_1_score, ((config.WIDTH / 2) - 50, 330))
+                config.screen.blit(snake.snake_dead, ((config.WIDTH / 2) - 10, 221))
                 config.clock.tick(50)
                 pygame.display.update()
 
@@ -149,6 +150,7 @@ def game():
                 config.screen.blit(config.blink_surface, config.blink_rect)
                 config.screen.blit(config.score_text, (config.WIDTH / 2, 330))
                 config.screen.blit(fruit.apple_1_score, ((config.WIDTH / 2) - 50, 330))
+                config.screen.blit(snake.snake_dead, ((config.WIDTH / 2) - 10, 221))
                 config.clock.tick(50)
                 pygame.display.update()
 
@@ -250,4 +252,3 @@ def game():
             config.screen.blit(snake.snake_skin, pos)
 
         pygame.display.update()
-
