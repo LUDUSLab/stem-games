@@ -60,6 +60,7 @@ def game_loop():
                 pygame.time.wait(300)
             game_clock.tick(60)
         game_clock.tick(10)
+        pygame.time.delay(85)
         screen.fill(COLOR_LIGHT_BLUE)
         draw_blue_square()
         draw_wall()
@@ -119,8 +120,8 @@ def game_loop():
             del snake_pos[len(snake_pos) - 1]
 
         # The snake collides with the wall
-        if snake.snake.y < 84 or snake.snake.y > window[1] - 25 or snake.snake.x < snake.snake.w or \
-                snake.snake.x > window[0] - 2*snake.snake.w:
+        if snake.snake.y < 116 or snake.snake.y > window[1] - 57 or snake.snake.x < 2*snake.snake.w or \
+                snake.snake.x > window[0] - 3*snake.snake.w:
             game_over = game_over_treatment()
 
         # The snake collides with an obstacle

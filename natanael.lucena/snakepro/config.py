@@ -12,7 +12,6 @@ COLOR_DARK_BLUE = (44, 137, 230)
 window = (800, 600)
 screen = pygame.display.set_mode(window)
 pygame.display.set_caption("PySnake")
-
 game_clock = pygame.time.Clock()  # Clock object
 
 
