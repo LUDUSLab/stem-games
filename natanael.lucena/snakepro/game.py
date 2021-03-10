@@ -120,7 +120,7 @@ def game_loop():
             del snake_pos[len(snake_pos) - 1]
 
         # The snake collides with the wall
-        if snake.snake.y < 116 or snake.snake.y > window[1] - 57 or snake.snake.x < 2*snake.snake.w or \
+        if snake.snake.y < 116 or snake.snake.y > window[1] - 25 or snake.snake.x < 2*snake.snake.w or \
                 snake.snake.x > window[0] - 3*snake.snake.w:
             game_over = game_over_treatment()
 
