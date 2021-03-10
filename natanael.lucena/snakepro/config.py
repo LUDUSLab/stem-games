@@ -48,12 +48,12 @@ def game_over_treatment():
 
 
 def draw_blue_square():
-    for i in range(0, window[1] - 120, 32):
+    for i in range(32, window[1] - 120, 32):
         if (i // 32) % 2:
             aux = 32
         else:
             aux = 0
-        for j in range(aux, window[0], 64):
+        for j in range(aux + 32, window[0] - 32, 64):
             pygame.draw.rect(screen, COLOR_DARK_BLUE, (j, 96 + i, 32, 32))
 
 
