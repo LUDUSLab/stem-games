@@ -31,10 +31,10 @@ def victory():
 
 
 # looping to make the key pressed move the snake
-UP = 0
-RIGHT = 1
-DOWN = 2
-LEFT = 3
+UP = 32
+RIGHT = 33
+DOWN = 34
+LEFT = 35
 direction = LEFT
 
 
@@ -44,7 +44,7 @@ def game_loop():
     game_clock = pygame.time.Clock()
     while game_on:
         game_clock.tick(8)
-        snake_head_pos = (snake[0][0] + 20, snake[0][1])
+        snake_head_pos = (snake[0][0] + 32, snake[0][1])
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 game_on = False
@@ -74,31 +74,30 @@ def game_loop():
             snake.append((800, 600))
             player_score += 1
 
-        if random.randrange(500) == 1:
-            grape_pos = ((random.randint(60, 560) // 10 * 10), (random.randint(60, 560) // 10 * 10))
-            if snake_head_pos == grape_pos:
-                grape_pos = grape_randomness_movement()
-                eating_fruit_sound.play()
-                snake.append((800, 600))
-                player_score += 3
+        # if random.randrange(500) == 1:
+        grape_pos = ((random.randint(32, 726) // 32 * 32), (random.randint(64, 576) // 32 * 32))
+        if snake_head_pos == grape_pos:
+            grape_pos = grape_randomness_movement()
+            eating_fruit_sound.play()
+            snake.append((800, 600))
+            player_score += 3
 
-        if random.randrange(100) == 1:
-            strawberry_pos = ((random.randint(60, 560) // 10 * 10), (random.randint(60, 560) // 10 * 10))
-            if snake_head_pos == strawberry_pos:
-                strawberry_pos = strawberry_randomness_movement()
-                eating_fruit_sound.play()
-                snake.append((800, 600))
-                player_score += 2
-        print(snake_head_pos)
+        # if random.randrange(100) == 1:
+        strawberry_pos = ((random.randint(32, 726) // 32 * 32), (random.randint(64, 576) // 32 * 32))
+        if snake_head_pos == strawberry_pos:
+            strawberry_pos = strawberry_randomness_movement()
+            eating_fruit_sound.play()
+            snake.append((800, 600))
+            player_score += 2
 
         # updating score
         score_text = score_font.render('SCORE:' + str(player_score), True, color_white, color_black)
-        snake_head_pos = (snake[0][1] - 20, snake[0][1])
+        snake_head_pos = (snake[0][1] - 32, snake[0][1])
 
         for i in range(len(snake) - 1, 0, -1):
             snake[i] = (snake[i - 1][0], snake[i - 1][1])
         # defeat condition
-        if (snake[0][0] < 0) or (snake[0][1] < 40) or (snake[0][0] > 770) or (snake[0][1] > 770):
+        if (snake[0][0] < 0) or (snake[0][1] < 32) or (snake[0][0] > 768) or (snake[0][1] > 576):
             game_over()
         # victory condition
         elif player_score == 10:
