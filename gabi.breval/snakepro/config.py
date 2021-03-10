@@ -90,7 +90,7 @@ highest_score_txt_rect.center = (WIDTH / 2 - 95, 580)
 
 # Sound ------------------------------------------------------------------------------------------------------- #
 munch_sound_effect = pygame.mixer.Sound(address('gabi.breval.munch-sound.wav', 'sound'))
-game_over_effect = pygame.mixer.Sound(address('batida_gabi.breval.wav', 'sound'))
+game_over_effect = pygame.mixer.Sound(address('Game.over_gabi.breval.wav', 'sound'))
 
 # Grass -------------------------------------------------------------------------------------------------------- #
 grass = pygame.image.load(address('gabi.breval.folha.png', 'skin'))

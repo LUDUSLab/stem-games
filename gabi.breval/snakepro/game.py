@@ -78,6 +78,7 @@ def game():
         if cobra.colliderect(bomb1) or cobra.colliderect(bomb2) or cobra.colliderect(bomb3) or \
                 cobra.colliderect(bomb4) or cobra.colliderect(bomb5):
             died = True
+            config.game_over_effect.play()
             while died:
                 config.screen.fill((0, 0, 0))
                 for event_over in pygame.event.get():  # identifies what was clicked
@@ -111,13 +112,14 @@ def game():
                 config.screen.blit(config.blink_surface, config.blink_rect)
                 config.screen.blit(config.score_text, (config.WIDTH / 2, 330))
                 config.screen.blit(fruit.apple_1_score, ((config.WIDTH / 2) - 50, 330))
-                config.screen.blit(snake.snake_dead, ((config.WIDTH / 2) - 10, 221))
+                config.screen.blit(snake.snake_dead, ((config.WIDTH / 2) - 20, 221))
                 config.clock.tick(50)
                 pygame.display.update()
 
         # Checking if there was a collision with herself ---------------------------------------------------------------- #
         if snake.snake.count(snake.snake_head_pos) > 1:
             died = True
+            config.game_over_effect()
             while died:
                 config.screen.fill((0, 0, 0))
                 for event_over in pygame.event.get():  # identifies what was clicked
@@ -150,7 +152,7 @@ def game():
                 config.screen.blit(config.blink_surface, config.blink_rect)
                 config.screen.blit(config.score_text, (config.WIDTH / 2, 330))
                 config.screen.blit(fruit.apple_1_score, ((config.WIDTH / 2) - 50, 330))
-                config.screen.blit(snake.snake_dead, ((config.WIDTH / 2) - 10, 221))
+                config.screen.blit(snake.snake_dead, ((config.WIDTH / 2) - 20, 221))
                 config.clock.tick(50)
                 pygame.display.update()
 
