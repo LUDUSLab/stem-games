@@ -57,13 +57,13 @@ def draw_sky():
 
 # Draw many 32x32 dark brown squares for the snake's arena background
 def draw_dark_brown_square():
-    for i in range(BLOCK_SIZE, window[1] - 120, BLOCK_SIZE):
+    for i in range(BLOCK_SIZE, window[1] - BLOCK_SIZE * 3 + 24, BLOCK_SIZE):
         if (i // BLOCK_SIZE) % 2:
             aux = BLOCK_SIZE
         else:
             aux = 0
         for j in range(aux + BLOCK_SIZE * 3, window[0] - BLOCK_SIZE * 3, 2*BLOCK_SIZE):
-            pygame.draw.rect(screen, COLOR_DARK_BROWN, (j, 96 + i, BLOCK_SIZE, BLOCK_SIZE))
+            pygame.draw.rect(screen, COLOR_DARK_BROWN, (j, 3*BLOCK_SIZE + i, BLOCK_SIZE, BLOCK_SIZE))
 
 
 # Ground sprite
@@ -73,7 +73,7 @@ ground_block_imgs = [img("ground" + str(x+1)) for x in range(3)]
 
 # Draw the ground background
 def draw_ground_block():
-    general_ground_block.y = 2*BLOCK_SIZE + 8
+    general_ground_block.y = BLOCK_SIZE * 2 + 24
     while general_ground_block.y <= window[1]:
         for i in range(0, BLOCK_SIZE * 2 + 1, BLOCK_SIZE):
             general_ground_block.x = i
@@ -84,12 +84,12 @@ def draw_ground_block():
         general_ground_block.y += BLOCK_SIZE
     general_ground_block.x = 0
     while general_ground_block.x <= window[0] - BLOCK_SIZE:
-        general_ground_block.y = 2 * BLOCK_SIZE + 8 - 2*BLOCK_SIZE
-        screen.blit(ground_block_imgs[2], general_ground_block)
-        general_ground_block.y = 2 * BLOCK_SIZE + 8 - BLOCK_SIZE
-        screen.blit(ground_block_imgs[(general_ground_block.y//BLOCK_SIZE) % 2], general_ground_block)
-        general_ground_block.y = 2 * BLOCK_SIZE + 8
-        screen.blit(ground_block_imgs[(general_ground_block.y//BLOCK_SIZE) % 2], general_ground_block)
+        aux = 2
+        for i in range(3):
+            general_ground_block.y = 8 + i*BLOCK_SIZE
+            screen.blit(ground_block_imgs[aux], general_ground_block)
+            if i == 0:
+                aux = (general_ground_block.y//BLOCK_SIZE) % 2
         general_ground_block.x += BLOCK_SIZE
 
 

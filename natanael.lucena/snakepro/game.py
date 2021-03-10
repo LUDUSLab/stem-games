@@ -32,9 +32,11 @@ def game_loop():
     blocks.clear()
     blocks.append(stone_block_img.get_rect())
     random_block(snake_pos, snake_len-1)
+
     # The game is not closed, so we either play again or leave the game
     while not game_close:
-        while game_over:  # When the snake collides with herself or with the wall, the game is over
+        # When the snake collides with herself or with the wall, the game is over
+        while game_over:
             screen.fill(COLOR_BROWN)
             if snake_len - 1 > player_record:
                 player_record = snake_len - 1
@@ -69,14 +71,17 @@ def game_loop():
         for block in blocks:
             screen.blit(stone_block_img, block)
         screen.blit(fruit.fruits_imgs[random_ind2][frame_aux], fruit.general_fruit)
+
         # Displays score on the game screen
         msg(continue_msg, "Score: {}".format(snake_len - 1),
             (window[0] // 2 - continue_msg.size("Score: *")[0] / 2, BLOCK_SIZE))
+
         # Auxiliary variables
         frame_aux += 1
         if frame_aux > 2:
             frame_aux = 0
         fruit_eaten = (snake.snake.x == fruit.general_fruit.x and snake.snake.y == fruit.general_fruit.y)
+
         # Listen to players key and rotate the snake image to the respective direction
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -112,11 +117,13 @@ def game_loop():
                         snake.rotate_imgs(180, random_ind1)
                     snake.y_move = BLOCK_SIZE
                     snake.x_move = 0
+
         # Snake moves
         snake.snake.x += snake.x_move
         snake.snake.y += snake.y_move
         snake_head = (snake.snake.x, snake.snake.y)
         snake_pos.insert(0, snake_head)
+
         # Snake body "moves"
         if len(snake_pos) > snake_len:
             del snake_pos[len(snake_pos) - 1]
