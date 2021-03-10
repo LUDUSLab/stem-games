@@ -17,18 +17,18 @@ pygame.display.set_caption('Snake v1.0')
 score_font = pygame.font.Font('./assets/PressStart2P.ttf', 30)
 score_text = score_font.render('0', True, color_white, color_black)
 score_text_rect = score_text.get_rect()
-score_text_rect.center = (210, 25)
+score_text_rect.center = (310, 25)
 
 # defeat text
-defeat_font = pygame.font.Font('./assets/PressStart2P.ttf', 30)
+defeat_font = pygame.font.Font('./assets/PressStart2P.ttf', 65)
 defeat_text = defeat_font.render('GAME OVER', True, color_white, color_black)
 defeat_text_rect = score_text.get_rect()
-defeat_text_rect.center = (175, 275)
+defeat_text_rect.center = (115, 275)
 
 # victory text
-victory_font = pygame.font.Font('./assets/PressStart2P.ttf', 30)
+victory_font = pygame.font.Font('./assets/PressStart2P.ttf', 65)
 victory_text = defeat_font.render('VICTORY!', True, color_white, color_black)
 victory_text_rect = score_text.get_rect()
-victory_text_rect.center = (200, 275)
+victory_text_rect.center = (175, 275)
 
 pygame.display.update()
