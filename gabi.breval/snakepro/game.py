@@ -119,7 +119,7 @@ def game():
         # Checking if there was a collision with herself ---------------------------------------------------------------- #
         if snake.snake.count(snake.snake_head_pos) > 1:
             died = True
-            config.game_over_effect()
+            config.game_over_effect.play()
             while died:
                 config.screen.fill((0, 0, 0))
                 for event_over in pygame.event.get():  # identifies what was clicked
