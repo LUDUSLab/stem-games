@@ -30,13 +30,11 @@ def snake_move(moves):
 
 def snake_draw():
     snake = pygame.Surface(square)
-    snake.fill(color_green)
+    snake.fill(color_0F6E9D)
 
-    for c in range(0, len(snake_position)):
-        if c == 0:
-            screen.blit(snake_sprite, snake_position[c])
-        else:
-            screen.blit(snake, snake_position[c])
+    for c in range(1, len(snake_position)):
+        screen.blit(snake_sprite, snake_position[0])
+        screen.blit(snake, snake_position[c])
 
 
 snake_position = [(160, 320), (128, 320), (96, 320)]

@@ -13,15 +13,17 @@ def fruit_position():
         x = []
         y = []
 
-        for c in range(0, 800, 32):
+        for c in range(32, 726, 32):
             x.append(c)
 
-        for c in range(0, 640, 32):
+        for c in range(64, 576, 32):
             y.append(c)
 
         snake_position.append((800, 600))
 
         fruit_pos = (choice(x), choice(y))
+
+        eating_sound.play()
 
         return fruit_pos
 
