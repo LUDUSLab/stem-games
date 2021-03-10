@@ -1,9 +1,10 @@
 from snake import *
 from fruit import *
 from config import *
+from wall import *
 
 playing_sound = 0
-player_score = 10
+player_score = 0
 
 # sounds
 game_over_sound = pygame.mixer.Sound('../snake/assets/game-over-sound.wav')
@@ -105,6 +106,8 @@ def game_loop():
 
         else:
             body_snake_move()
+
+            wall_pos()
 
             # updating screen
             screen.blit(score_text, score_text_rect)
