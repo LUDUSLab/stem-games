@@ -43,8 +43,8 @@ def random_block(body_pos, player_score):
         blocks.append(stone_block_img.get_rect())
     for block in blocks:
         while True:
-            block.x = randrange(1, (window[0] // block.w) - 1) * block.w
-            block.y = randrange(3, (window[1] // block.h) - 1) * block.h
+            block.x = randrange(2, (window[0] // block.w) - 2) * block.w
+            block.y = randrange(4, (window[1] // block.h)) * block.h
             if not any(pos == (block.x, block.y) for pos in
                        body_pos):  # Checks if
                 if not (block.x == general_fruit.x and block.y == general_fruit.y):
