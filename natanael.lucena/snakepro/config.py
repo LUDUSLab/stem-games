@@ -57,6 +57,33 @@ def draw_blue_square():
             pygame.draw.rect(screen, COLOR_DARK_BLUE, (j, 96 + i, 32, 32))
 
 
+general_ground_block = img("ground1").get_rect()
+ground_block_imgs = [img("ground" + str(x+1)) for x in range(3)]
+
+
+def draw_ground_block():
+    general_ground_block.y = 2*32 + 8
+    while general_ground_block.y <= window[1]:
+        general_ground_block.x = 0
+        screen.blit(ground_block_imgs[(general_ground_block.y//general_ground_block.h) % 2],
+                    general_ground_block)
+        general_ground_block.x = window[0] - general_ground_block.w
+        screen.blit(ground_block_imgs[(general_ground_block.y//general_ground_block.h) % 2],
+                    general_ground_block)
+        general_ground_block.y += general_ground_block.h
+    general_ground_block.x = 0
+    while general_ground_block.x <= window[0] - general_ground_block.w:
+        general_ground_block.y = 2 * 32 + 8 - 64
+        screen.blit(ground_block_imgs[2], general_ground_block)
+        general_ground_block.y = 2 * 32 + 8 - 32
+        screen.blit(ground_block_imgs[(general_ground_block.y//general_ground_block.h) % 2],
+                    general_ground_block)
+        general_ground_block.y = 2 * 32 + 8
+        screen.blit(ground_block_imgs[(general_ground_block.y//general_ground_block.h) % 2],
+                    general_ground_block)
+        general_ground_block.x += general_ground_block.w
+
+
 # Sounds
 apple_sound = pygame.mixer.Sound('./assets/natanael.lucena.apple_crunch.wav')
 wall_hit = pygame.mixer.Sound('./assets/natanael.lucena.wall_hit.wav')

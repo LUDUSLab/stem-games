@@ -64,6 +64,7 @@ def game_loop():
         screen.fill(COLOR_LIGHT_BLUE)
         draw_blue_square()
         draw_wall()
+        draw_ground_block()
         for block in blocks:
             screen.blit(stone_block_img, block)
         screen.blit(fruit.fruits_imgs[random_ind2][frame_aux], fruit.general_fruit)
