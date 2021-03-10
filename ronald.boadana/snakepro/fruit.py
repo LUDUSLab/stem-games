@@ -2,12 +2,12 @@ import random
 from config import *
 
 apple = pygame.image.load('../snakepro/assets/ronald.boadana_apple.png')
-apple_pos = ((random.randint(60, 560) // 10 * 10), (random.randint(60, 560) // 10 * 10))
+apple_pos = ((random.randint(60, 560) // 32 * 32), (random.randint(60, 560) // 32 * 32))
 
 
 def apple_randomness_movement():
-    apple_x = (random.randint(60, 560) // 10 * 10)
-    apple_y = (random.randint(60, 560) // 10 * 10)
+    apple_x = (random.randint(60, 560) // 32 * 32)
+    apple_y = (random.randint(60, 560) // 32 * 32)
     return apple_x, apple_y
 
 
