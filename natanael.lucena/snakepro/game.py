@@ -63,7 +63,7 @@ def game_loop():
         pygame.time.delay(85)
         screen.fill(COLOR_BROWN)
         draw_sky()
-        draw_blue_square()
+        draw_dark_brown_square()
         draw_wall()
         draw_ground_block()
         for block in blocks:

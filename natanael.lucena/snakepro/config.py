@@ -51,13 +51,13 @@ def draw_sky():
     pygame.draw.rect(screen, COLOR_LIGHT_BLUE, (0, 0, window[0], 12))
 
 
-def draw_blue_square():
-    for i in range(32, window[1] - 120, 32):
+def draw_dark_brown_square():
+    for i in range(general_ground_block.w, window[1] - 120, 32):
         if (i // 32) % 2:
             aux = 32
         else:
             aux = 0
-        for j in range(aux + 32, window[0] - 32, 64):
+        for j in range(aux + general_ground_block.w * 3, window[0] - general_ground_block.w * 3, 64):
             pygame.draw.rect(screen, COLOR_DARK_BROWN, (j, 96 + i, 32, 32))
 
 
@@ -68,12 +68,14 @@ ground_block_imgs = [img("ground" + str(x+1)) for x in range(3)]
 def draw_ground_block():
     general_ground_block.y = 2*32 + 8
     while general_ground_block.y <= window[1]:
-        general_ground_block.x = 0
-        screen.blit(ground_block_imgs[(general_ground_block.y//general_ground_block.h) % 2],
-                    general_ground_block)
-        general_ground_block.x = window[0] - general_ground_block.w
-        screen.blit(ground_block_imgs[(general_ground_block.y//general_ground_block.h) % 2],
-                    general_ground_block)
+        for i in range(0, general_ground_block.w * 2 + 1, 32):
+            general_ground_block.x = i
+            screen.blit(ground_block_imgs[(general_ground_block.y//general_ground_block.h) % 2],
+                        general_ground_block)
+        for i in range(window[0] - 3 * general_ground_block.w, window[0] - general_ground_block.w + 1, 32):
+            general_ground_block.x = i
+            screen.blit(ground_block_imgs[(general_ground_block.y//general_ground_block.h) % 2],
+                        general_ground_block)
         general_ground_block.y += general_ground_block.h
     general_ground_block.x = 0
     while general_ground_block.x <= window[0] - general_ground_block.w:

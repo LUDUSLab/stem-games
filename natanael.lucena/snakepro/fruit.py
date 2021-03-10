@@ -14,7 +14,7 @@ general_fruit = fruits_imgs[0][0].get_rect()
 def random_fruit(body_pos):
     global general_fruit  # Fruit rectangle coordinates
     while True:
-        general_fruit.x = randrange(4, (window[0] // general_fruit.w) - 3) * general_fruit.w
+        general_fruit.x = randrange(4, (window[0] // general_fruit.w) - 4) * general_fruit.w
         general_fruit.y = randrange(4, (window[1] // general_fruit.h)) * general_fruit.h
         if not any(pos == (general_fruit.x, general_fruit.y) for pos in
                    body_pos):  # Checks if the fruit spawn position is not the same as the snake's body
