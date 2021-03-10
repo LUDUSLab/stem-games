@@ -16,8 +16,8 @@ def create_wall_img():
 def draw_wall():
     general_wall = wall_imgs[0].get_rect()
     aux = 0
-    general_wall.x = general_wall.w
-    while general_wall.x < window[0] - general_wall.w:
+    general_wall.x = 3*general_wall.w
+    while general_wall.x < window[0] - 3*general_wall.w:
         general_wall.y = 104
         screen.blit(wall_imgs[aux], general_wall)
         general_wall.y = window[1] - general_wall.h
@@ -28,9 +28,9 @@ def draw_wall():
             aux = 0
     general_wall.y = general_wall.h*5
     while general_wall.y < window[1] - general_wall.h:
-        general_wall.x = general_wall.w
+        general_wall.x = 3*general_wall.w
         screen.blit(wall_imgs[aux], general_wall)
-        general_wall.x = window[0] - general_wall.w - general_wall.w
+        general_wall.x = window[0] - 4*general_wall.w
         screen.blit(wall_imgs[aux], general_wall)
         general_wall.y += general_wall.h
         aux += 1
@@ -43,7 +43,7 @@ def random_block(body_pos, player_score):
         blocks.append(stone_block_img.get_rect())
     for block in blocks:
         while True:
-            block.x = randrange(2, (window[0] // block.w) - 2) * block.w
+            block.x = randrange(4, (window[0] // block.w) - 3) * block.w
             block.y = randrange(4, (window[1] // block.h)) * block.h
             if not any(pos == (block.x, block.y) for pos in
                        body_pos):  # Checks if
