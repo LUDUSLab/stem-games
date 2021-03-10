@@ -5,9 +5,9 @@ pygame.init()
 
 # Colors
 COLOR_LIGHT_GREY = (230, 230, 230)
-COLOR_LIGHT_BLUE = (51, 153, 255)
-COLOR_DARK_BLUE = (44, 137, 230)
-
+COLOR_BROWN = (119, 84, 64)
+COLOR_DARK_BROWN = (106, 74, 54)
+COLOR_LIGHT_BLUE = (95, 156, 238)
 # Window
 window = (800, 600)
 screen = pygame.display.set_mode(window)
@@ -47,6 +47,10 @@ def game_over_treatment():
     return True
 
 
+def draw_sky():
+    pygame.draw.rect(screen, COLOR_LIGHT_BLUE, (0, 0, window[0], 12))
+
+
 def draw_blue_square():
     for i in range(32, window[1] - 120, 32):
         if (i // 32) % 2:
@@ -54,7 +58,7 @@ def draw_blue_square():
         else:
             aux = 0
         for j in range(aux + 32, window[0] - 32, 64):
-            pygame.draw.rect(screen, COLOR_DARK_BLUE, (j, 96 + i, 32, 32))
+            pygame.draw.rect(screen, COLOR_DARK_BROWN, (j, 96 + i, 32, 32))
 
 
 general_ground_block = img("ground1").get_rect()
@@ -99,6 +103,6 @@ on_text_surface = continue_msg.render("Q-Quit/E-Play again", True, COLOR_LIGHT_G
 blink_rect = on_text_surface.get_rect()
 blink_rect.center = screen.get_rect().center
 off_text_surface = pygame.Surface(blink_rect.size)
-off_text_surface.fill(COLOR_LIGHT_BLUE)
+off_text_surface.fill(COLOR_BROWN)
 blink_surfaces = cycle([on_text_surface, off_text_surface])
 pygame.time.set_timer(BLINK_EVENT, 580)

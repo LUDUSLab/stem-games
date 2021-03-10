@@ -35,7 +35,7 @@ def game_loop():
     # The game is not closed, so we either play again or leave the game
     while not game_close:
         while game_over:  # When the snake collides with herself or with the wall, the game is over
-            screen.fill(COLOR_LIGHT_BLUE)
+            screen.fill(COLOR_BROWN)
             if snake_len - 1 > player_record:
                 player_record = snake_len - 1
             msg(continue_msg, "Your record: {}".format(player_record),
@@ -61,7 +61,8 @@ def game_loop():
             game_clock.tick(60)
         game_clock.tick(10)
         pygame.time.delay(85)
-        screen.fill(COLOR_LIGHT_BLUE)
+        screen.fill(COLOR_BROWN)
+        draw_sky()
         draw_blue_square()
         draw_wall()
         draw_ground_block()
