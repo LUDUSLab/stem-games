@@ -1,5 +1,5 @@
 from random import randrange
-from config import window, img, set_obj_coordinates
+from config import window, img, set_obj_coordinates, BLOCK_SIZE
 
 # Fruits properties
 fruits_imgs = [[] for x in range(4)]
@@ -14,8 +14,8 @@ general_fruit = fruits_imgs[0][0].get_rect()
 def random_fruit(body_pos):
     global general_fruit  # Fruit rectangle coordinates
     while True:
-        general_fruit.x = randrange(4, (window[0] // general_fruit.w) - 4) * general_fruit.w
-        general_fruit.y = randrange(4, (window[1] // general_fruit.h)) * general_fruit.h
+        general_fruit.x = randrange(4, (window[0] // BLOCK_SIZE) - 4) * BLOCK_SIZE
+        general_fruit.y = randrange(4, (window[1] // BLOCK_SIZE)) * BLOCK_SIZE
         if not any(pos == (general_fruit.x, general_fruit.y) for pos in
                    body_pos):  # Checks if the fruit spawn position is not the same as the snake's body
             break
