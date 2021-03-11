@@ -5,7 +5,6 @@ from random import choice
 
 def fruit_position():
     global fruit_pos
-
     if snake_position[0] != fruit_pos:
         return fruit_pos
 

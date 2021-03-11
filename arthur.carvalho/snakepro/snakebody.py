@@ -4,28 +4,28 @@ from config import *
 def snake_move(moves):
 
     if moves == LEFT:
+        for c in range(len(snake_position) - 1, 0, -1):
+            snake_position[c] = (snake_position[c - 1][0], snake_position[c - 1][1])
+
         snake_position[0] = (snake_position[0][0] - 32, snake_position[0][1])
 
+    if moves == UP:
         for c in range(len(snake_position) - 1, 0, -1):
             snake_position[c] = (snake_position[c - 1][0], snake_position[c - 1][1])
 
-    if moves == UP:
         snake_position[0] = (snake_position[0][0], snake_position[0][1] - 32)
 
+    if moves == RIGHT:
         for c in range(len(snake_position) - 1, 0, -1):
             snake_position[c] = (snake_position[c - 1][0], snake_position[c - 1][1])
 
-    if moves == RIGHT:
         snake_position[0] = (snake_position[0][0] + 32, snake_position[0][1])
 
-        for c in range(len(snake_position) - 1, 0, -1):
-            snake_position[c] = (snake_position[c - 1][0], snake_position[c - 1][1])
-
     if moves == DOWN:
-        snake_position[0] = (snake_position[0][0], snake_position[0][1] + 32)
-
         for c in range(len(snake_position) - 1, 0, -1):
             snake_position[c] = (snake_position[c - 1][0], snake_position[c - 1][1])
+
+        snake_position[0] = (snake_position[0][0], snake_position[0][1] + 32)
 
 
 def snake_draw():

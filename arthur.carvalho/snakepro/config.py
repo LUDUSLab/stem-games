@@ -5,6 +5,7 @@ pygame.init()
 # Size of objects
 size_screen = (800, 640)
 square = (32, 32)
+rectangle = (800, 32)
 
 # colours
 color_black = (0, 0, 0)
@@ -13,6 +14,7 @@ color_green = (0, 255, 0)
 color_red = (255, 0, 0)
 color_73ED73 = (115, 237, 115)
 color_0F6E9D = (15, 110, 157)
+color_gray = (110, 107, 106)
 
 # Screen Setting
 screen = pygame.display.set_mode(size_screen)
