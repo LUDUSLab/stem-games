@@ -4,6 +4,7 @@ pygame.init()
 # setting the colors
 color_black = (0, 0, 0)
 color_white = (255, 255, 255)
+color_orange = (192, 83, 0)
 
 game_clock = pygame.time.Clock()
 
@@ -13,10 +14,10 @@ screen = pygame.display.set_mode(screen_size)
 pygame.display.set_caption('Snake v1.0')
 
 # score text
-score_font = pygame.font.Font('./assets/PressStart2P.ttf', 30)
-score_text = score_font.render('0', True, color_white, color_black)
+score_font = pygame.font.Font('./assets/PressStart2P.ttf', 20)
+score_text = score_font.render('0', True, color_white, color_orange)
 score_text_rect = score_text.get_rect()
-score_text_rect.center = (310, 25)
+score_text_rect.center = (325, 17)
 
 # defeat text
 defeat_font = pygame.font.Font('./assets/PressStart2P.ttf', 65)
