@@ -1,49 +1,39 @@
 from random import randint
-from config import *
+import config
 import fruit
 import snake
-from wall import *
+import pygame
+import wall
 
 player_record = 0
-
-create_wall_img()
-
 
 # Main game loop
 def game_loop():
     global player_record
-    set_obj_coordinates(snake.snake, (window[0] - BLOCK_SIZE) // 2, (window[1] - BLOCK_SIZE) // 2 - 28)
-    game_close, game_over = False, False
-    pygame.mixer.music.play(-1)
-    snake_pos = [(window[0] // 2, window[1] // 2)]
-    snake_len = 1
-    snake.x_move = 0
-    snake.y_move = 0
+    config.game_close, config.game_over = False, False
+    config.pygame.mixer.music.play(-1)
     random_ind1 = randint(0, 3)
     random_ind2 = randint(0, 3)
     frame_aux = 0
-    for n in range(4):
-        aux1 = []
-        for m in range(3):
-            aux1.append(img("snake_" + snake.snake_colors[n] + str(m + 1)))
-        snake.snake_imgs[n] = aux1
-    fruit.random_fruit(snake_pos)
-    blink_surface = next(blink_surfaces)
-    blocks.clear()
-    blocks.append(stone_block_img.get_rect())
-    random_block(snake_pos, snake_len-1)
+    snake.reset_snake()
+    fruit.random_fruit()
+    blink_surface = next(config.blink_surfaces)
+    wall.blocks.clear()
+    wall.blocks.append(wall.stone_block_img.get_rect())
+    wall.random_block(snake.snake_len - 1)
 
     # The game is not closed, so we either play again or leave the game
-    while not game_close:
+    while not config.game_close:
         # When the snake collides with herself or with the wall, the game is over
-        while game_over:
-            screen.fill(COLOR_BROWN)
-            if snake_len - 1 > player_record:
-                player_record = snake_len - 1
-            msg(continue_msg, "Your record: {}".format(player_record),
-                (window[0] // 2 - continue_msg.size("Your record: *")[0] / 2, BLOCK_SIZE))
-            msg(game_over_font, "Game Over",
-                (window[0] // 2 - game_over_font.size("Game Over")[0] / 2, window[1] // 2 - window[1] // 4))
+        while config.game_over:
+            config.screen.fill(config.COLOR_BROWN)
+            if snake.snake_len - 1 > player_record:
+                player_record = snake.snake_len - 1
+            config.msg(config.continue_msg, "Your record: {}".format(player_record),
+                       (config.window[0] // 2 - config.continue_msg.size("Your record: *")[0] / 2, config.BLOCK_SIZE))
+            config.msg(config.game_over_font, "Game Over",
+                       (config.window[0] // 2 - config.game_over_font.size("Game Over")[0] / 2,
+                        config.window[1] // 2 - config.window[1] // 4))
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     quit()
@@ -52,29 +42,29 @@ def game_loop():
                         quit()
                     if event.key == pygame.K_e:
                         game_loop()
-                if event.type == BLINK_EVENT:
-                    blink_surface = next(blink_surfaces)
+                if event.type == config.BLINK_EVENT:
+                    blink_surface = next(config.blink_surfaces)
 
             # Displays blink message on the screen
-            screen.blit(blink_surface, blink_rect)
+            config.screen.blit(blink_surface, config.blink_rect)
             pygame.display.flip()
-            if blink_surface == on_text_surface:
+            if blink_surface == config.on_text_surface:
                 pygame.time.wait(300)
-            game_clock.tick(60)
-        game_clock.tick(10)
+            config.game_clock.tick(60)
+        config.game_clock.tick(10)
         pygame.time.delay(85)
-        screen.fill(COLOR_BROWN)
-        draw_sky()
-        draw_dark_brown_square()
-        draw_wall()
-        draw_ground_block()
-        for block in blocks:
-            screen.blit(stone_block_img, block)
-        screen.blit(fruit.fruits_imgs[random_ind2][frame_aux], fruit.general_fruit)
+        config.screen.fill(config.COLOR_BROWN)
+        config.draw_sky()
+        config.draw_dark_brown_square()
+        config.draw_ground_block()
+        wall.draw_wall()
+        for block in wall.blocks:
+            config.screen.blit(wall.stone_block_img, block)
+        config.screen.blit(fruit.fruits_imgs[random_ind2][frame_aux], fruit.general_fruit)
 
         # Displays score on the game screen
-        msg(continue_msg, "Score: {}".format(snake_len - 1),
-            (window[0] // 2 - continue_msg.size("Score: *")[0] / 2, BLOCK_SIZE))
+        config.msg(config.continue_msg, "Score: {}".format(snake.snake_len - 1),
+                   (config.window[0] // 2 - config.continue_msg.size("Score: *")[0] / 2, config.BLOCK_SIZE))
 
         # Auxiliary variables
         frame_aux += 1
@@ -85,92 +75,32 @@ def game_loop():
         # Listen to players key and rotate the snake image to the respective direction
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                game_close = True
-            elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_a and snake.x_move <= 0:
-                    if snake.y_move <= 0 and snake.x_move == 0:
-                        snake.rotate_imgs(90, random_ind1)
-                    elif snake.y_move > 0:
-                        snake.rotate_imgs(-90, random_ind1)
-                    snake.x_move = -BLOCK_SIZE
-                    snake.y_move = 0
-                elif event.key == pygame.K_d and snake.x_move >= 0:
-                    if snake.y_move <= 0 and snake.x_move == 0:
-                        snake.rotate_imgs(-90, random_ind1)
-                    elif snake.y_move > 0:
-                        snake.rotate_imgs(90, random_ind1)
-                    snake.x_move = BLOCK_SIZE
-                    snake.y_move = 0
-                elif event.key == pygame.K_w and snake.y_move <= 0:
-                    if snake.x_move > 0 and snake.y_move == 0:
-                        snake.rotate_imgs(90, random_ind1)
-                    elif snake.x_move < 0:
-                        snake.rotate_imgs(-90, random_ind1)
-                    snake.y_move = -BLOCK_SIZE
-                    snake.x_move = 0
-                elif event.key == pygame.K_s and snake.y_move >= 0:
-                    if snake.x_move > 0 and snake.y_move == 0:
-                        snake.rotate_imgs(-90, random_ind1)
-                    elif snake.x_move < 0:
-                        snake.rotate_imgs(90, random_ind1)
-                    elif snake.x_move == 0 and snake.y_move == 0:
-                        snake.rotate_imgs(180, random_ind1)
-                    snake.y_move = BLOCK_SIZE
-                    snake.x_move = 0
-
-        # Snake moves
-        snake.snake.x += snake.x_move
-        snake.snake.y += snake.y_move
-        snake_head = (snake.snake.x, snake.snake.y)
-        snake_pos.insert(0, snake_head)
-
-        # Snake body "moves"
-        if len(snake_pos) > snake_len:
-            del snake_pos[len(snake_pos) - 1]
-
-        # The snake collides with the wall
-        if snake.snake.y < 116 or snake.snake.y > window[1] - 25 or snake.snake.x < 4*BLOCK_SIZE or \
-                snake.snake.x > window[0] - 5*BLOCK_SIZE:
-            game_over = game_over_treatment()
-
-        # The snake collides with an obstacle
-        for block in blocks:
-            if block.x == snake.snake.x and block.y == snake.snake.y:
-                game_over = game_over_treatment()
-
-        # The snake collides with herself
-        for x in snake_pos[1:]:
-            if x == snake_head:
-                game_over = game_over_treatment()
-
-        # Draw snake
-        for pos in snake_pos:
-            if pos == snake_pos[0]:
-                screen.blit(snake.snake_imgs[random_ind1][0], (pos[0], pos[1]))
-            elif pos == snake_pos[len(snake_pos) - 1]:
-                screen.blit(snake.snake_imgs[random_ind1][2], (pos[0], pos[1]))
-            else:
-                screen.blit(snake.snake_imgs[random_ind1][1], (pos[0], pos[1]))
+                config.game_close = True
+            snake.check_snake_moves(event, random_ind1)
 
         # Fruit eaten
         if fruit_eaten:
             random_ind1 = random_ind2
-            apple_sound.play()
-            snake_len += 1
-            fruit.random_fruit(snake_pos)
-            random_block(snake_pos, snake_len-1)
+            config.apple_sound.play()
+            snake.snake_len += 1
+            fruit.random_fruit()
+            wall.random_block(snake.snake_len - 1)
             # Reset snake image
             for m in range(3):
-                snake.snake_imgs[random_ind1][m] = img("snake_" + snake.snake_colors[random_ind1] + str(m + 1))
+                snake.snake_imgs[random_ind1][m] = config.img("snake_" + snake.snake_colors[random_ind1] + str(m + 1))
             random_ind2 = randint(0, 3)
-            if snake.x_move < 0:
-                snake.rotate_imgs(90, random_ind1)
-            if snake.x_move > 0:
-                snake.rotate_imgs(-90, random_ind1)
-            if snake.y_move > 0:
-                snake.rotate_imgs(180, random_ind1)
-            if snake.y_move < 0:
-                pass
+            snake.snake_colors_reset(random_ind1)
+
+        # Snake moves
+        snake.snake_moves()
+        snake.draw_snake(random_ind1)
+
+        # The snake collides with the wall / obstacle
+        snake.check_snake_collide_herself()
+        snake.snake_wall_collide()
+        wall.snake_obstacle_collide()
+
         pygame.display.flip()
+
     pygame.quit()
     quit()

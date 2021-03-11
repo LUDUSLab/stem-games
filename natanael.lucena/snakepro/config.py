@@ -17,6 +17,9 @@ game_clock = pygame.time.Clock()  # Clock object
 # Block size constant
 BLOCK_SIZE = 32
 
+# Game loop variables
+game_close, game_over = False, False
+
 
 # Fonts
 def font(fontsize):
@@ -44,10 +47,11 @@ def msg(fnt, message, pos):
 
 # Does what needs to be done when game is over
 def game_over_treatment():
+    global game_over
     wall_hit.play()
     game_over_sound.play()
     pygame.mixer.music.stop()
-    return True
+    game_over = True
 
 
 # Draw a blue rect above the ground
