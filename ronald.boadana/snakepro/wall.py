@@ -1,8 +1,30 @@
 from config import *
 
+wall = pygame.image.load('./assets/ronald.boadana_wall.png')
+wall_1a = (192, 32)
+wall_2a = (192, 64)
+wall_3a = (608, 32)
+wall_4a = (608, 64)
+wall_5a = (32, 160)
+wall_6a = (64, 160)
+wall_7a = (416, 160)
+wall_8a = (416, 192)
+wall_9a = (416, 224)
+wall_10a = (480, 320)
+wall_11a = (480, 352)
+wall_12a = (480, 384)
+wall_13a = (736, 416)
+wall_14a = (704, 416)
+wall_15a = (672, 416)
+wall_16a = (32, 384)
+wall_17a = (64, 384)
+wall_18a = (224, 544)
+wall_19a = (224, 512)
+wall_20a = (224, 480)
 
+
+# drawing the borders
 def wall_pos():
-    wall = pygame.image.load('./assets/ronald.boadana_wall.png')
     for i in range(0, 800, 32):
         screen.blit(wall, (i, 0))
         screen.blit(wall, (i, 576))
@@ -11,6 +33,9 @@ def wall_pos():
         screen.blit(wall, (0, i))
         screen.blit(wall, (768, i))
 
+
+# drawing the obstacles on the map
+def wall_obstacles():
     wall_1 = (192, 32)
     wall_2 = (192, 64)
     wall_3 = (608, 32)

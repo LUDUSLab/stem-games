@@ -1,7 +1,6 @@
 import pygame
 
 pygame.init()
-
 # setting the colors
 color_black = (0, 0, 0)
 color_white = (255, 255, 255)
@@ -30,5 +29,3 @@ victory_font = pygame.font.Font('./assets/PressStart2P.ttf', 65)
 victory_text = defeat_font.render('VICTORY!', True, color_white, color_black)
 victory_text_rect = score_text.get_rect()
 victory_text_rect.center = (175, 275)
-
-pygame.display.update()
