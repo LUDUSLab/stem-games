@@ -40,11 +40,14 @@ def draw_wall():
         if aux > 2:
             aux = 0
 
+def obstacle_dificult(dif, player_score):
+    levels = {"easy": 15, "medium": 10, "hard": 5}
+    if player_score % levels[dif] == 0 and player_score != 0:
+        blocks.append(stone_block_img.get_rect())
 
 # Define the right location for obstacle's spawn
 def random_block(body_pos, player_score):
-    if player_score % 10 == 0 and player_score != 0:
-        blocks.append(stone_block_img.get_rect())
+    obstacle_dificult("medium", player_score)
     for block in blocks:
         while True:
             block.x = randrange(4, (window[0] // BLOCK_SIZE) - 4) * BLOCK_SIZE
