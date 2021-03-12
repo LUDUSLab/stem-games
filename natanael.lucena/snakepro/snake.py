@@ -15,6 +15,7 @@ def reset_snake_images():
             aux.append(img("snake_" + snake_colors[i] + str(j + 1)))
         snake_imgs.append(aux)
 
+
 reset_snake_images()
 snake = snake_imgs[0][0].get_rect()
 snake_pos = [(window[0] // 2, window[1] // 2)]
@@ -22,6 +23,7 @@ snake_len = 1
 x_move = 0
 y_move = 0
 snake_head = (snake.x, snake.y)
+
 
 def reset_snake():
     global snake, snake_pos, snake_len, x_move, y_move
@@ -38,6 +40,7 @@ def reset_snake():
 def rotate_imgs(angle, current_snake):
     for k in range(3):
         snake_imgs[current_snake][k] = pygame.transform.rotate(snake_imgs[current_snake][k], angle)
+
 
 def check_snake_moves(event, random_ind1):
     global x_move, y_move
@@ -73,6 +76,7 @@ def check_snake_moves(event, random_ind1):
             y_move = BLOCK_SIZE
             x_move = 0
 
+
 def snake_moves():
     global snake_head
     snake.x += x_move
@@ -82,6 +86,7 @@ def snake_moves():
     # Snake body "moves"
     if len(snake_pos) > snake_len:
         del snake_pos[len(snake_pos) - 1]
+
 
 # The snake collides with herself
 def check_snake_collide_herself():
@@ -99,10 +104,12 @@ def draw_snake(random_ind1):
         else:
             screen.blit(snake_imgs[random_ind1][1], (pos[0], pos[1]))
 
+
 def snake_wall_collide():
     if snake.y < 116 or snake.y > window[1] - 25 or snake.x < 4 * BLOCK_SIZE or \
             snake.x > window[0] - 5 * BLOCK_SIZE:
         game_over_treatment()
+
 
 def snake_colors_reset(random_ind1):
     if x_move < 0:

@@ -7,6 +7,7 @@ import wall
 
 player_record = 0
 
+
 # Main game loop
 def game_loop():
     global player_record

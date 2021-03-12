@@ -39,10 +39,12 @@ def draw_wall():
         if aux > 2:
             aux = 0
 
+
 def obstacle_difficult(dif, player_score):
     levels = {"easy": 15, "medium": 10, "hard": 5}
     if player_score % levels[dif] == 0 and player_score != 0:
         blocks.append(stone_block_img.get_rect())
+
 
 # Define the right location for obstacle's spawn
 def random_block(player_score):
@@ -57,19 +59,18 @@ def random_block(player_score):
                 if not (block.x == general_fruit.x and block.y == general_fruit.y):
                     # Check if the obstacle spawn position is not too close of snakes head if it is moving horizontally
                     if block.y == snake.snake_pos[0][1]:
-                        if snake.x_move > 0 and not (block.x - snake.snake_pos[0][0] < 5 * BLOCK_SIZE):
-                            break
-                        elif snake.x_move < 0 and not (snake.snake_pos[0][0] - block.x < 5 * BLOCK_SIZE):
+                        if snake.x_move > 0 and not (block.x - snake.snake_pos[0][0] < 5 * BLOCK_SIZE) or\
+                                snake.x_move < 0 and not (snake.snake_pos[0][0] - block.x < 5 * BLOCK_SIZE):
                             break
                     # Check if the obstacle spawn position is not too close of snakes head if it is moving vertically
                     elif block.x == snake.snake_pos[0][0]:
-                        if snake.y_move > 0 and not (block.y - snake.snake_pos[0][0] < 5 * BLOCK_SIZE):
-                            break
-                        elif snake.y_move < 0 and not (snake.snake_pos[0][0] - block.y < 5 * BLOCK_SIZE):
+                        if snake.y_move > 0 and not (block.y - snake.snake_pos[0][0] < 5 * BLOCK_SIZE) or\
+                                snake.y_move < 0 and not (snake.snake_pos[0][0] - block.y < 5 * BLOCK_SIZE):
                             break
                     else:
                         break
         set_obj_coordinates(block, block.x, block.y)  # set fruit random position
+
 
 # The snake collides with an obstacle
 def snake_obstacle_collide():
