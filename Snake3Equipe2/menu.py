@@ -2,13 +2,13 @@ import pygame
 
 import config
 
-menu = pygame.Surface(config.window_size)
+menu_surf = pygame.Surface(config.window_size)
 game_title_font = config.font(64)
 menu_button_dimension = (240, 50)
 button_center_x = config.center[0] - menu_button_dimension[0] // 2
 
 
-class Button(object):
+class Button:
     __selected = False
     __button_font = config.font(32)
     __button_font_color = config.COLOR_LIGHT_GRAY
@@ -76,10 +76,10 @@ def display_menu():
             if event.key == pygame.K_RETURN:
                 config.in_menu = False
                 config.options[config.options_key[selected_index]] = True
-                menu.fill((0, 0, 0))
-    config.display_msg(menu, game_title_font, "MAD KOBRA", config.COLOR_LIGHT_GRAY,
+                menu_surf.fill((0, 0, 0))
+    config.display_msg(menu_surf, game_title_font, "MAD KOBRA", config.COLOR_LIGHT_GRAY,
                        (config.center[0] - game_title_font.size("MAD KOBRA")[0] // 2, config.center[1] - 200))
-    config.screen.blit(menu, (0, 0))
+    config.screen.blit(menu_surf, (0, 0))
 
     if selected_index > len(buttons) - 1:
         selected_index = 0
@@ -87,5 +87,5 @@ def display_menu():
         selected_index = len(buttons) - 1
     buttons[selected_index].set_selected(True)
     for button in [play_button, credits_button, exit_button]:
-        button.draw(menu)
+        button.draw(menu_surf)
     pygame.display.update()
