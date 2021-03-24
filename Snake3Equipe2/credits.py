@@ -3,7 +3,8 @@ import menu
 import pygame
 
 credits_surf = pygame.Surface(config.window_size)
-back_button = menu.Button((menu.button_center_x, 500), menu.menu_button_dimension, "Back")
+back_button_dimension = (240, 50)
+back_button = config.Button(back_button_dimension, (menu.button_center_x, 500), menu.menu_button_dimension, "Back")
 back_button.set_selected(True)
 
 

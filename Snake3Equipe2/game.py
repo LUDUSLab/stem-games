@@ -3,31 +3,6 @@ import config
 
 game_surf = pygame.Surface(config.window_size)
 
-class Arena(object):
-    def __init__(self, size: tuple, grid: bool = True):
-        self.rows = 32
-        self.columns = 18
-        self.size = size
-        self.grid = grid
-        self.snake = Snake((255, 0, 0), (15, 8))
-
-    def draw_grid(self, rows, columns, surface):
-        if self.grid:
-            sqrsize = self.size[1] // rows
-            x = 0
-            y = 0
-            for i in range(columns):
-                x = x + sqrsize
-                pygame.draw.line(surface, config.COLOR_LIGHT_GRAY, (x, 0), (x, self.size[0]))
-            for j in range(rows):
-                y = y + sqrsize
-                pygame.draw.line(surface, config.COLOR_LIGHT_GRAY, (0, y), (self.size[0], y))
-
-    def redraw_window(self, surface):
-        surface.fill((0, 0, 0))
-        self.snake.draw(self.size[0] // self.rows, surface)
-        self.draw_grid(18, 32, surface)
-
 
 class Cube(object):
     def __init__(self, start: tuple, color: tuple = (255, 0, 0)):
@@ -108,6 +83,31 @@ class Snake(object):
 
     def get_turns(self):
         return self.__turns
+
+class Arena(object):
+    def __init__(self, size: tuple, grid: bool = True):
+        self.rows = 32
+        self.columns = 18
+        self.size = size
+        self.grid = grid
+        self.snake = Snake((255, 0, 0), (15, 8))
+
+    def draw_grid(self, rows, columns, surface):
+        if self.grid:
+            sqrsize = self.size[1] // rows
+            x = 0
+            y = 0
+            for i in range(columns):
+                x = x + sqrsize
+                pygame.draw.line(surface, config.COLOR_LIGHT_GRAY, (x, 0), (x, self.size[0]))
+            for j in range(rows):
+                y = y + sqrsize
+                pygame.draw.line(surface, config.COLOR_LIGHT_GRAY, (0, y), (self.size[0], y))
+
+    def redraw_window(self, surface):
+        surface.fill((0, 0, 0))
+        self.snake.draw(self.size[0] // self.rows, surface)
+        self.draw_grid(18, 32, surface)
 
 arena = Arena(config.window_size)
 snake = arena.snake
