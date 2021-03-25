@@ -26,21 +26,14 @@ def display_img(surface, path: str, pos: tuple):
     surface.blit(image, pos)
 
 
-def set_obj_coordinates(obj, x, y):
-    obj.x = x
-    obj.y = y
-
-
 def check_quit_event(event):
     if event.type == pygame.QUIT:
         pygame.quit()
         quit()
 
-
-in_menu = True
-options_key = ["in_game", "in_credits", "exit"]
-options = {k: False for k in options_key}
-
+def exit_game():
+    pygame.quit()
+    quit()
 
 class Button:
     __selected = False
@@ -48,13 +41,17 @@ class Button:
     __button_font_color = COLOR_LIGHT_GRAY
     __button_rect = ()
 
-    def __init__(self, dimension: tuple, pos: tuple, rect: tuple, content: str, color=COLOR_BLACK):
+    def __init__(self, dimension: tuple, pos: tuple, rect: tuple, content, event, color=COLOR_BLACK):
         self.dimension = dimension
         self.pos = pos
         self.color = color
         self.rect = rect
         self.content = content
         self.button_rect = pos + rect
+        self.event = event
+
+    def execute_action(self):
+        self.event()
 
     def draw(self, surface):
         if self.__selected:
@@ -88,3 +85,32 @@ class Button:
 
     def get_content(self):
         return self.content
+
+buttons_index = 0
+
+def move_selected_button(direction, buttons_lst):
+    global buttons_index
+    buttons_lst[buttons_index].set_selected(False)
+    if direction == "up":
+        buttons_index -= 1
+    elif direction == "down":
+        buttons_index += 1
+    if buttons_index > len(buttons_lst) - 1:
+        buttons_index = 0
+    elif buttons_index < 0:
+        buttons_index = len(buttons_lst) - 1
+    buttons_lst[buttons_index].set_selected(True)
+
+
+def check_key(buttons_lst):
+    global buttons_index
+    for event in pygame.event.get():
+        check_quit_event(event)
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_w:
+                move_selected_button("up", buttons_lst)
+            elif event.key == pygame.K_s:
+                move_selected_button("down", buttons_lst)
+            if event.key == pygame.K_RETURN:
+                buttons_lst[buttons_index].execute_action()
+                buttons_index = 0

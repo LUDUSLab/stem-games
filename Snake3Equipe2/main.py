@@ -1,13 +1,14 @@
 import menu
-import config
 import credits
 import game
 
-while not config.options["in_game"] and not config.options["exit"]:
-    menu.display_menu()
+credits_obj = credits.Credits()
+menu_obj = menu.Menu()
+while not menu.menu_options["in_game"] and not menu.menu_options["exit"]:
+    if menu.menu_options["in_credits"]:
+        credits_obj.display_all()
+    else:
+        menu_obj.display_all()
 
-    if config.options["in_credits"]:
-        credits.display_credits()
-
-while config.options["in_game"]:
+while menu.menu_options["in_game"]:
     game.display_game()
