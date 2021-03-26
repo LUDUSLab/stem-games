@@ -1,13 +1,13 @@
 import pygame
 import button
-
 import config
+
+menu_button_dimension = (240, 50)
+button_center_x = config.window.center[0] - menu_button_dimension[0] // 2
 
 menu_options_key = ["in_game", "in_credits", "exit"]
 menu_options = {k: False for k in menu_options_key}
 
-menu_button_dimension = (240, 50)
-button_center_x = config.window.center[0] - menu_button_dimension[0] // 2
 
 def go_to_credits():
     menu_options["in_credits"] = True

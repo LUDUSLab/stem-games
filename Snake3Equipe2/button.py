@@ -39,17 +39,6 @@ class Button:
     def set_selected(self, is_selected):
         self.__selected = is_selected
 
-    def get_color(self):
-        return self.color
-
-    def set_color(self, new_color):
-        self.color = new_color
-
-    def get_rect(self):
-        return self.__rect
-
-    def get_content(self):
-        return self.content
 
 buttons_index = 0
 

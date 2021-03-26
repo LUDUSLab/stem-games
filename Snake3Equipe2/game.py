@@ -1,8 +1,6 @@
 import pygame
 import config
 
-
-game_surf = config.window.create_surface()
 class Game(object):
     def __init__(self):
         self.surface = config.window.create_surface()
@@ -102,11 +100,6 @@ class Snake(object):
             if self.__body[x].pos in list(map(lambda z: z.pos, self.__body[x + 1:])):
                 self.reset((15, 8))
 
-    def get_body(self):
-        return self.__body
-
-    def get_turns(self):
-        return self.__turns
 
 class Arena(object):
     def __init__(self, size: tuple, grid: bool = True):
@@ -137,8 +130,3 @@ class Arena(object):
         surface.fill((0, 0, 0))
         self.snake.draw(self.size[0] // self.columns, surface)
         self.draw_grid(18, 32, surface)
-
-game = Game()
-
-def display_game():
-    game.display_all()
