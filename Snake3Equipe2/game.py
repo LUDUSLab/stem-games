@@ -33,10 +33,18 @@ class Cube(object):
         self.dirny = dirny
         self.pos = (self.pos[0] + self.dirnx, self.pos[1] + self.dirny)
 
-    def draw(self, dist, surface):
+    def draw(self, dist, surface, eyes=False):
         i = self.pos[0]
         j = self.pos[1]
         pygame.draw.rect(surface, self.color, (i * dist + 1, j * dist + 1, dist - 2, dist - 2))
+        if eyes:
+            centre = dist//2
+            radius = 4
+            circle_middle = (i*dist+centre-radius, j*dist+8)
+            circle_middle2 = (i*dist + dist - radius*2, j*dist+8)
+            color = config.COLOR_BLACK
+            pygame.draw.circle(surface, color, circle_middle, radius)
+            pygame.draw.circle(surface, color, circle_middle2, radius)
 
 
 class Snake(object):
@@ -93,7 +101,10 @@ class Snake(object):
 
     def draw(self, dist, surface):
         for i, c in enumerate(self.__body):
-            c.draw(dist, surface)
+            if i == 0:
+                c.draw(dist, surface, True)
+            else:
+                c.draw(dist, surface)
 
     def collision_with_herself(self):
         for x in range(len(self.__body)):
@@ -116,17 +127,17 @@ class Arena(object):
 
     def draw_grid(self, columns, rows, surface):
         if self.grid:
-            sqrsize = self.size[0] // rows
+            sqrsize = self.size[0] // columns
             x = 0
             y = 0
-            for i in range(rows):
+            for i in range(columns):
                 x = x + sqrsize
                 pygame.draw.line(surface, config.COLOR_LIGHT_GRAY, (x, 0), (x, self.size[0]))
-            for j in range(columns):
+            for j in range(rows):
                 y = y + sqrsize
                 pygame.draw.line(surface, config.COLOR_LIGHT_GRAY, (0, y), (self.size[0], y))
 
     def redraw_window(self, surface):
         surface.fill((0, 0, 0))
         self.snake.draw(self.size[0] // self.columns, surface)
-        self.draw_grid(18, 32, surface)
+        self.draw_grid(32, 18, surface)
