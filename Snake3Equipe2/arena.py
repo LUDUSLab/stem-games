@@ -8,7 +8,7 @@ class Arena(object):
         self.rows = 18
         self.size = size
         self.grid = grid
-        self.snake = snake.Snake((255, 0, 0), (15, 8))
+        self.snake = snake.SnakePlayer((255, 0, 0), (15, 8))
 
     def collision_with_snake(self):
         if self.snake.head.pos[0] == -1 or self.snake.head.pos[0] == self.columns or self.snake.head.pos[1] == -1 \
