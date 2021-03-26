@@ -1,5 +1,6 @@
 import config
 import menu
+import button
 import pygame
 
 credits_options_key = ["back_to_menu"]
@@ -11,18 +12,18 @@ def go_back_to_menu():
 
 
 class Credits(object):
-    back_button = config.Button(menu.menu_button_dimension, (menu.button_center_x, 500), "Back", go_back_to_menu)
+    back_button = button.Button(menu.menu_button_dimension, (menu.button_center_x, 500), "Back", go_back_to_menu)
     back_button.set_selected(True)
-    surface = pygame.Surface(config.window_size)
+    surface = pygame.Surface(config.window.size)
 
     def display_button(self):
         self.back_button.draw(self.surface)
 
     def update_surface(self):
-        config.screen.blit(self.surface, (0, 0))
+        config.window.draw_surface(self.surface)
         pygame.display.update()
 
     def display_all(self):
         self.display_button()
-        config.check_key([self.back_button])
+        button.check_key([self.back_button])
         self.update_surface()

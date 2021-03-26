@@ -1,7 +1,8 @@
 import pygame
 import config
 
-game_surf = pygame.Surface(config.window_size)
+
+game_surf = config.window.create_surface()
 
 
 class Cube(object):
@@ -86,42 +87,42 @@ class Snake(object):
 
 class Arena(object):
     def __init__(self, size: tuple, grid: bool = True):
-        self.rows = 32
-        self.columns = 18
+        self.columns = 32
+        self.rows = 18
         self.size = size
         self.grid = grid
         self.snake = Snake((255, 0, 0), (15, 8))
 
-    def draw_grid(self, rows, columns, surface):
+    def draw_grid(self, columns, rows, surface):
         if self.grid:
-            sqrsize = self.size[1] // rows
+            sqrsize = self.size[0] // rows
             x = 0
             y = 0
-            for i in range(columns):
+            for i in range(rows):
                 x = x + sqrsize
                 pygame.draw.line(surface, config.COLOR_LIGHT_GRAY, (x, 0), (x, self.size[0]))
-            for j in range(rows):
+            for j in range(columns):
                 y = y + sqrsize
                 pygame.draw.line(surface, config.COLOR_LIGHT_GRAY, (0, y), (self.size[0], y))
 
     def redraw_window(self, surface):
         surface.fill((0, 0, 0))
-        self.snake.draw(self.size[0] // self.rows, surface)
+        self.snake.draw(self.size[0] // self.columns, surface)
         self.draw_grid(18, 32, surface)
 
-arena = Arena(config.window_size)
+arena = Arena(config.window.size)
 snake = arena.snake
 
 clock = pygame.time.Clock()
 
 def display_game():
     clock.tick(10)
-    config.screen.blit(game_surf, (0, 0))
+    config.window.draw_surface(game_surf)
     snake.move()
     for x in range(len(snake.get_body())):
         if snake.get_body()[x].pos in list(map(lambda z:z.pos, snake.get_body()[x+1:])) \
-                or snake.head.pos[0] == -1 or snake.head.pos[0] == arena.rows or snake.head.pos[1] == -1 \
-                or snake.head.pos[1] == arena.columns:
+                or snake.head.pos[0] == -1 or snake.head.pos[0] == arena.columns or snake.head.pos[1] == -1 \
+                or snake.head.pos[1] == arena.rows:
             snake.reset((15, 8))
     arena.redraw_window(game_surf)
     pygame.display.update()
