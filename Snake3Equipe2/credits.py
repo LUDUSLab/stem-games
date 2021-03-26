@@ -11,9 +11,7 @@ def go_back_to_menu():
 
 
 class Credits(object):
-    back_button = config.Button(menu.menu_button_dimension, (menu.button_center_x, 500),
-                                menu.menu_button_dimension, "Back",
-                                go_back_to_menu)
+    back_button = config.Button(menu.menu_button_dimension, (menu.button_center_x, 500), "Back", go_back_to_menu)
     back_button.set_selected(True)
     surface = pygame.Surface(config.window_size)
 

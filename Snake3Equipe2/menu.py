@@ -14,12 +14,9 @@ def go_to_game():
 menu_button_dimension = (240, 50)
 button_center_x = config.center[0] - menu_button_dimension[0] // 2
 
-play_button = config.Button(menu_button_dimension, (button_center_x, 300), menu_button_dimension, "Play",
-                            go_to_game)
-credits_button = config.Button(menu_button_dimension, (button_center_x, 400), menu_button_dimension,
-                               "Credits", go_to_credits)
-exit_button = config.Button(menu_button_dimension, (button_center_x, 500), menu_button_dimension, "Exit",
-                            config.exit_game)
+play_button = config.Button(menu_button_dimension, (button_center_x, 300), "Play", go_to_game)
+credits_button = config.Button(menu_button_dimension, (button_center_x, 400), "Credits", go_to_credits)
+exit_button = config.Button(menu_button_dimension, (button_center_x, 500), "Exit", config.exit_game)
 buttons = [play_button, credits_button, exit_button]
 
 buttons[0].set_selected(True)
