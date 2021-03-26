@@ -10,5 +10,5 @@ class Window(object):
     def create_surface(self):
         return pygame.Surface(self.size)
 
-    def draw_surface(self, surface, pos=(0, 0)):
+    def display_surface(self, surface, pos=(0, 0)):
         self.screen.blit(surface, pos)

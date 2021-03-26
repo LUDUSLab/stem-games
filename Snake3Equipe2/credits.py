@@ -20,7 +20,7 @@ class Credits(object):
         self.back_button.draw(self.surface)
 
     def update_surface(self):
-        config.window.draw_surface(self.surface)
+        config.window.display_surface(self.surface)
         pygame.display.update()
 
     def display_all(self):

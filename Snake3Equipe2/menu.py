@@ -43,7 +43,7 @@ class Menu:
             b.draw(self.surface)
 
     def update_surface(self):
-        config.window.draw_surface(self.surface)
+        config.window.display_surface(self.surface)
         self.surface.fill(self.bg_color)
         pygame.display.update()
 
