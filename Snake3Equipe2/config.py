@@ -112,5 +112,7 @@ def check_key(buttons_lst):
             elif event.key == pygame.K_s:
                 move_selected_button("down", buttons_lst)
             if event.key == pygame.K_RETURN:
+                buttons_lst[buttons_index].set_selected(False)
                 buttons_lst[buttons_index].execute_action()
                 buttons_index = 0
+                buttons_lst[buttons_index].set_selected(True)

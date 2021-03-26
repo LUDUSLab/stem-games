@@ -7,11 +7,13 @@ credits_options = {k: False for k in credits_options_key}
 
 def go_back_to_menu():
     credits_options[credits_options_key[0]] = True
+    menu.menu_options["in_credits"] = False
+
 
 class Credits(object):
     back_button = config.Button(menu.menu_button_dimension, (menu.button_center_x, 500),
                                 menu.menu_button_dimension, "Back",
-                                go_back_to_menu())
+                                go_back_to_menu)
     back_button.set_selected(True)
     surface = pygame.Surface(config.window_size)
 
