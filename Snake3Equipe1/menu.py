@@ -46,12 +46,12 @@ class CreditsMenu:
         self._menu.add_button("Back", self._menu.disable)
         self._menu.mainloop(self._screen)
 
+
 class SettingMenu:
     def __init__(self, height, width, title="Credits", theme=pygame_menu.themes.THEME_DARK):
         self._width, self._height = width, height
         self._screen = pygame.display.set_mode((width, height))
         self._menu = pygame_menu.Menu(height, width, title, theme=theme)
-
 
         self._menu.add_vertical_margin(100)
         self._menu.add_button("Back", self._menu.disable)
