@@ -1,5 +1,6 @@
 import pygame
 
+
 class Window(object):
     def __init__(self, size: tuple = (1280, 720), caption: str = "Snake 3: Mad Kobra"):
         self.size = size
