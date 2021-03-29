@@ -1,6 +1,6 @@
 import pygame
-import window
-import game
+# import window
+# import game
 
 
 class Wall(object):
@@ -10,23 +10,23 @@ class Wall(object):
         self._wall = pygame.Surface(self.size)
         self._wall.fill(self.color)
 
-    def draw(self, surface):
-        surface.blit(self._wall, (0, 32))
-        surface.blit(self._wall, (0, 608))
-        surface.blit(self._wall, (1248, 32))
-        surface.blit(self._wall, (1248, 608))
-        for i in range(32, 1248, 32):
-            surface.blit(self._wall, (i, 32))
-            surface.blit(self._wall, (i, 608))
+    def draw_wall(self, surface):
+        surface.blit(self._wall, (0, 40))
+        surface.blit(self._wall, (0, 680))
+        surface.blit(self._wall, (1240, 40))
+        surface.blit(self._wall, (1240, 680))
+        for i in range(120, 1240, 40):
+            surface.blit(self._wall, (i, 40))
+            surface.blit(self._wall, (i, 680))
 
-        for i in range(64, 608, 32):
+        for i in range(80, 680, 40):
             surface.blit(self._wall, (0, i))
-            surface.blit(self._wall, (1248, i))
+            surface.blit(self._wall, (1240, i))
 
 
 class Obstacles(Wall):
-    def __init__(self):
-        super().__init__()
-        self._obstacles_1 = self._wall
+    def init(self):
+        super(Obstacles, self).__init__()
 
-
+    def draw_obstacles(self, surface):
+        surface.blit(self._wall, (240, 240))

@@ -9,7 +9,6 @@ class Game(object):
         self.surface = config.window.create_surface()
         self.arena = arena.Arena(config.window.size)
         self.snake = self.arena.snake
-        # self.wall = self.arena.wall
         self.clock = pygame.time.Clock()
         self.framerate = 10
 
@@ -19,7 +18,7 @@ class Game(object):
     def display_all(self):
         self.clock.tick(self.framerate)
         self.display_surface()
-        # self.wall.draw()
+        # self._wall.draw()
         self.snake.move()
         self.snake.collision_with_herself()
         self.arena.collision_with_snake()

@@ -33,5 +33,4 @@ class Arena(object):
     def redraw_window(self, surface):
         surface.fill((0, 0, 0))
         self.snake.draw(self.size[0] // self.columns, surface)
-        # self.wall.draw(surface)
         self.draw_grid(32, 18, surface)
