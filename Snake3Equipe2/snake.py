@@ -74,5 +74,6 @@ class SnakePlayer(Snake):
             else:
                 c.move(c.dirnx, c.dirny)
 
+
 class SnakeBot(Snake):
     pass

@@ -1,11 +1,11 @@
 import pygame
-# import game
+import arena
 
 
 class Wall(object):
-    def __init__(self):
-        self.size = (40, 40)
-        self.color = (200, 200, 200)
+    def __init__(self, size: tuple = (40, 40), color: tuple = (200, 200, 200)):
+        self.size = size
+        self.color = color
         self._wall = pygame.Surface(self.size)
         self._wall.fill(self.color)
 
