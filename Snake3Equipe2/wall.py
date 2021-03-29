@@ -1,5 +1,4 @@
 import pygame
-# import window
 # import game
 
 
