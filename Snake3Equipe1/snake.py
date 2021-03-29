@@ -28,3 +28,30 @@ class Snake:
             else:
                 screen.blit(self._body1, position)
 
+
+class Player(Snake):
+
+    LEFT, UP, RIGHT, DOWN = 37, 38, 39, 40
+
+    def snake_moves(self, direction):
+        if direction == self.LEFT:
+            self._move_x = -32
+            self._move_y = 0
+
+        if direction == self.UP:
+            self._move_x = 0
+            self._move_y = -32
+
+        if direction == self.RIGHT:
+            self._move_x = 32
+            self._move_y = 0
+
+        if direction == self.DOWN:
+            self._move_x = 0
+            self._move_y = 32
+
+        for c in range(len(self._position) - 1, 0, -1):
+            self._position[c] = (self._position[c - 1][0], self._position[c - 1][1])
+
+        self._position[0] = (self._position[0][0] + self._move_x, self._position[0][1] + self._move_y)
+
