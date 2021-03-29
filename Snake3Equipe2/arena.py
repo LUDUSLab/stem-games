@@ -1,6 +1,8 @@
 import pygame
 import config
 import snake
+import wall
+
 
 class Arena(object):
     def __init__(self, size: tuple, grid: bool = True):
@@ -9,6 +11,7 @@ class Arena(object):
         self.size = size
         self.grid = grid
         self.snake = snake.SnakePlayer((255, 0, 0), (15, 8))
+        self.wall = wall
 
     def collision_with_snake(self):
         if self.snake.head.pos[0] == -1 or self.snake.head.pos[0] == self.columns or self.snake.head.pos[1] == -1 \
@@ -30,4 +33,5 @@ class Arena(object):
     def redraw_window(self, surface):
         surface.fill((0, 0, 0))
         self.snake.draw(self.size[0] // self.columns, surface)
+        # self.wall.draw(surface)
         self.draw_grid(32, 18, surface)
