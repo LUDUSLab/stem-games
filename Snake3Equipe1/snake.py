@@ -1,6 +1,3 @@
-import pygame
-
-
 class Snake:
 
     def __init__(self, color_1, color_2, position):
@@ -55,3 +52,60 @@ class Player(Snake):
 
         self._position[0] = (self._position[0][0] + self._move_x, self._position[0][1] + self._move_y)
 
+
+class ArtificialIntelligence(Snake):
+
+    def ia_moves(self, fruit_position):
+
+        for c in range(len(self._position) - 1, 0, -1):
+            self._position[c] = (self._position[c - 1][0], self._position[c - 1][1])
+
+        if fruit_position[0] - self._position[0][0] > 0 and fruit_position[1] - self._position[0][1] == 0:
+            self._move_x = 32
+            self._move_y = 0
+
+        elif fruit_position[0] - self._position[0][0] < 0 and fruit_position[1] - self._position[0][1] == 0:
+            self._move_x = -32
+            self._move_y = 0
+
+        elif fruit_position[0] - self._position[0][0] == 0 and fruit_position[1] - self._position[0][1] > 0:
+            self._move_x = 0
+            self._move_y = 32
+
+        elif fruit_position[0] - self._position[0][0] == 0 and fruit_position[1] - self._position[0][1] < 0:
+            self._move_x = 0
+            self._move_y = -32
+
+        elif fruit_position[0] - self._position[0][0] > 0 and fruit_position[1] - self._position[0][1] > 0:
+            self._move_x = 32
+            self._move_y = 0
+
+            if fruit_position[0] - self._position[0][0] < 0:
+                self._move_x = 0
+                self._move_y = 32
+
+        elif fruit_position[0] - self._position[0][0] > 0 > fruit_position[1] - self._position[0][1]:
+            self._move_x = 32
+            self._move_y = 0
+
+            if fruit_position[0] - self._position[0][0] < 0:
+                self._move_x = 0
+                self._move_y = -32
+
+        elif fruit_position[0] - self._position[0][0] < 0 < fruit_position[1] - self._position[0][1]:
+            self._move_x = -32
+            self._move_y = 0
+
+            if fruit_position[0] - self._position[0][0] > 0:
+                self._move_x = 0
+                self._move_y = 32
+
+        elif fruit_position[0] - self._position[0][0] < 0 and fruit_position[1] - self._position[0][1] < 0:
+            self._move_x = -32
+            self._move_y = 0
+
+            if fruit_position[0] - self._position[0][0] > 0:
+                self._move_x = 0
+                self._move_y = -32
+
+        self._position[0] = (self._position[0][0] + self._move_x, self._position[0][1] + self._move_y)
