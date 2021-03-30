@@ -70,7 +70,7 @@ class Snake(object):
 
     def collision_with_herself(self):
         for x in range(len(self._body)):
-            if self._body[x].pos in list(map(lambda z: z.pos, self._body[x + 1:])):
+            if self._body[0].pos in list(map(lambda z: z.pos, self._body[x + 1:])):
                 self.reset((15, 8))
 
     def get_body(self):
