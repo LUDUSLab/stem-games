@@ -15,6 +15,7 @@ class Arena(object):
         self.grid = grid
         self.snake_player = snake.SnakePlayer((255, 0, 0), (15, 8))
         self.wall = wall.Wall()
+        self.wall = wall.Obstacles((200, 200, 200))
         self.fruit = fruit.Fruit(1, (random.randrange(3, 28), random.randrange(3, 14)))
         self.p1 = cube.Cube((10, 1), (255, 0, 0))
         self.ia = cube.Cube((21, 1), (10, 150, 200))
@@ -62,4 +63,5 @@ class Arena(object):
         self.p1.draw(self.size[0] // self.columns, surface, True)
         self.ia.draw(self.size[0] // self.columns, surface, True)
         self.wall.draw_wall(surface)
+        self.wall.draw_obstacles(surface)
         self.draw_grid(32, 18, surface)
