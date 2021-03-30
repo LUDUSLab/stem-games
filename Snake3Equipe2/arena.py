@@ -40,7 +40,7 @@ class Arena(object):
 
     def collision_fruit_snake(self):
         if self.snake_player.head.pos == self.fruit.fruit.pos:
-            self.snake_player.addCube()
+            self.snake_player.add_cube()
             self.fruit = fruit.Fruit(1, self.random_fruit())
             self.snake_player.score += self.fruit.value
 

@@ -6,6 +6,7 @@ pygame.init()
 COLOR_BLACK = (0, 0, 0)
 COLOR_LIGHT_GRAY = (200, 200, 200)
 
+SQUARE_SIZE = 40
 
 def font(size: int):
     path = "./assets/PressStart2P.ttf"
