@@ -11,7 +11,7 @@ class Arena(object):
         self.size = size
         self.grid = grid
         self.snake = snake.SnakePlayer((255, 0, 0), (15, 8))
-        # self.wall = wall.Wall((40, 40))
+        self.wall = wall.Wall()
 
     def collision_with_snake(self):
         if self.snake.head.pos[0] == -1 or self.snake.head.pos[0] == self.columns or self.snake.head.pos[1] == -1 \
@@ -33,5 +33,5 @@ class Arena(object):
     def redraw_window(self, surface):
         surface.fill((0, 0, 0))
         self.snake.draw(self.size[0] // self.columns, surface)
-        # self.wall.draw_wall(self._wall, surface)
+        self.wall.draw_wall(surface)
         self.draw_grid(32, 18, surface)

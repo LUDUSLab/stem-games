@@ -1,31 +1,24 @@
 import pygame
-import arena
 
 
 class Wall(object):
-    def __init__(self, size: tuple = (40, 40), color: tuple = (200, 200, 200)):
-        self.size = size
+    def __init__(self, color: tuple = (200, 200, 200)):
+        self.size = (40, 40)
         self.color = color
-        self._wall = pygame.Surface(self.size)
-        self._wall.fill(self.color)
 
     def draw_wall(self, surface):
-        surface.blit(self._wall, (0, 40))
-        surface.blit(self._wall, (0, 680))
-        surface.blit(self._wall, (1240, 40))
-        surface.blit(self._wall, (1240, 680))
         for i in range(120, 1240, 40):
-            surface.blit(self._wall, (i, 40))
-            surface.blit(self._wall, (i, 680))
+            pygame.draw.rect(surface, self.color, (i, 40) + self.size)
+            pygame.draw.rect(surface, self.color, (0, 680) + self.size)
 
         for i in range(80, 680, 40):
-            surface.blit(self._wall, (0, i))
-            surface.blit(self._wall, (1240, i))
+            pygame.draw.rect(surface, self.color, (0, i) + self.size)
+            pygame.draw.rect(surface, self.color, (1240, i) + self.size)
 
 
 class Obstacles(Wall):
     def init(self):
         super(Obstacles, self).__init__()
 
-    def draw_obstacles(self, surface):
-        surface.blit(self._wall, (240, 240))
+    # def draw_obstacles(self, surface):
+        # surface.blit(self._wall, (240, 240))

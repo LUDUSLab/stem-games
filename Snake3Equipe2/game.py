@@ -18,7 +18,6 @@ class Game(object):
     def display_all(self):
         self.clock.tick(self.framerate)
         self.display_surface()
-        # self._wall.draw()
         self.snake.move()
         self.snake.collision_with_herself()
         self.arena.collision_with_snake()
