@@ -97,3 +97,6 @@ class SnakePlayer(Snake):
 class SnakeBot(Snake):
     def __init__(self, color: tuple, pos: tuple):
         super().__init__(color, pos)
+
+
+snake_player = SnakePlayer((255, 0, 0), (15, 8))
