@@ -7,13 +7,15 @@ class Wall(object):
         self.color = color
 
     def draw_wall(self, surface):
-        for i in range(120, 1240, 40):
-            pygame.draw.rect(surface, self.color, (i, 40) + self.size)
-            pygame.draw.rect(surface, self.color, (0, 680) + self.size)
+        # for 'y' coordinate
+        for i in range(120, 1200, 40):
+            pygame.draw.rect(surface, self.color, (i, 120) + self.size)
+            pygame.draw.rect(surface, self.color, (i, 600) + self.size)
 
-        for i in range(80, 680, 40):
-            pygame.draw.rect(surface, self.color, (0, i) + self.size)
-            pygame.draw.rect(surface, self.color, (1240, i) + self.size)
+        # for 'x' coordinate
+        for i in range(120, 600, 40):
+            pygame.draw.rect(surface, self.color, (120, i) + self.size)
+            pygame.draw.rect(surface, self.color, (1160, i) + self.size)
 
 
 class Obstacles(Wall):
