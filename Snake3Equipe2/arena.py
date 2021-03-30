@@ -12,14 +12,13 @@ class Arena(object):
         self.rows = 18
         self.size = size
         self.grid = grid
-        self.snake_player = snake.snake_player
+        self.snake_player = snake.SnakePlayer((255, 0, 0), (15, 8))
         self.wall = wall.Wall()
         self.wall = wall.Obstacles((200, 200, 200))
         self.fruit = fruit.Fruit(1, (random.randrange(3, 28), random.randrange(3, 14)))
 
     def random_fruit(self):
-
-        positions = self.snake_player.body
+        positions = self.snake_player.get_body()
 
         while True:
             x = random.randrange(3, 28)

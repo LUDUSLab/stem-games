@@ -19,8 +19,8 @@ class Game(object):
     def display_all(self):
         self.clock.tick(self.framerate)
         self.hud.display_hud_cubes(self.surface)
+        self.hud.display_score(self.surface)
         self.display_surface()
-        self.hud.display_score()
         self.snake_player.move()
         self.snake_player.collision_with_herself()
         self.arena.collision_with_snake()

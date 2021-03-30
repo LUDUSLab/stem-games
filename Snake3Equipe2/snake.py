@@ -1,6 +1,7 @@
 import pygame
 import config
 import cube
+import astar
 
 
 class Snake(object):
@@ -23,6 +24,26 @@ class Snake(object):
         self.dirnx = 0
         self.dirny = 1
         self.score = 0
+
+    def go_right(self):
+        self.dirnx = 1
+        self.dirny = 0
+        self._turns[self.head.pos[:]] = [self.dirnx, self.dirny]
+
+    def go_down(self):
+        self.dirnx = 0
+        self.dirny = 1
+        self._turns[self.head.pos[:]] = [self.dirnx, self.dirny]
+
+    def go_left(self):
+        self.dirnx = -1
+        self.dirny = 0
+        self._turns[self.head.pos[:]] = [self.dirnx, self.dirny]
+
+    def go_up(self):
+        self.dirnx = 0
+        self.dirny = -1
+        self._turns[self.head.pos[:]] = [self.dirnx, self.dirny]
 
     def add_cube(self):
         tail = self._body[-1]
@@ -52,8 +73,7 @@ class Snake(object):
             if self._body[x].pos in list(map(lambda z: z.pos, self._body[x + 1:])):
                 self.reset((15, 8))
 
-    @property
-    def body(self):
+    def get_body(self):
         return self._body
 
 
@@ -66,22 +86,13 @@ class SnakePlayer(Snake):
             config.check_quit_event(event)
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_a:
-                    self.dirnx = -1
-                    self.dirny = 0
-                    self._turns[self.head.pos[:]] = [self.dirnx, self.dirny]
-
+                    self.go_left()
                 elif event.key == pygame.K_d:
-                    self.dirnx = 1
-                    self.dirny = 0
-                    self._turns[self.head.pos[:]] = [self.dirnx, self.dirny]
+                    self.go_right()
                 elif event.key == pygame.K_w:
-                    self.dirnx = 0
-                    self.dirny = -1
-                    self._turns[self.head.pos[:]] = [self.dirnx, self.dirny]
+                    self.go_up()
                 elif event.key == pygame.K_s:
-                    self.dirnx = 0
-                    self.dirny = 1
-                    self._turns[self.head.pos[:]] = [self.dirnx, self.dirny]
+                    self.go_down()
 
         for i, c in enumerate(self._body):
             p = c.pos[:]
@@ -95,8 +106,22 @@ class SnakePlayer(Snake):
 
 
 class SnakeBot(Snake):
-    def __init__(self, color: tuple, pos: tuple):
+    def __init__(self, color: tuple, pos: tuple, afruit):
         super().__init__(color, pos)
+        self.start = self.head.pos
+        self.end = afruit.pos
+        self.path = astar.Astar(self.start, self.end).run()
+        self.x_head, self.y_head = self.head.pos[0], self.head.pos[1]
 
-
-snake_player = SnakePlayer((255, 0, 0), (15, 8))
+    def move(self):
+        for (x, y) in self.path:
+            if x > self.x_head:
+                self.go_right()
+            if x < self.x_head:
+                self.go_left()
+            if y > self.y_head:
+                self.go_down()
+            if y < self.y_head:
+                self.go_up()
+            self.x_head = x
+            self.y_head = y

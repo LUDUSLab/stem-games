@@ -1,11 +1,11 @@
 import config
-import snake
+import arena
 import cube
 
 class Score(object):
-    def __init__(self, score_p1, score_ia):
+    def __init__(self):
         self.font = config.font(30)
-        self.text = self.font.render("Player " + str(score_p1) + "X" + str(score_ia) + " IA", True,
+        self.text = self.font.render("Player " + str(arena.arena_obj.snake_player.score) + "X" + str(0) + " IA", True,
                                      config.COLOR_LIGHT_GRAY)
         self.text_rect = self.text.get_rect()
 
@@ -15,15 +15,17 @@ class Hud(object):
     p1 = cube.Cube((10, 1), (255, 0, 0))
     ia = cube.Cube((21, 1), (10, 150, 200))
 
-    def __init__(self, score_p1, score_ia):
-        self.score = Score(score_p1, score_ia)
+    def __init__(self):
+        self.score = Score()
 
-    def display_score(self):
+    def display_score(self, surface):
+        self.score = Score()
         self.score.text_rect.center = (640, 60)
-        config.window.screen.blit(self.score.text, self.score.text_rect)
+        surface.blit(self.score.text, self.score.text_rect)
 
     def display_hud_cubes(self, surface):
         self.p1.draw(config.SQUARE_SIZE, surface, True)
         self.ia.draw(config.SQUARE_SIZE, surface, True)
 
-hud_obj = Hud(snake.snake_player.score, 0)
+
+hud_obj = Hud()
