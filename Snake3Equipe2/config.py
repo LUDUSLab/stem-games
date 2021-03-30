@@ -27,8 +27,10 @@ def check_quit_event(event):
         pygame.quit()
         quit()
 
+
 def exit_game():
     pygame.quit()
     quit()
+
 
 window = window.Window()

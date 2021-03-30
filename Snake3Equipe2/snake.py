@@ -13,6 +13,7 @@ class Snake(object):
         self._body.append(self.head)
         self.dirnx = 0
         self.dirny = 1
+        self.score = 0
 
     def reset(self, pos):
         self.head = cube.Cube(pos)
@@ -21,6 +22,7 @@ class Snake(object):
         self._turns = {}
         self.dirnx = 0
         self.dirny = 1
+        self.score = 0
 
     def add_cube(self):
         pass

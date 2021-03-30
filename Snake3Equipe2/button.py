@@ -1,6 +1,7 @@
 import config
 import pygame
 
+
 class Button:
     __selected = False
     __button_font = config.font(32)
@@ -41,6 +42,7 @@ class Button:
 
 
 buttons_index = 0
+
 
 def move_selected_button(direction, buttons_lst):
     global buttons_index

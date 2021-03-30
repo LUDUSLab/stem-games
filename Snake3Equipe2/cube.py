@@ -1,6 +1,7 @@
 import pygame
 import config
 
+
 class Cube(object):
     def __init__(self, start: tuple, color: tuple = (255, 0, 0)):
         self.pos = start
