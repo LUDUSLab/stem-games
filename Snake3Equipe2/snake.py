@@ -78,4 +78,5 @@ class SnakePlayer(Snake):
 
 
 class SnakeBot(Snake):
-    pass
+    def __init__(self, color: tuple, pos: tuple):
+        super().__init__(color, pos)

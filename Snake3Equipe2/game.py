@@ -1,7 +1,6 @@
 import pygame
 import config
 import arena
-import wall
 import hud
 
 
@@ -9,7 +8,7 @@ class Game(object):
     def __init__(self):
         self.surface = config.window.create_surface()
         self.arena = arena.Arena(config.window.size)
-        self.snake = self.arena.snake
+        self.snake = self.arena.snake_player
         self.clock = pygame.time.Clock()
         self.hud = hud.Hud()
         self.framerate = 10

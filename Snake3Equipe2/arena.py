@@ -12,21 +12,21 @@ class Arena(object):
         self.rows = 18
         self.size = size
         self.grid = grid
-        self.snake = snake.SnakePlayer((255, 0, 0), (15, 8))
+        self.snake_player = snake.SnakePlayer((255, 0, 0), (15, 8))
         self.wall = wall.Wall()
         self.fruit = fruit.Fruit(1)
         self.p1 = cube.Cube((10, 1), (255, 0, 0))
         self.ia = cube.Cube((21, 1), (10, 150, 200))
 
     def collision_with_snake(self):
-        if self.snake.head.pos[0] == 2 or self.snake.head.pos[0] == self.columns - 3 or self.snake.head.pos[1] == 2 \
-                or self.snake.head.pos[1] == self.rows - 3:
-            self.snake.reset((15, 8))
+        if self.snake_player.head.pos[0] == 2 or self.snake_player.head.pos[0] == self.columns - 3 or \
+                self.snake_player.head.pos[1] == 2 or self.snake_player.head.pos[1] == self.rows - 3:
+            self.snake_player.reset((15, 8))
 
     def collision_fruit_snake(self):
-        if self.snake.head.pos == self.fruit.fruit.pos:
+        if self.snake_player.head.pos == self.fruit.fruit.pos:
             self.fruit = fruit.Fruit(1)
-            self.snake.score += self.fruit.value
+            self.snake_player.score += self.fruit.value
 
     def draw_grid(self, columns, rows, surface):
         if self.grid:
@@ -42,7 +42,7 @@ class Arena(object):
 
     def redraw_window(self, surface):
         surface.fill((0, 0, 0))
-        self.snake.draw(self.size[0] // self.columns, surface)
+        self.snake_player.draw(self.size[0] // self.columns, surface)
         self.fruit.fruit.draw(self.size[0] // self.columns, surface)
         self.p1.draw(self.size[0] // self.columns, surface, True)
         self.ia.draw(self.size[0] // self.columns, surface, True)
