@@ -24,8 +24,21 @@ class Snake(object):
         self.dirny = 1
         self.score = 0
 
-    def add_cube(self):
-        pass
+    def addCube(self):
+        tail = self._body[-1]
+        dx, dy = tail.dirnx, tail.dirny
+
+        if dx == 1 and dy == 0:
+            self._body.append(cube.Cube((tail.pos[0] - 1, tail.pos[1])))
+        elif dx == -1 and dy == 0:
+            self._body.append(cube.Cube((tail.pos[0] + 1, tail.pos[1])))
+        elif dx == 0 and dy == 1:
+            self._body.append(cube.Cube((tail.pos[0], tail.pos[1] - 1)))
+        elif dx == 0 and dy == -1:
+            self._body.append(cube.Cube((tail.pos[0], tail.pos[1] + 1)))
+
+        self._body[-1].dirnx = dx
+        self._body[-1].dirny = dy
 
     def draw(self, dist, surface):
         for i, c in enumerate(self._body):
@@ -38,6 +51,10 @@ class Snake(object):
         for x in range(len(self._body)):
             if self._body[x].pos in list(map(lambda z: z.pos, self._body[x + 1:])):
                 self.reset((15, 8))
+
+    @property
+    def body(self):
+        return self._body
 
 
 class SnakePlayer(Snake):

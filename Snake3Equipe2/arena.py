@@ -4,6 +4,7 @@ import snake
 import wall
 import fruit
 import cube
+import random
 
 
 class Arena(object):
@@ -14,9 +15,22 @@ class Arena(object):
         self.grid = grid
         self.snake_player = snake.SnakePlayer((255, 0, 0), (15, 8))
         self.wall = wall.Wall()
-        self.fruit = fruit.Fruit(1)
+        self.fruit = fruit.Fruit(1, (random.randrange(3, 28), random.randrange(3, 14)))
         self.p1 = cube.Cube((10, 1), (255, 0, 0))
         self.ia = cube.Cube((21, 1), (10, 150, 200))
+
+    def random_fruit(self):
+
+        positions = self.snake_player.body
+
+        while True:
+            x = random.randrange(3, 28)
+            y = random.randrange(3, 14)
+            if len(list(filter(lambda z: z.pos == (x, y), positions))) > 0:
+                continue
+            else:
+                break
+        return x, y
 
     def collision_with_snake(self):
         if self.snake_player.head.pos[0] == 2 or self.snake_player.head.pos[0] == self.columns - 3 or \
@@ -25,7 +39,8 @@ class Arena(object):
 
     def collision_fruit_snake(self):
         if self.snake_player.head.pos == self.fruit.fruit.pos:
-            self.fruit = fruit.Fruit(1)
+            self.snake_player.addCube()
+            self.fruit = fruit.Fruit(1, self.random_fruit())
             self.snake_player.score += self.fruit.value
 
     def draw_grid(self, columns, rows, surface):
