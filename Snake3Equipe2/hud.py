@@ -13,8 +13,8 @@ class Score(object):
 
 class Hud(object):
     # __cube1 = cube.Cube((5, 1), (255, 0, 0))
-    p1 = cube.Cube((9.5, 1), (255, 0, 0))
-    ia = cube.Cube((21.5, 1), (10, 150, 200))
+    p1 = cube.Cube((10, 1), (255, 0, 0))
+    ia = cube.Cube((21, 1), (10, 150, 200))
 
     def __init__(self):
         self.score = Score()
