@@ -9,7 +9,7 @@ class GameScreen:
         self._display = pygame.display.set_mode(size)
         self._FONT = pygame.font.SysFont(config.font, 32)
 
-    def draw(self, score, start_msg=False):
+    def draw(self, score, action, start_msg=False):
         """ Draws the game on the screen. """
         self._display.fill(config.BACKGROUND_COLOR)
 

@@ -11,7 +11,7 @@ class GameLoop:
     def __init__(self, player):
         self._player = player
         self._screen = GameScreen()
-        self.__logic = GameLogic()
+        self._logic = GameLogic()
 
     def start(self):
         alive = True
@@ -41,7 +41,7 @@ class GameLoop:
                 self._player.score += config.FOOD_APPLE  # MAS TEM Q VERIFICAR QUAL FOI A FRUTA QUE FOI COMIDA
 
             # draw
-            self._screen.draw(self._player.score)
+            self._screen.draw(self._player.score, move)
             clock.tick(config.fps)
 
             if not alive:

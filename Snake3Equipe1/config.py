@@ -1,3 +1,4 @@
+import pygame
 from pygame.mixer import Sound
 
 BACKGROUND_COLOR = (0, 0, 0)
@@ -5,14 +6,14 @@ block_size = 32
 fps = 10
 screen_dimensions = (1280, 720)
 
-''' # SOUNDS AND FONTS
+# SOUNDS AND FONTS
 game_over = Sound('assets/team_I.game-over.wav')
 eat_fruit = Sound('assets/team_I.eat.wav')
 music = Sound('assets/super_mario.wav')
-font = '/assets/PressStart2P.ttf' '''
+font = '/assets/PressStart2P.ttf'
 
 running_game = False
-
+screen = pygame.display.set_mode((1280, 640))
 
 FOOD_APPLE = 100  # 0      aux = 0
 FOOD_BANANA = 200  # 1     aux = 1

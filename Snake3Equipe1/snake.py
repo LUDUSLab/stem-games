@@ -1,5 +1,8 @@
 import pygame
 from game_logic import Action
+from config import screen
+
+pygame.init()
 
 
 class Snake:
@@ -44,6 +47,7 @@ class Player(Snake):
     def __init__(self, color_1, color_2, position):
         super().__init__(color_1, color_2, position)
         self._current_action = Action.LEFT
+        self.score_player = 0
 
     def snake_moves(self, direction):
         if direction == self.S:
@@ -86,6 +90,9 @@ class Player(Snake):
 
 
 class ArtificialIntelligence(Snake):
+
+    def __init__(self):
+        self.score_IA = 0
 
     def ia_moves(self, fruit_position):
 
