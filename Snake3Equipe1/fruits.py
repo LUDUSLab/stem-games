@@ -1,5 +1,7 @@
 import pygame
 import random
+import config
+
 
 class Fruit:
     def __init__(self):
@@ -16,7 +18,7 @@ class Fruit:
         self._pos = (random.randint(32, 1216), random.randint(64, 656))
 
     def draw(self):
-        screen.blit(self._fruit, self._pos)
+        config.screen.blit(self._fruit, self._pos)
 
     def choose(self):
         vari = random.randint(0,20)

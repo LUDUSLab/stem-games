@@ -1,5 +1,4 @@
 import pygame
-from game_logic import Action
 from config import screen
 
 
@@ -40,9 +39,6 @@ class Snake:
 
 class Player(Snake):
     W, A, S, D = 0, 1, 2, 3
-
-    def __init__(self, color_1, color_2, position):
-        super().__init__(color_1, color_2, position)
 
     def snake_moves(self, direction):
         if direction == self.S:

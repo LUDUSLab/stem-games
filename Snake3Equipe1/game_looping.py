@@ -2,22 +2,21 @@ from pygame.time import Clock
 import pygame
 import config
 from snake import Player, ArtificialIntelligence
-from fruit import Fruit
-from wall import Wall
+from fruits import Fruit
+# from wall import Wall
 
 
 class GameLoop:
     """Implementando o loop principal"""
 
     def __init__(self):
-        self.screen = GameScreen()
 
         self.snake = Player(config.color_0D6895, config.color_0B3C53, [(416, 288), (384, 288), (352, 288)],
                             'assets/player_head.png')
         self.ia = ArtificialIntelligence(config.color_C0771C, config.color_C01C1C, [(672, 288), (640, 288), (608, 288)],
-                                         'assets/ia_head.png')
+                            'assets/ia_head.png')
         self.fruit = Fruit()
-        self.wall = Wall()
+        # self.wall = Wall()
 
     def start(self):
         alive = True
@@ -75,20 +74,20 @@ class GameLoop:
 
             # moves snake
             self.snake.snake_moves(direction)
-            self.ia.ia_moves(self.fruit._fruit_position)
+            self.ia.ia_moves(self.fruit.position)
 
             # new body add
-            self.snake.new_body(self.fruit._fruit_position)
-            self.ia.new_body(self.fruit._fruit_position)
+            self.snake.new_body()
+            self.ia.new_body()
 
             # change position of apple
-            self.fruit.change_position(self.snake.position)
-            self.fruit.change_position(self.ia.position)
+            self.fruit.changep()
+            self.fruit.changep()
 
             # draw
-            self.wall.draw_wall()
+            # self.wall.draw_wall()
             self.snake.draw_snake()
             self.ia.draw_snake()
-            self.fruit.draw_fruit()
+            self.fruit.draw()
 
             pygame.display.update()

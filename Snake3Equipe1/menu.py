@@ -1,7 +1,6 @@
 import pygame
 import pygame_menu
 from game_looping import GameLoop
-from snake import ArtificialIntelligence, Player
 
 
 class MainMenu:
