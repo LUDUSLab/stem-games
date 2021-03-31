@@ -22,7 +22,7 @@ class MainMenu:
         self._menu.mainloop(self._screen)
 
     def _play_game(self):
-        GameLoop(Player()).start()
+        GameLoop().start()
         pygame.display.set_mode((self._width, self._height))
 
     def _credits(self):

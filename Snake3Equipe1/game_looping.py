@@ -2,21 +2,27 @@ from pygame.time import Clock
 import pygame
 import config
 from game_screen import GameScreen
-from game_logic import GameLogic
+from snake import Player, ArtificialIntelligence
+from fruit import Fruit
+from wall import Wall
 
 
 class GameLoop:
     """Implementando o loop principal"""
 
-    def __init__(self, player):
-        self._player = player
-        self._screen = GameScreen()
-        self._logic = GameLogic()
+    def __init__(self):
+        self.screen = GameScreen()
+
+        self.snake = Player(config.color_0D6895, config.color_0B3C53, [(416, 288), (384, 288), (352, 288)],
+                            'assets/player_head.png')
+        self.ia = ArtificialIntelligence(config.color_C0771C, config.color_C01C1C, [(672, 288), (640, 288), (608, 288)],
+                                         'assets/ia_head.png')
+        self.fruit = Fruit()
+        self.wall = Wall()
 
     def start(self):
         alive = True
         clock = Clock()
-        self._screen.draw(self._player.score, start_msg=True)  # aqui a mensgem de "press fica true e desenhaos o score
         ask_start = True
         while ask_start:
             for event in pygame.event.get():
@@ -50,38 +56,40 @@ class GameLoop:
                         if event.key == pygame.K_d:
                             direction = 4
 
-            if (snake.position[0][1] in [32, 608]) \
-                    or (snake.position[0][0] in [0, 1248]) \
-                    or (snake.position[0] in ia.position) \
+            if (self.snake.position[0][1] in [32, 608]) \
+                    or (self.snake.position[0][0] in [0, 1248]) \
+                    or (self.snake.position[0] in self.ia.position) \
                     or (
-                    snake.position[0] in [(192, 192), (192, 448), (640, 192), (640, 448), (1056, 192), (1056, 448)]):
+                    self.snake.position[0] in [(192, 192), (192, 448), (640, 192), (640, 448), (1056, 192),
+                                               (1056, 448)]):
                 direction = 0
-                snake.reset([(416, 288), (384, 288), (352, 288)])
+                self.snake.reset([(416, 288), (384, 288), (352, 288)])
 
-            if (ia.position[0][1] in [32, 608]) \
-                    or (ia.position[0][0] in [0, 1248]) \
-                    or (ia.position[0] in snake.position) \
-                    or (ia.position[0] in [(192, 192), (192, 448), (640, 192), (640, 448), (1056, 192), (1056, 448)]):
-                ia.reset([(672, 288), (640, 288), (608, 288)])
+            if (self.ia.position[0][1] in [32, 608]) \
+                    or (self.ia.position[0][0] in [0, 1248]) \
+                    or (self.ia.position[0] in self.snake.position) \
+                    or (
+                    self.ia.position[0] in [(192, 192), (192, 448), (640, 192), (640, 448), (1056, 192), (1056, 448)]):
+                self.ia.reset([(672, 288), (640, 288), (608, 288)])
 
-            screen.fill((0, 0, 0))
+            config.screen.fill((0, 0, 0))
 
             # moves snake
-            snake.snake_moves(direction)
-            ia.ia_moves(fruit._fruit_position)
+            self.snake.snake_moves(direction)
+            self.ia.ia_moves(self.fruit._fruit_position)
 
             # new body add
-            snake.new_body(fruit._fruit_position)
-            ia.new_body(fruit._fruit_position)
+            self.snake.new_body(self.fruit._fruit_position)
+            self.ia.new_body(self.fruit._fruit_position)
 
             # change position of apple
-            fruit.change_position(snake.position)
-            fruit.change_position(ia.position)
+            self.fruit.change_position(self.snake.position)
+            self.fruit.change_position(self.ia.position)
 
             # draw
-            wall.draw_wall()
-            snake.draw_snake()
-            ia.draw_snake()
-            fruit.draw_fruit()
+            self.wall.draw_wall()
+            self.snake.draw_snake()
+            self.ia.draw_snake()
+            self.fruit.draw_fruit()
 
             pygame.display.update()
