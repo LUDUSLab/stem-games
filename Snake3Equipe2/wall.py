@@ -1,5 +1,6 @@
 import cube
 
+
 class Wall(object):
     def __init__(self, color: tuple = (200, 200, 200)):
         self.wall = []

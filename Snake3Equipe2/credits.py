@@ -6,6 +6,7 @@ import pygame
 credits_options_key = ["back_to_menu"]
 credits_options = {k: False for k in credits_options_key}
 
+
 def go_back_to_menu():
     credits_options[credits_options_key[0]] = True
     menu.menu_options["in_credits"] = False
@@ -27,5 +28,6 @@ class Credits(object):
         self.display_button()
         button.check_key([self.back_button])
         self.update_surface()
+
 
 credits_obj = Credits()

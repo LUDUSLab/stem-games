@@ -12,11 +12,14 @@ menu_options = {k: False for k in menu_options_key}
 def go_to_credits():
     menu_options["in_credits"] = True
 
+
 def go_to_game():
     menu_options["in_game"] = True
 
+
 def create_menu_button(y_axis, content, action):
     return button.Button(menu_button_dimension, (button_center_x, y_axis), content, action)
+
 
 play_button = create_menu_button(300, "Play", go_to_game)
 credits_button = create_menu_button(400, "Credits", go_to_credits)
@@ -25,6 +28,7 @@ exit_button = create_menu_button(500, "Exit", config.exit_game)
 buttons = [play_button, credits_button, exit_button]
 
 buttons[0].set_selected(True)
+
 
 class Menu:
     game_title_font = config.font(64)
@@ -52,5 +56,6 @@ class Menu:
         self.display_buttons()
         button.check_key(buttons)
         self.update_surface()
+
 
 menu_obj = Menu()
