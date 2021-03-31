@@ -30,6 +30,7 @@ class Arena(object):
                 continue
             else:
                 break
+
         return x, y
 
     def collision_with_snake(self):
