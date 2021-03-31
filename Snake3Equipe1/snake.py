@@ -1,3 +1,6 @@
+import pygame
+
+
 class Snake:
 
     def __init__(self, color_1, color_2, position):

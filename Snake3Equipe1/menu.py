@@ -1,5 +1,7 @@
 import pygame
 import pygame_menu
+from game_looping import GameLoop
+from snake import ArtificialIntelligence, Player
 
 
 class MainMenu:
@@ -20,7 +22,8 @@ class MainMenu:
         self._menu.mainloop(self._screen)
 
     def _play_game(self):
-        pass
+        GameLoop(Player()).start()
+        pygame.display.set_mode((self._width, self._height))
 
     def _credits(self):
         CreditsMenu(self._height, self._width, theme=self._theme)
@@ -48,7 +51,7 @@ class CreditsMenu:
 
 
 class SettingMenu:
-    def __init__(self, height, width, title="Credits", theme=pygame_menu.themes.THEME_DARK):
+    def __init__(self, height, width, title="Settings", theme=pygame_menu.themes.THEME_DARK):
         self._width, self._height = width, height
         self._screen = pygame.display.set_mode((width, height))
         self._menu = pygame_menu.Menu(height, width, title, theme=theme)
