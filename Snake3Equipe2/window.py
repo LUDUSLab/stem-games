@@ -6,7 +6,7 @@ class Window(object):
         self.size = size
         self.center = (size[0] // 2, size[1] // 2)
         self.screen = pygame.display.set_mode(size)
-        self.caption = pygame.display.set_caption(caption)
+        pygame.display.set_caption(caption)
 
     def create_surface(self):
         return pygame.Surface(self.size)

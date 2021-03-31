@@ -27,3 +27,5 @@ class Credits(object):
         self.display_button()
         button.check_key([self.back_button])
         self.update_surface()
+
+credits_obj = Credits()

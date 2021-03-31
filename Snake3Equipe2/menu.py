@@ -52,3 +52,5 @@ class Menu:
         self.display_buttons()
         button.check_key(buttons)
         self.update_surface()
+
+menu_obj = Menu()
