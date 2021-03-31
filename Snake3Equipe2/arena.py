@@ -17,6 +17,7 @@ class Arena(object):
         self.snake_bot = snake.SnakeBot((10, 150, 200), (10, 10))
         self.wall = wall.Wall()
         self.obstacles = wall.Obstacles((200, 200, 200))
+        self.wall_pos = [x.pos for x in self.wall.wall]
         self.obst_pos = [x.pos for x in self.obstacles.obstacles]
 
     def random_fruit(self):
@@ -29,8 +30,8 @@ class Arena(object):
             if len(list(filter(lambda z: z.pos == (x, y), positions1))) > 0 or \
                     len(list(filter(lambda z: z.pos == (x, y), positions2))) > 0:
                 continue
-            for i in range(len(self.obst_pos)):
-                if (x, y) == self.obst_pos[i]:
+            for pos in self.obst_pos:
+                if (x, y) == pos:
                     x = random.randrange(2, 30)
                     y = random.randrange(3, 16)
             else:
@@ -59,6 +60,9 @@ class Arena(object):
 
     def collision_obstacles(self):
         for pos in self.obst_pos:
+            if self.snake_player.head.pos == pos:
+                self.snake_player.reset((15, 8))
+        for pos in self.wall_pos:
             if self.snake_player.head.pos == pos:
                 self.snake_player.reset((15, 8))
 
