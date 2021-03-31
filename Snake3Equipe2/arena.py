@@ -33,12 +33,12 @@ class Arena(object):
         return x, y
 
     def collision_with_snake(self):
-        if self.snake_player.head.pos[0] == 2 or self.snake_player.head.pos[0] == self.columns - 3 or \
-                self.snake_player.head.pos[1] == 2 or self.snake_player.head.pos[1] == self.rows - 3:
+        if self.snake_player.head.pos[0] == 1 or self.snake_player.head.pos[0] == self.columns or \
+                self.snake_player.head.pos[1] == 2 or self.snake_player.head.pos[1] == self.rows - 1:
             self.snake_player.reset((15, 8))
 
-        if self.snake_bot.head.pos[0] == 2 or self.snake_bot.head.pos[0] == self.columns - 3 or \
-                self.snake_bot.head.pos[1] == 2 or self.snake_bot.head.pos[1] == self.rows - 3:
+        if self.snake_bot.head.pos[0] == 1 or self.snake_bot.head.pos[0] == self.columns or \
+                self.snake_bot.head.pos[1] == 2 or self.snake_bot.head.pos[1] == self.rows - 1:
             self.snake_bot.reset((10, 10))
 
     def collision_fruit_snake(self):
