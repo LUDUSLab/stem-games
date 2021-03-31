@@ -1,23 +1,21 @@
 import pygame
 import config
 import cube
-import astar
 
 
 class Snake(object):
-    _body: list = []
-    _turns: dict = {}
-
     def __init__(self, color: tuple, pos: tuple):
         self.color = color
-        self.head = cube.Cube(pos)
+        self._body: list = []
+        self._turns: dict = {}
+        self.head = cube.Cube(pos, self.color)
         self._body.append(self.head)
         self.dirnx = 0
         self.dirny = 1
         self.score = 0
 
     def reset(self, pos):
-        self.head = cube.Cube(pos)
+        self.head = cube.Cube(pos, self.color)
         self._body = []
         self._body.append(self.head)
         self._turns = {}
@@ -50,13 +48,13 @@ class Snake(object):
         dx, dy = tail.dirnx, tail.dirny
 
         if dx == 1 and dy == 0:
-            self._body.append(cube.Cube((tail.pos[0] - 1, tail.pos[1])))
+            self._body.append(cube.Cube((tail.pos[0] - 1, tail.pos[1]), self.color))
         elif dx == -1 and dy == 0:
-            self._body.append(cube.Cube((tail.pos[0] + 1, tail.pos[1])))
+            self._body.append(cube.Cube((tail.pos[0] + 1, tail.pos[1]), self.color))
         elif dx == 0 and dy == 1:
-            self._body.append(cube.Cube((tail.pos[0], tail.pos[1] - 1)))
+            self._body.append(cube.Cube((tail.pos[0], tail.pos[1] - 1), self.color))
         elif dx == 0 and dy == -1:
-            self._body.append(cube.Cube((tail.pos[0], tail.pos[1] + 1)))
+            self._body.append(cube.Cube((tail.pos[0], tail.pos[1] + 1), self.color))
 
         self._body[-1].dirnx = dx
         self._body[-1].dirny = dy
@@ -106,22 +104,28 @@ class SnakePlayer(Snake):
 
 
 class SnakeBot(Snake):
-    def __init__(self, color: tuple, pos: tuple, afruit):
+    def __init__(self, color: tuple, pos: tuple):
         super().__init__(color, pos)
-        self.start = self.head.pos
-        self.end = afruit.pos
-        self.path = astar.Astar(self.start, self.end).run()
-        self.x_head, self.y_head = self.head.pos[0], self.head.pos[1]
+        self.start = pos
 
-    def move(self):
-        for (x, y) in self.path:
-            if x > self.x_head:
+    def move(self, goal):
+        if abs(self.head.pos[0] - goal[0]) > abs(self.head.pos[1] - goal[1]):
+            if self.head.pos[0] < goal[0]:
                 self.go_right()
-            if x < self.x_head:
+            else:
                 self.go_left()
-            if y > self.y_head:
+        else:
+            if self.head.pos[1] < goal[1]:
                 self.go_down()
-            if y < self.y_head:
+            else:
                 self.go_up()
-            self.x_head = x
-            self.y_head = y
+
+        for i, c in enumerate(self._body):
+            p = c.pos[:]
+            if p in self._turns:
+                turn = self._turns[p]
+                c.move(turn[0], turn[1])
+                if i == len(self._body) - 1:
+                    self._turns.pop(p)
+            else:
+                c.move(c.dirnx, c.dirny)

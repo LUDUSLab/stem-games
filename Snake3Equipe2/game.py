@@ -9,6 +9,7 @@ class Game(object):
         self.surface = config.window.create_surface()
         self.arena = arena.arena_obj
         self.snake_player = self.arena.snake_player
+        self.snake_bot = self.arena.snake_bot
         self.clock = pygame.time.Clock()
         self.hud = hud.hud_obj
         self.framerate = 10
@@ -21,10 +22,10 @@ class Game(object):
         self.hud.display_hud_cubes(self.surface)
         self.hud.display_score(self.surface)
         self.display_surface()
-        self.snake_player.move()
-        self.snake_player.collision_with_herself()
         self.arena.collision_with_snake()
         self.arena.collision_fruit_snake()
+        self.snake_bot.move(self.arena.fruit.pos)
+        self.snake_player.move()
         self.arena.redraw_window(self.surface)
         pygame.display.update()
 

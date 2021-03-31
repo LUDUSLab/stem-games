@@ -5,8 +5,8 @@ import cube
 class Score(object):
     def __init__(self):
         self.font = config.font(30)
-        self.text = self.font.render("Player " + str(arena.arena_obj.snake_player.score) + "X" + str(0) + " IA", True,
-                                     config.COLOR_LIGHT_GRAY)
+        self.text = self.font.render("Player " + str(arena.arena_obj.snake_player.score) + "X" +
+                                     str(arena.arena_obj.snake_bot.score) + " IA", True, config.COLOR_LIGHT_GRAY)
         self.text_rect = self.text.get_rect()
 
 
