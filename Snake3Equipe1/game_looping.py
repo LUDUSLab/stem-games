@@ -1,7 +1,6 @@
 from pygame.time import Clock
 import pygame
 import config
-from game_screen import GameScreen
 from snake import Player, ArtificialIntelligence
 from fruit import Fruit
 from wall import Wall
