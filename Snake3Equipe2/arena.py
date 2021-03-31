@@ -56,12 +56,12 @@ class Arena(object):
             sqrsize = self.size[0] // columns
             x = 0
             y = 0
-            for i in range(columns - 5):
+            for i in range(columns):
                 x = x + sqrsize
-                pygame.draw.line(surface, config.COLOR_LIGHT_GRAY, (x + 80, 120), (x + 80, self.size[0] - 680))
-            for j in range(rows - 5):
+                pygame.draw.line(surface, config.COLOR_LIGHT_GRAY, (x, 120), (x, self.size[0]))
+            for j in range(rows):
                 y = y + sqrsize
-                pygame.draw.line(surface, config.COLOR_LIGHT_GRAY, (120, y + 80), (self.size[0] - 120, y + 80))
+                pygame.draw.line(surface, config.COLOR_LIGHT_GRAY, (0, y + 80), (self.size[0], y + 80))
 
     def redraw_window(self, surface):
         surface.fill((0, 0, 0))
@@ -71,5 +71,6 @@ class Arena(object):
         self.wall.draw_wall(surface)
         self.wall.draw_obstacles(surface)
         self.draw_grid(32, 18, surface)
+
 
 arena_obj = Arena(config.window.size, True)
