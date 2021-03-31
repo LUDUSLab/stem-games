@@ -28,11 +28,15 @@ class Arena(object):
         positions2 = self.snake_bot.get_body()
 
         while True:
-            x = random.randrange(1, 30)
+            x = random.randrange(2, 30)
             y = random.randrange(3, 16)
             if len(list(filter(lambda z: z.pos == (x, y), positions1))) > 0 or \
                     len(list(filter(lambda z: z.pos == (x, y), positions2))) > 0:
                 continue
+            for i in range(len(self.obst_pos)):
+                if (x, y) == self.obst_pos[i]:
+                    x = random.randrange(2, 30)
+                    y = random.randrange(3, 16)
             else:
                 break
 
