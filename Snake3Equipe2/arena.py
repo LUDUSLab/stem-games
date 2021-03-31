@@ -16,12 +16,8 @@ class Arena(object):
         self.snake_player = snake.SnakePlayer((255, 0, 0), (15, 8))
         self.snake_bot = snake.SnakeBot((10, 150, 200), (10, 10))
         self.wall = wall.Wall()
-        self.wall = wall.Obstacles((200, 200, 200))
-        self.obst_pos = [(1, 7), (2, 7), (6, 3), (6, 4), (6, 5), (16, 3), (16, 4), (16, 5), (25, 3), (25, 4), (25, 5),
-                         (30, 7), (29, 7), (19, 9), (20, 9), (21, 9), (8, 8), (8, 9), (8, 10), (1, 12), (2, 12),
-                         (13, 11), (13, 12), (13, 13), (8, 15), (8, 16), (8, 17), (30, 12), (29, 12), (22, 15),
-                         (22, 16),
-                         (22, 17)]
+        self.obstacles = wall.Obstacles((200, 200, 200))
+        self.obst_pos = [x.pos for x in self.obstacles.obstacles]
 
     def random_fruit(self):
         positions1 = self.snake_player.get_body()
@@ -62,8 +58,8 @@ class Arena(object):
             self.snake_bot.score += self.fruit.value
 
     def collision_obstacles(self):
-        for i in range(len(self.obst_pos)):
-            if self.snake_player.head.pos == self.obst_pos[i]:
+        for pos in self.obst_pos:
+            if self.snake_player.head.pos == pos:
                 self.snake_player.reset((15, 8))
 
     def draw_grid(self, columns, rows, surface):
@@ -84,7 +80,7 @@ class Arena(object):
         self.snake_player.draw(self.size[0] // self.columns, surface)
         self.snake_bot.draw(self.size[0] // self.columns, surface)
         self.wall.draw_wall(surface)
-        self.wall.draw_obstacles(surface)
+        self.obstacles.draw_obstacles(surface)
         self.draw_grid(32, 18, surface)
 
 

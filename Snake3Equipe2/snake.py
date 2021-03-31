@@ -2,6 +2,17 @@ import pygame
 import config
 import cube
 
+def false_move(body, turns):
+    for i, c in enumerate(body):
+        p = c.pos[:]
+        if p in turns:
+            turn = turns[p]
+            c.move(turn[0], turn[1])
+            if i == len(body) - 1:
+                turns.pop(p)
+        else:
+            c.move(c.dirnx, c.dirny)
+
 
 class Snake(object):
     def __init__(self, color: tuple, pos: tuple):
@@ -91,25 +102,15 @@ class SnakePlayer(Snake):
                     self.go_up()
                 elif event.key == pygame.K_s:
                     self.go_down()
-
-        for i, c in enumerate(self._body):
-            p = c.pos[:]
-            if p in self._turns:
-                turn = self._turns[p]
-                c.move(turn[0], turn[1])
-                if i == len(self._body) - 1:
-                    self._turns.pop(p)
-            else:
-                c.move(c.dirnx, c.dirny)
+        false_move(self._body, self._turns)
 
 
 class SnakeBot(Snake):
     def __init__(self, color: tuple, pos: tuple):
         super().__init__(color, pos)
-        self.start = pos
 
     def move(self, goal):
-        if abs(self.head.pos[0] - goal[0]) > abs(self.head.pos[1] - goal[1]):
+        if abs(self.head.pos[0] - goal[0]) >= abs(self.head.pos[1] - goal[1]):
             if self.head.pos[0] < goal[0]:
                 self.go_right()
             else:
@@ -120,12 +121,4 @@ class SnakeBot(Snake):
             else:
                 self.go_up()
 
-        for i, c in enumerate(self._body):
-            p = c.pos[:]
-            if p in self._turns:
-                turn = self._turns[p]
-                c.move(turn[0], turn[1])
-                if i == len(self._body) - 1:
-                    self._turns.pop(p)
-            else:
-                c.move(c.dirnx, c.dirny)
+        false_move(self._body, self._turns)
