@@ -1,5 +1,5 @@
 import pygame
-
+from game_logic import Action
 
 class Snake:
 
@@ -33,6 +33,10 @@ class Player(Snake):
 
     LEFT, UP, RIGHT, DOWN = 37, 38, 39, 40
 
+    def __init__(self, color_1, color_2, position):
+        super().__init__(color_1, color_2, position)
+        self._current_action = Action.LEFT
+
     def snake_moves(self, direction):
         if direction == self.LEFT:
             self._move_x = -32
@@ -54,6 +58,23 @@ class Player(Snake):
             self._position[c] = (self._position[c - 1][0], self._position[c - 1][1])
 
         self._position[0] = (self._position[0][0] + self._move_x, self._position[0][1] + self._move_y)
+
+    def act(self, user_events=None):
+        """ Returns the action taken by the human player. """
+        events = user_events if user_events is not None else pygame.event.get()
+        new_action = self._current_action
+        for event in events:
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_LEFT and self._current_action != Action.RIGHT:
+                    new_action = Action.LEFT
+                elif event.key == pygame.K_RIGHT and self._current_action != Action.LEFT:
+                    new_action = Action.RIGHT
+                elif event.key == pygame.K_UP and self._current_action != Action.DOWN:
+                    new_action = Action.UP
+                elif event.key == pygame.K_DOWN and self._current_action != Action.UP:
+                    new_action = Action.DOWN
+
+        return new_action
 
 
 class ArtificialIntelligence(Snake):

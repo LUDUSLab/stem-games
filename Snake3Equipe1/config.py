@@ -14,9 +14,9 @@ font = '/assets/PressStart2P.ttf' '''
 running_game = False
 
 
-FOOD_APPLE = 100
-FOOD_BANANA = 200
-FOOD_ORANGE = 1000
+FOOD_APPLE = 100  # 0      aux = 0
+FOOD_BANANA = 200  # 1     aux = 1
+FOOD_ORANGE = 1000  # 2     aux = 2
 
 '''Precisa adicionar um FOOD_SCORE refenrete a cada uma das frutas
 

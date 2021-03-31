@@ -2,6 +2,7 @@ from pygame.time import Clock
 import pygame
 import config
 from game_screen import GameScreen
+from game_logic import  GameLogic
 
 
 class GameLoop:
@@ -10,6 +11,7 @@ class GameLoop:
     def __init__(self, player):
         self._player = player
         self._screen = GameScreen()
+        self.__logic = GameLogic()
 
     def start(self):
         alive = True
@@ -31,8 +33,8 @@ class GameLoop:
                     pygame.quit()
                     exit()
 
-            move = self._player.act(handler=self._logic_handler, user_events=events)
-            state = self._logic_handler.update(move)  #aqui tem as condicoes de quando a cobra bate nela mesma, quando bate nos obstasuclos ou quando come uma fruta
+            move = self._player.act()
+            state = self._logic.update(move)  #aqui tem as condicoes de quando a cobra bate nela mesma, quando bate nos obstasuclos ou quando come uma fruta
             alive = (state != GameLogic.State.DEAD)
 
             if state == GameLogic.State.FOOD_EATEN:  # quando ela come a cobra, e essa verificação deve ser feita da classe GameLogic
