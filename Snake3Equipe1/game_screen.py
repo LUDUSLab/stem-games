@@ -6,7 +6,7 @@ class GameScreen:
 
     def __init__(self, size=config.screen_dimensions):
         self._size = size
-        self._display = pygame.display.set_mode(size)
+        self._display = pygame.display.set_mode(config.screen_dimensions)
         self._FONT = pygame.font.SysFont(config.font, 32)
 
     def draw(self, score, action, start_msg=False):
