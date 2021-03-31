@@ -12,19 +12,24 @@ class Arena(object):
         self.rows = 18
         self.size = size
         self.grid = grid
-        self.fruit = fruit.Fruit(1, (random.randrange(3, 28), random.randrange(3, 14)))
+        self.fruit = fruit.Fruit(1, (random.randrange(1, 30), random.randrange(3, 16)))
         self.snake_player = snake.SnakePlayer((255, 0, 0), (15, 8))
         self.snake_bot = snake.SnakeBot((10, 150, 200), (10, 10))
         self.wall = wall.Wall()
         self.wall = wall.Obstacles((200, 200, 200))
+        self.obst_pos = [(1, 7), (2, 7), (6, 3), (6, 4), (6, 5), (16, 3), (16, 4), (16, 5), (25, 3), (25, 4), (25, 5),
+                         (30, 7), (29, 7), (19, 9), (20, 9), (21, 9), (8, 8), (8, 9), (8, 10), (1, 12), (2, 12),
+                         (13, 11), (13, 12), (13, 13), (8, 15), (8, 16), (8, 17), (30, 12), (29, 12), (22, 15),
+                         (22, 16),
+                         (22, 17)]
 
     def random_fruit(self):
         positions1 = self.snake_player.get_body()
         positions2 = self.snake_bot.get_body()
 
         while True:
-            x = random.randrange(3, 28)
-            y = random.randrange(3, 14)
+            x = random.randrange(1, 30)
+            y = random.randrange(3, 16)
             if len(list(filter(lambda z: z.pos == (x, y), positions1))) > 0 or \
                     len(list(filter(lambda z: z.pos == (x, y), positions2))) > 0:
                 continue
@@ -50,6 +55,11 @@ class Arena(object):
             self.snake_bot.add_cube()
             self.fruit = fruit.Fruit(1, self.random_fruit())
             self.snake_bot.score += self.fruit.value
+
+    def collision_obstacles(self):
+        for i in range(len(self.obst_pos)):
+            if self.snake_player.head.pos == self.obst_pos[i]:
+                self.snake_player.reset((15, 8))
 
     def draw_grid(self, columns, rows, surface):
         if self.grid:
