@@ -3,7 +3,7 @@ import button
 import config
 
 menu_button_dimension = (240, 50)
-button_center_x = config.window.center[0] - menu_button_dimension[0] // 2
+button_center_x = config.window.center[0] - 600
 
 menu_options_key = ["in_game", "in_credits", "exit"]
 menu_options = {k: False for k in menu_options_key}
@@ -29,7 +29,6 @@ buttons = [play_button, credits_button, exit_button]
 
 buttons[0].set_selected(True)
 
-
 class Menu:
     game_title_font = config.font(64)
     surface = pygame.Surface(config.window.size)
@@ -37,10 +36,8 @@ class Menu:
     def __init__(self, bg_color: tuple = config.COLOR_BLACK):
         self.bg_color = bg_color
 
-    def display_header(self, font_color):
-        config.display_msg(self.surface, self.game_title_font, "MAD KOBRA", font_color,
-                           (config.window.center[0] - self.game_title_font.size("MAD KOBRA")[0] // 2,
-                            config.window.center[1] - 200))
+    def display_header(self):
+        pygame.Surface.blit(self.surface, config.menu_image, (0, 0))
 
     def display_buttons(self):
         for b in buttons:
@@ -52,7 +49,7 @@ class Menu:
         pygame.display.update()
 
     def display_all(self):
-        self.display_header(config.COLOR_LIGHT_GRAY)
+        self.display_header()
         self.display_buttons()
         button.check_key(buttons)
         self.update_surface()

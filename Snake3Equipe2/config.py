@@ -5,6 +5,10 @@ pygame.init()
 
 COLOR_BLACK = (0, 0, 0)
 COLOR_LIGHT_GRAY = (200, 200, 200)
+menu_image = pygame.image.load('./assets/menu.png')
+menu_sound = pygame.mixer.Sound('./assets/368068__furbyguy__rock-metal-guitar-riff-1.wav')
+menu_sound.set_volume(0.1)
+eat_sound = pygame.mixer.Sound('./assets/524607__clearwavsound__crunchy-bite.wav')
 
 SQUARE_SIZE = 40
 
