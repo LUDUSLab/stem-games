@@ -2,17 +2,6 @@ import pygame
 import config
 import cube
 
-def false_move(body, turns):
-    for i, c in enumerate(body):
-        p = c.pos[:]
-        if p in turns:
-            turn = turns[p]
-            c.move(turn[0], turn[1])
-            if i == len(body) - 1:
-                turns.pop(p)
-        else:
-            c.move(c.dirnx, c.dirny)
-
 
 class Snake(object):
     def __init__(self, color: tuple, pos: tuple):
@@ -21,8 +10,8 @@ class Snake(object):
         self._turns: dict = {}
         self.head = cube.Cube(pos, self.color)
         self._body.append(self.head)
-        self.dirnx = 0
-        self.dirny = 1
+        self.dirnx = 1
+        self.dirny = 0
         self.score = 0
 
     def reset(self, pos):
@@ -30,8 +19,8 @@ class Snake(object):
         self._body = []
         self._body.append(self.head)
         self._turns = {}
-        self.dirnx = 0
-        self.dirny = 1
+        self.dirnx = 1
+        self.dirny = 0
 
     def go_right(self):
         self.dirnx = 1
@@ -69,6 +58,17 @@ class Snake(object):
         self._body[-1].dirnx = dx
         self._body[-1].dirny = dy
 
+    def false_move(self):
+        for i, c in enumerate(self._body):
+            p = c.pos[:]
+            if p in self._turns:
+                turn = self._turns[p]
+                c.move(turn[0], turn[1])
+                if i == len(self._body) - 1:
+                    self._turns.pop(p)
+            else:
+                c.move(c.dirnx, c.dirny)
+
     def draw(self, dist, surface):
         for i, c in enumerate(self._body):
             if i == 0:
@@ -93,15 +93,15 @@ class SnakePlayer(Snake):
         for event in pygame.event.get():
             config.check_quit_event(event)
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_a:
+                if event.key == pygame.K_a and self.dirnx == 0:
                     self.go_left()
-                elif event.key == pygame.K_d:
+                elif event.key == pygame.K_d and self.dirnx == 0:
                     self.go_right()
-                elif event.key == pygame.K_w:
+                elif event.key == pygame.K_w and self.dirny == 0:
                     self.go_up()
-                elif event.key == pygame.K_s:
+                elif event.key == pygame.K_s and self.dirny == 0:
                     self.go_down()
-        false_move(self._body, self._turns)
+        self.false_move()
 
 
 class SnakeBot(Snake):
@@ -223,4 +223,4 @@ class SnakeBot(Snake):
                         self.go_left()
                     else:
                         check_move("vertical2")
-        false_move(self._body, self._turns)
+        self.false_move()
