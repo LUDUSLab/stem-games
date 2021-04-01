@@ -1,14 +1,13 @@
 import pygame
 import pygame_menu
 from snake import *
-from game_looping import GameLoop
 from fruits import *
-from config import *
+import config
 from wall import Wall
 
 
 class MainMenu:
-    def __init__(self, height, width, title, theme=pygame_menu.themes.THEME_DARK):
+    def __init__(self, height, width, title, theme=pygame_menu.themes.THEME_GREEN):
         self._width = width
         self._height = height
         self._theme = theme
@@ -26,13 +25,13 @@ class MainMenu:
 
     @staticmethod
     def _play_game():
-        player = Player(color_0D6895,
-                        color_0B3C53,
+        player = Player(config.color_0D6895,
+                        config.color_0B3C53,
                         [(416, 288), (384, 288), (352, 288)],
                         'assets/player_head.png')
 
-        ai = ArtificialIntelligence(color_C0771C,
-                                    color_C01C1C,
+        ai = ArtificialIntelligence(config.color_C0771C,
+                                    config.color_C01C1C,
                                     [(672, 288), (640, 288), (608, 288)],
                                     'assets/ia_head.png')
 
@@ -46,9 +45,10 @@ class MainMenu:
         direction = 0
 
         alive = True
+        died = False
 
         while alive:
-            game_clock.tick(fps)
+            config.game_clock.tick(config.fps)
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -78,9 +78,13 @@ class MainMenu:
                     player.position[0] in [(192, 192), (192, 448), (640, 192), (640, 448), (1056, 192), (1056, 448)]):
 
                 direction = 0
+                config.game_over.play()
                 player.score = 0
                 score_text = score_font.render(f'Score: {player.score}', True, (0, 0, 0), (255, 255, 255))
                 player.reset([(416, 288), (384, 288), (352, 288)])
+                died = True
+
+                alive = False
 
             if (ai.position[0][1] in [32, 608]) \
                     or (ai.position[0][0] in [0, 1248]) \
@@ -92,15 +96,19 @@ class MainMenu:
             if player.position[0] == fruit.position:
                 if fruit.type == 0:
                     player.score += 1
+                    config.eat_fruit.play()
 
                 elif fruit.type == 1:
                     player.score += 5
+                    config.eat_fruit.play()
 
                 elif fruit.type == 2:
                     player.score += 10
+                    config.eat_fruit.play()
 
                 elif fruit.type == 4:
                     player.score += 20
+                    config.eat_fruit.play()
 
                 score_text = score_font.render(f'Score: {player.score}', True, (0, 0, 0), (255, 255, 255))
 
@@ -129,7 +137,7 @@ class MainMenu:
             ai.ia_moves(fruit.position)
 
             # draw
-            screen.fill((255, 255, 255))
+            screen.fill((46, 139, 87))
             screen.blit(score_text, (0, 0))
 
             wall.draw_wall()
@@ -151,10 +159,10 @@ class CreditsMenu:
         self._width, self._height = width, height
         self._screen = pygame.display.set_mode((width, height))
         self._menu = pygame_menu.Menu(height, width, title, theme=theme)
-        self._menu.add_label("Creators: ")
-        self._menu.add_label("Allef")
-        self._menu.add_label("Arttie Carvalho")
-        self._menu.add_label("Emanuel")
+        self._menu.add_label("Create by ")
+        self._menu.add_label("Allef Oliveira Ramos")
+        self._menu.add_label("Arthur Gustavo Paiva Carvalho")
+        self._menu.add_label("Emanuel Henrique Oliveira Dias")
         self._menu.add_label("Gabriela Breval de Oliveira Santiago ")
 
         self._menu.add_vertical_margin(100)

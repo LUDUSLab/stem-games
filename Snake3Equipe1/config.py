@@ -9,15 +9,14 @@ fps = 10
 screen_dimensions = (1280, 720)
 game_clock = pygame.time.Clock()
 
-'''
+
 # SOUNDS AND FONTS
-
-game_over = Sound('assets/team_I.game-over.wav')
-eat_fruit = Sound('assets/team_I.eat.wav')
-music = Sound('assets/super_mario.wav')
-font = '/assets/PressStart2P.ttf'
-
-'''
+game_over = pygame.mixer.Sound('./assets/team_I.game-over.wav')
+eat_fruit = pygame.mixer.Sound('./assets/team-I.eat.wav')
+music_menu = pygame.mixer.Sound('./assets/super_mario.wav')
+music_menu.set_volume(0.01)
+game_over.set_volume(0.02)
+eat_fruit.set_volume(0.06)
 
 running_game = False
 screen = pygame.display.set_mode((1280, 720))
