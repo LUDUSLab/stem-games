@@ -16,8 +16,7 @@ class MainMenu:
         self._menu = pygame_menu.Menu(height, width, title, theme=theme)
 
         self._menu.add_button('Play', self._play_game)
-        self._menu.add_button('Credits', self._credits)
-        self._menu.add_button('Settings', self._setting)
+        self._menu.add_button('About', self._credits)
 
         self._menu.add_vertical_margin(100)
         self._menu.add_button('Quit', pygame_menu.events.EXIT)
@@ -82,10 +81,7 @@ class MainMenu:
                 player.score = 0
                 score_text = score_font.render(f'Score: {player.score}', True, (0, 0, 0), (255, 255, 255))
                 player.reset([(416, 288), (384, 288), (352, 288)])
-                died = True
-
                 alive = False
-
             if (ai.position[0][1] in [32, 608]) \
                     or (ai.position[0][0] in [0, 1248]) \
                     or (ai.position[0] in player.position) \
@@ -149,10 +145,7 @@ class MainMenu:
 
     def _credits(self):
         CreditsMenu(self._height, self._width, theme=self._theme)
-
-    def _setting(self):
-        SettingMenu(self._height, self._width, theme=self._theme)
-
+        
 
 class CreditsMenu:
     def __init__(self, height, width, title="Credits", theme=pygame_menu.themes.THEME_DARK):
@@ -164,17 +157,6 @@ class CreditsMenu:
         self._menu.add_label("Arthur Gustavo Paiva Carvalho")
         self._menu.add_label("Emanuel Henrique Oliveira Dias")
         self._menu.add_label("Gabriela Breval de Oliveira Santiago ")
-
-        self._menu.add_vertical_margin(100)
-        self._menu.add_button("Back", self._menu.disable)
-        self._menu.mainloop(self._screen)
-
-
-class SettingMenu:
-    def __init__(self, height, width, title="Settings", theme=pygame_menu.themes.THEME_DARK):
-        self._width, self._height = width, height
-        self._screen = pygame.display.set_mode((width, height))
-        self._menu = pygame_menu.Menu(height, width, title, theme=theme)
 
         self._menu.add_vertical_margin(100)
         self._menu.add_button("Back", self._menu.disable)

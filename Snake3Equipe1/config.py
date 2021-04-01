@@ -1,8 +1,9 @@
 import pygame
 from pygame.mixer import Sound
+from itertools import cycle
 
 pygame.init()
-
+BLINK_EVENT = pygame.USEREVENT + 0
 BACKGROUND_COLOR = (0, 0, 0)
 block_size = 32
 fps = 10
@@ -25,9 +26,12 @@ FOOD_APPLE = 100  # 0      aux = 0
 FOOD_BANANA = 200  # 1     aux = 1
 FOOD_ORANGE = 1000  # 2     aux = 2
 
-# colours
+# Colors ------------------------------------------------------------------------------------------------------- #
 color_0D6895 = (13, 104, 149)
 color_0B3C53 = (11, 60, 83)
 color_C01C1C = (192, 28, 28)
 color_C0771C = (185, 110, 18)
+COLOR_BLACK = (0, 0, 0)
+COLOR_WHITE = (255, 255, 255)
+
 
