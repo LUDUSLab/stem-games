@@ -69,9 +69,13 @@ class Arena(object):
         for pos in self.obst_pos:
             if self.snake_player.head.pos == pos:
                 self.snake_player.reset((15, 8))
+            if self.snake_bot.head.pos == pos:
+                self.snake_bot.reset((10, 10))
         for pos in self.wall_pos:
             if self.snake_player.head.pos == pos:
                 self.snake_player.reset((15, 8))
+            if self.snake_bot.head.pos == pos:
+                self.snake_bot.reset((10, 10))
 
     def draw_grid(self, columns, rows, surface):
         if self.grid:
