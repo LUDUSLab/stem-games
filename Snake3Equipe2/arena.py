@@ -53,6 +53,14 @@ class Arena(object):
                 self.snake_bot.head.pos[1] == 2 or self.snake_bot.head.pos[1] == self.rows - 1:
             self.snake_bot.reset((10, 10))
 
+    def collision_between_snakes(self):
+        for bpos in self.snake_player.get_body():
+            if self.snake_bot.head.pos == bpos.pos:
+                self.snake_bot.reset((10, 10))
+        for bpos in self.snake_bot.get_body():
+            if self.snake_player.head.pos == bpos.pos:
+                self.snake_player.reset((15, 8))
+
     def collision_fruit_snake(self):
         if self.snake_player.head.pos == self.fruit.fruit.pos:
             config.eat_sound.play()

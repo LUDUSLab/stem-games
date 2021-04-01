@@ -29,6 +29,7 @@ class Game(object):
         self.arena.collision_obstacles()
         self.snake_bot.collision_with_herself()
         self.snake_player.collision_with_herself()
+        self.arena.collision_between_snakes()
         self.snake_bot.move(self.arena.fruit.pos, self.arena.obstacle_matrix)
         self.snake_player.move()
         self.arena.redraw_window(self.surface)
