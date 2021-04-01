@@ -14,6 +14,7 @@ pygame.mixer.music.set_volume(0.1)
 
 SQUARE_SIZE = 40
 
+
 def font(size: int):
     path = "./assets/PressStart2P.ttf"
     return pygame.font.Font(path, size)
