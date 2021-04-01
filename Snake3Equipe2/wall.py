@@ -17,7 +17,7 @@ class Wall(object):
 
     def draw_wall(self, surface):
         for block in self.wall:
-            block.draw(40, surface)
+            block.draw(surface)
 
 
 class Obstacles(Wall):
@@ -50,4 +50,4 @@ class Obstacles(Wall):
 
     def draw_obstacles(self, surface):
         for obstacle in self.obstacles:
-            obstacle.draw(40, surface)
+            obstacle.draw(surface)

@@ -69,12 +69,12 @@ class Snake(object):
             else:
                 c.move(c.dirnx, c.dirny)
 
-    def draw(self, dist, surface):
+    def draw(self, surface):
         for i, c in enumerate(self._body):
             if i == 0:
-                c.draw(dist, surface, True)
+                c.draw(surface, True)
             else:
-                c.draw(dist, surface)
+                c.draw(surface)
 
     def collision_with_herself(self):
         for x in range(len(self._body)):

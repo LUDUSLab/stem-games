@@ -25,8 +25,8 @@ class Hud(object):
         surface.blit(self.score.text, self.score.text_rect)
 
     def display_hud_cubes(self, surface):
-        self.p1.draw(config.SQUARE_SIZE, surface, True)
-        self.ia.draw(config.SQUARE_SIZE, surface, True)
+        self.p1.draw(surface, True)
+        self.ia.draw(surface, True)
 
 
 hud_obj = Hud()

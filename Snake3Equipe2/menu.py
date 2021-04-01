@@ -25,22 +25,20 @@ play_button = create_menu_button(300, "Play", go_to_game)
 credits_button = create_menu_button(400, "Credits", go_to_credits)
 exit_button = create_menu_button(500, "Exit", config.exit_game)
 
-buttons = [play_button, credits_button, exit_button]
-
-buttons[0].set_selected(True)
 
 class Menu:
-    game_title_font = config.font(64)
-    surface = pygame.Surface(config.window.size)
+    surface = config.window.create_surface()
 
-    def __init__(self, bg_color: tuple = config.COLOR_BLACK):
+    def __init__(self, buttons: list, bg_color: tuple = config.COLOR_BLACK):
         self.bg_color = bg_color
+        self.buttons = buttons
+        self.buttons[0].set_selected(True)
 
     def display_header(self):
         pygame.Surface.blit(self.surface, config.menu_image, (0, 0))
 
     def display_buttons(self):
-        for b in buttons:
+        for b in self.buttons:
             b.draw(self.surface)
 
     def update_surface(self):
@@ -51,8 +49,8 @@ class Menu:
     def display_all(self):
         self.display_header()
         self.display_buttons()
-        button.check_key(buttons)
+        button.check_key(self.buttons)
         self.update_surface()
 
 
-menu_obj = Menu()
+menu_obj = Menu([play_button, credits_button, exit_button])

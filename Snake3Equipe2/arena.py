@@ -85,26 +85,26 @@ class Arena(object):
             if self.snake_bot.head.pos == pos:
                 self.snake_bot.reset((25, 9))
 
-    def draw_grid(self, columns, rows, surface):
+    def draw_grid(self, surface):
         if self.grid:
-            sqrsize = self.size[0] // columns
+            sqrsize = self.size[0] // self.columns
             x = 0
             y = 0
-            for i in range(columns):
+            for i in range(self.columns):
                 x = x + sqrsize
                 pygame.draw.line(surface, config.COLOR_LIGHT_GRAY, (x, 120), (x, self.size[0]))
-            for j in range(rows):
+            for j in range(self.rows):
                 y = y + sqrsize
                 pygame.draw.line(surface, config.COLOR_LIGHT_GRAY, (0, y + 80), (self.size[0], y + 80))
 
     def redraw_window(self, surface):
         surface.fill((0, 0, 0))
-        self.fruit.fruit.draw(self.size[0] // self.columns, surface)
-        self.snake_player.draw(self.size[0] // self.columns, surface)
-        self.snake_bot.draw(self.size[0] // self.columns, surface)
+        self.fruit.fruit.draw(surface)
+        self.snake_player.draw(surface)
+        self.snake_bot.draw(surface)
         self.wall.draw_wall(surface)
         self.obstacles.draw_obstacles(surface)
-        self.draw_grid(32, 18, surface)
+        self.draw_grid(surface)
 
 
 arena_obj = Arena(config.window.size, True)

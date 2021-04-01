@@ -10,7 +10,7 @@ menu_sound = pygame.mixer.Sound('./assets/368068__furbyguy__rock-metal-guitar-ri
 menu_sound.set_volume(0.1)
 eat_sound = pygame.mixer.Sound('./assets/524607__clearwavsound__crunchy-bite.wav')
 pygame.mixer.music.load('./assets/export_ofoct.com.mp3')
-pygame.mixer.music.set_volume(0.1)
+pygame.mixer.music.set_volume(0.2)
 
 SQUARE_SIZE = 40
 
