@@ -106,19 +106,151 @@ class SnakePlayer(Snake):
 
 
 class SnakeBot(Snake):
+    can_move = {"right": True,"down": True,"left": True,"up": True}
+
     def __init__(self, color: tuple, pos: tuple):
         super().__init__(color, pos)
 
-    def move(self, goal):
+    def move(self, goal, obstacle_matrix):
+        if self.head.pos[0] < 31:
+            if obstacle_matrix[self.head.pos[0] + 1][self.head.pos[1]]:
+                self.can_move["right"] = False
+            else:
+                self.can_move["right"] = True
+        if self.head.pos[0] > 0:
+            if obstacle_matrix[self.head.pos[0] - 1][self.head.pos[1]]:
+                self.can_move["left"] = False
+            else:
+                self.can_move["left"] = True
+        if self.head.pos[1] < 18:
+            if obstacle_matrix[self.head.pos[0]][self.head.pos[1] + 1]:
+                self.can_move["down"] = False
+            else:
+                self.can_move["down"] = True
+        if self.head.pos[1] > 0:
+            if obstacle_matrix[self.head.pos[0]][self.head.pos[1] - 1]:
+                self.can_move["up"] = False
+            else:
+                self.can_move["up"] = True
+
+
         if abs(self.head.pos[0] - goal[0]) >= abs(self.head.pos[1] - goal[1]):
             if self.head.pos[0] < goal[0]:
-                self.go_right()
+                if self.can_move["right"]:
+                    self.go_right()
+                else:
+                    if self.head.pos[1] > goal[1]:
+                        if self.can_move["up"]:
+                            self.go_up()
+                        else:
+                            self.go_down()
+                    if self.head.pos[1] < goal[1]:
+                        if self.can_move["down"]:
+                            self.go_down()
+                        else:
+                            self.go_up()
+
+            elif self.head.pos[0] > goal[0]:
+                if self.can_move["left"]:
+                    self.go_left()
+                else:
+                    if self.head.pos[1] > goal[1]:
+                        if self.can_move["up"]:
+                            self.go_up()
+                        else:
+                            self.go_down()
+                    if self.head.pos[1] < goal[1]:
+                        if self.can_move["down"]:
+                            self.go_down()
+                        else:
+                            self.go_up()
+
             else:
-                self.go_left()
+                if self.head.pos[1] < goal[1]:
+                    if self.can_move["down"]:
+                        self.go_down()
+                    else:
+                        if self.head.pos[0] < goal[0]:
+                            if self.can_move["right"]:
+                                self.go_right()
+                            else:
+                                self.go_left()
+                        if self.head.pos[0] > goal[0]:
+                            if self.can_move["left"]:
+                                self.go_left()
+                            else:
+                                self.go_right()
+                elif self.head.pos[1] > goal[1]:
+                    if self.can_move["up"]:
+                        self.go_up()
+                    else:
+                        if self.head.pos[0] < goal[0]:
+                            if self.can_move["right"]:
+                                self.go_right()
+                            else:
+                                self.go_left()
+                        if self.head.pos[0] > goal[0]:
+                            if self.can_move["left"]:
+                                self.go_left()
+                            else:
+                                self.go_right()
         else:
             if self.head.pos[1] < goal[1]:
-                self.go_down()
-            else:
-                self.go_up()
+                if self.can_move["down"]:
+                    self.go_down()
+                else:
+                    if self.head.pos[0] < goal[0]:
+                        if self.can_move["right"]:
+                            self.go_right()
+                        else:
+                            self.go_left()
+                    if self.head.pos[0] > goal[0]:
+                        if self.can_move["left"]:
+                            self.go_left()
+                        else:
+                            self.go_right()
 
+            elif self.head.pos[1] > goal[1]:
+                if self.can_move["up"]:
+                    self.go_up()
+                else:
+                    if self.head.pos[0] < goal[0]:
+                        if self.can_move["right"]:
+                            self.go_right()
+                        else:
+                            self.go_left()
+                    if self.head.pos[0] > goal[0]:
+                        if self.can_move["left"]:
+                            self.go_left()
+                        else:
+                            self.go_right()
+            else:
+                if self.head.pos[0] < goal[0]:
+                    if self.can_move["right"]:
+                        self.go_right()
+                    else:
+                        if self.head.pos[1] < goal[1]:
+                            if self.can_move["down"]:
+                                self.go_down()
+                            else:
+                                self.go_up()
+                        if self.head.pos[1] > goal[1]:
+                            if self.can_move["up"]:
+                                self.go_up()
+                            else:
+                                self.go_down()
+                elif self.head.pos[0] > goal[0]:
+                    if self.can_move["left"]:
+                        self.go_left()
+                    else:
+                        if self.head.pos[1] < goal[1]:
+                            if self.can_move["down"]:
+                                self.go_down()
+                            else:
+                                self.go_up()
+                        if self.head.pos[1] > goal[1]:
+                            if self.can_move["up"]:
+                                self.go_up()
+                            else:
+                                self.go_down()
         false_move(self._body, self._turns)

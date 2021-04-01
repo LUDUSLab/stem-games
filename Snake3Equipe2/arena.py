@@ -19,6 +19,11 @@ class Arena(object):
         self.obstacles = wall.Obstacles((200, 200, 200))
         self.wall_pos = [x.pos for x in self.wall.wall]
         self.obst_pos = [x.pos for x in self.obstacles.obstacles]
+        self.obstacle_matrix = [[False for _ in range(self.rows)] for _ in range(self.columns)]
+        for wpos in self.wall_pos:
+            self.obstacle_matrix[wpos[0]][wpos[1]] = True
+        for opos in self.obst_pos:
+            self.obstacle_matrix[opos[0]][opos[1]] = True
 
     def random_fruit(self):
         positions1 = self.snake_player.get_body()
