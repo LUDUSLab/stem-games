@@ -13,8 +13,8 @@ class Arena(object):
         self.size = size
         self.grid = grid
         self.fruit = fruit.Fruit(1, (random.randrange(1, 30), random.randrange(3, 16)))
-        self.snake_player = snake.SnakePlayer((255, 0, 0), (15, 8))
-        self.snake_bot = snake.SnakeBot((10, 150, 200), (10, 10))
+        self.snake_player = snake.SnakePlayer((255, 0, 0), (9, 9))
+        self.snake_bot = snake.SnakeBot((10, 150, 200), (25, 9))
         self.wall = wall.Wall()
         self.obstacles = wall.Obstacles((200, 200, 200))
         self.wall_pos = [x.pos for x in self.wall.wall]
@@ -47,19 +47,19 @@ class Arena(object):
     def collision_with_snake(self):
         if self.snake_player.head.pos[0] == 1 or self.snake_player.head.pos[0] == self.columns or \
                 self.snake_player.head.pos[1] == 2 or self.snake_player.head.pos[1] == self.rows - 1:
-            self.snake_player.reset((15, 8))
+            self.snake_player.reset((9, 9))
 
         if self.snake_bot.head.pos[0] == 1 or self.snake_bot.head.pos[0] == self.columns or \
                 self.snake_bot.head.pos[1] == 2 or self.snake_bot.head.pos[1] == self.rows - 1:
-            self.snake_bot.reset((10, 10))
+            self.snake_bot.reset((25, 9))
 
     def collision_between_snakes(self):
         for bpos in self.snake_player.get_body():
             if self.snake_bot.head.pos == bpos.pos:
-                self.snake_bot.reset((10, 10))
+                self.snake_bot.reset((25, 9))
         for bpos in self.snake_bot.get_body():
             if self.snake_player.head.pos == bpos.pos:
-                self.snake_player.reset((15, 8))
+                self.snake_player.reset((9, 9))
 
     def collision_fruit_snake(self):
         if self.snake_player.head.pos == self.fruit.fruit.pos:
@@ -76,14 +76,14 @@ class Arena(object):
     def collision_obstacles(self):
         for pos in self.obst_pos:
             if self.snake_player.head.pos == pos:
-                self.snake_player.reset((15, 8))
+                self.snake_player.reset((9, 9))
             if self.snake_bot.head.pos == pos:
-                self.snake_bot.reset((10, 10))
+                self.snake_bot.reset((25, 9))
         for pos in self.wall_pos:
             if self.snake_player.head.pos == pos:
-                self.snake_player.reset((15, 8))
+                self.snake_player.reset((9, 9))
             if self.snake_bot.head.pos == pos:
-                self.snake_bot.reset((10, 10))
+                self.snake_bot.reset((25, 9))
 
     def draw_grid(self, columns, rows, surface):
         if self.grid:

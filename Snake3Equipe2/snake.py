@@ -32,7 +32,6 @@ class Snake(object):
         self._turns = {}
         self.dirnx = 0
         self.dirny = 1
-        self.score = 0
 
     def go_right(self):
         self.dirnx = 1
