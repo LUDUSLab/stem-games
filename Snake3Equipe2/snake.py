@@ -2,6 +2,10 @@ import pygame
 import config
 import cube
 
+# Sprites
+player_head_sprite = pygame.image.load('assets/Player_head.png')
+ai_head_sprite = pygame.image.load('assets/Bot_head.png')
+
 
 class Snake(object):
     def __init__(self, color: tuple, pos: tuple):
@@ -13,6 +17,7 @@ class Snake(object):
         self.dirnx = 1
         self.dirny = 0
         self.score = 0
+        self.false_head = cube.Renderer(self.head.pos, ai_head_sprite)
 
     def reset(self, pos):
         self.head = cube.Cube(pos, self.color)
@@ -71,10 +76,7 @@ class Snake(object):
 
     def draw(self, surface):
         for i, c in enumerate(self._body):
-            if i == 0:
-                c.draw(surface, True)
-            else:
-                c.draw(surface)
+            c.draw(surface)
 
     def collision_with_herself(self):
         for x in range(len(self._body)):
@@ -101,11 +103,13 @@ class SnakePlayer(Snake):
                     self.go_up()
                 elif event.key == pygame.K_s and self.dirny == 0:
                     self.go_down()
+        self.false_head = cube.Renderer(self.head.pos, player_head_sprite)
+        self.false_head.blit()
         self.false_move()
 
 
 class SnakeBot(Snake):
-    can_move = {"right": True,"down": True,"left": True,"up": True}
+    can_move = {"right": True, "down": True, "left": True, "up": True}
 
     def __init__(self, color: tuple, pos: tuple):
         super().__init__(color, pos)
@@ -139,6 +143,8 @@ class SnakeBot(Snake):
             self.can_move["up"] = False
         elif self.dirny < 0:
             self.can_move["down"] = False
+        self.false_head = cube.Renderer(self.head.pos, ai_head_sprite)
+        self.false_head.blit()
 
         def check_move(s):
             if s == "vertical":

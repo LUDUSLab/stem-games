@@ -13,10 +13,10 @@ class Arena(object):
         self.size = size
         self.grid = grid
         self.fruit = fruit.Fruit(1, (random.randrange(1, 30), random.randrange(3, 16)))
-        self.snake_player = snake.SnakePlayer((255, 0, 0), (9, 9))
-        self.snake_bot = snake.SnakeBot((10, 150, 200), (25, 9))
+        self.snake_player = snake.SnakePlayer((215, 34, 34), (9, 9))
+        self.snake_bot = snake.SnakeBot((71, 77, 188), (25, 9))
         self.wall = wall.Wall()
-        self.obstacles = wall.Obstacles((200, 200, 200))
+        self.obstacles = wall.Obstacles()
         self.wall_pos = [x.pos for x in self.wall.wall]
         self.obst_pos = [x.pos for x in self.obstacles.obstacles]
         self.obstacle_matrix = [[False for _ in range(self.rows)] for _ in range(self.columns)]
@@ -24,6 +24,25 @@ class Arena(object):
             self.obstacle_matrix[wpos[0]][wpos[1]] = True
         for opos in self.obst_pos:
             self.obstacle_matrix[opos[0]][opos[1]] = True
+
+    @staticmethod
+    def fruit_randomizer():
+        # rolls a 100-sided die that determines the next fruit to spawn
+        d100 = random.randrange(0, 100)
+        fruit_type = 0
+        if d100 in range(0, 50):
+            fruit_type = 1
+
+        if d100 in range(51, 75):
+            fruit_type = 2
+
+        if d100 in range(76, 90):
+            fruit_type = 3
+
+        if d100 in range(91, 100):
+            fruit_type = 4
+
+        return fruit_type
 
     def random_fruit(self):
         positions1 = self.snake_player.get_body()
@@ -65,13 +84,14 @@ class Arena(object):
         if self.snake_player.head.pos == self.fruit.fruit.pos:
             config.eat_sound.play()
             self.snake_player.add_cube()
-            self.fruit = fruit.Fruit(1, self.random_fruit())
             self.snake_player.score += self.fruit.value
+            self.fruit = fruit.Fruit(self.fruit_randomizer(), self.random_fruit())
+
         elif self.snake_bot.head.pos == self.fruit.fruit.pos:
             config.eat_sound.play()
             self.snake_bot.add_cube()
-            self.fruit = fruit.Fruit(1, self.random_fruit())
             self.snake_bot.score += self.fruit.value
+            self.fruit = fruit.Fruit(self.fruit_randomizer(), self.random_fruit())
 
     def collision_obstacles(self):
         for pos in self.obst_pos:
@@ -99,11 +119,11 @@ class Arena(object):
 
     def redraw_window(self, surface):
         surface.fill((0, 0, 0))
-        self.fruit.fruit.draw(surface)
+        self.fruit.fruit.blit()
         self.snake_player.draw(surface)
         self.snake_bot.draw(surface)
-        self.wall.draw_wall(surface)
-        self.obstacles.draw_obstacles(surface)
+        self.wall.draw_wall()
+        self.obstacles.draw_obstacles()
         self.draw_grid(surface)
 
 

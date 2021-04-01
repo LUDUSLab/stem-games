@@ -21,10 +21,9 @@ class Game(object):
     def display_all(self):
         self.clock.tick(self.framerate)
         pygame.time.delay(self.delay)
-        self.hud.display_hud_cubes(self.surface)
         self.hud.display_score(self.surface)
         self.display_surface()
-        self.arena.collision_with_snake()
+        self.arena.collision_between_snakes()
         self.arena.collision_fruit_snake()
         self.arena.collision_obstacles()
         self.snake_bot.collision_with_herself()
@@ -33,6 +32,8 @@ class Game(object):
         self.snake_bot.move(self.arena.fruit.pos, self.arena.obstacle_matrix)
         self.snake_player.move()
         self.arena.redraw_window(self.surface)
+        self.hud.display_hud_cubes()
         pygame.display.update()
+
 
 game_obj = Game()
