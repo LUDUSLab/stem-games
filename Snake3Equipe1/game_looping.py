@@ -1,6 +1,6 @@
 from pygame.time import Clock
 import pygame
-import config
+from config import *
 from snake import Player, ArtificialIntelligence
 from fruits import Fruit
 # from wall import Wall
@@ -9,12 +9,18 @@ from fruits import Fruit
 class GameLoop:
     """Implementando o loop principal"""
 
-    def __init__(self):
+    direction = 0
 
-        self.snake = Player(config.color_0D6895, config.color_0B3C53, [(416, 288), (384, 288), (352, 288)],
+    def __init__(self):
+        self.snake = Player(color_0D6895, color_0B3C53, [(416, 288), (384, 288), (352, 288)],
                             'assets/player_head.png')
+
+        self.ia = ArtificialIntelligence(color_C0771C, color_C01C1C, [(672, 288), (640, 288), (608, 288)],
+                                         'assets/ia_head.png')
+
         self.ia = ArtificialIntelligence(config.color_C0771C, config.color_C01C1C, [(672, 288), (640, 288), (608, 288)],
                             'assets/ia_head.png')
+
         self.fruit = Fruit()
         # self.wall = Wall()
 
@@ -38,21 +44,21 @@ class GameLoop:
                     pygame.quit()
 
                 if event.type == pygame.KEYDOWN:
-                    if not direction == 3:
+                    if not self.direction == 3:
                         if event.key == pygame.K_w:
-                            direction = 1
+                            self.direction = 1
 
-                    if not direction == 4:
+                    if not self.direction == 4:
                         if event.key == pygame.K_a:
-                            direction = 2
+                            self.direction = 2
 
-                    if not direction == 1:
+                    if not self.direction == 1:
                         if event.key == pygame.K_s:
-                            direction = 3
+                            self.direction = 3
 
-                    if not direction == 2:
+                    if not self.direction == 2:
                         if event.key == pygame.K_d:
-                            direction = 4
+                            self.direction = 4
 
             if (self.snake.position[0][1] in [32, 608]) \
                     or (self.snake.position[0][0] in [0, 1248]) \
@@ -70,10 +76,23 @@ class GameLoop:
                     self.ia.position[0] in [(192, 192), (192, 448), (640, 192), (640, 448), (1056, 192), (1056, 448)]):
                 self.ia.reset([(672, 288), (640, 288), (608, 288)])
 
-            config.screen.fill((0, 0, 0))
+            if (self.snake.position[0] == self.fruit.position):
+                fruit.change_position()
+                snake.new_body()
+
+
+            if (self.ia.position[0] == self.fruit.position):
+                fruit.change_position()
+                ia.new_body()
 
             # moves snake
-            self.snake.snake_moves(direction)
+            self.snake.snake_moves(self.direction)
+            self.ia.ia_moves(self.fruit.position)
+
+            screen.fill((0, 0, 0))
+
+            # moves snake
+            self.snake.snake_moves(self.direction)
             self.ia.ia_moves(self.fruit.position)
 
             # new body add
@@ -87,6 +106,7 @@ class GameLoop:
             # draw
             # self.wall.draw_wall()
             self.snake.draw_snake()
+
             self.ia.draw_snake()
             self.fruit.draw()
 
