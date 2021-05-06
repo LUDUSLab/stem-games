@@ -126,4 +126,4 @@ class Arena(object):
         self.draw_grid(surface)
 
 
-arena_obj = Arena(config.window.size, True)
+arena_obj = Arena(config.window.size, False)
