@@ -17,8 +17,8 @@ class Header:
 class Menu:
     surface = config.window.create_surface()
     start_game = False
-    header = Header(surface, "1 COIN 1 PLAY", 36)
-    footer = Header(surface, "STEM GAMES", 28, 660)
+    header = Header(surface, "1 COIN 1 PLAY", 30)
+    footer = Header(surface, "STEM GAMES", 20, 690)
     header.display()
     footer.display()
 
