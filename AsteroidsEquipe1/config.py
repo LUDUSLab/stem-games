@@ -1,5 +1,6 @@
 import pygame
 import player
+import renderer
 
 pygame.init()
 
@@ -16,9 +17,6 @@ while game_on:
         if event.type == pygame.QUIT:
             game_on = False
 
-    pygame.display.update()
-    screen.fill(color_black)
+    renderer.redrawGameWindow()
 
 pygame.quit()
-
-
