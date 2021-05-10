@@ -54,8 +54,12 @@ class PlayerShip(object):
         self.head = (self.x + self.player_cos * self.w // 2, self.y - self.player_sin * self.h // 2)
 
     def draw_playership(self, screen):
-        # screen.blit(self.img, [self.x, self.y, self.w, self.h])
+        screen.blit(self.img, [self.x, self.y, self.w, self.h])
         screen.blit(self.rotate, self.rotateRect)
+
+
+playership = PlayerShip()
+player_missile = []
 
 
 class Missile(object):
@@ -74,14 +78,11 @@ class Missile(object):
         pygame.draw.rect(screen, color_white, [self.x, self.y, self.w, self.h])
 
 
-playership = PlayerShip()
-player_missile = []
-
 game_on = True
 game_over = False
 game_clock = pygame.time.Clock()
 while game_on:
-    game_clock.tick(30)
+    game_clock.tick(60)
     for i in player_missile:
         i.missile_move()
     if not game_over:
