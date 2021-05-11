@@ -17,7 +17,7 @@ class PlayerShip(object):
         self.h = self.img.get_height()
         self.x = sw // 2
         self.y = sh // 2
-        self.angle = 30
+        self.angle = 0
         self.rotate = pygame.transform.rotate(self.img, self.angle)
         self.rotateRect = self.rotate.get_rect()
         self.rotateRect.center = (self.x, self.y)
