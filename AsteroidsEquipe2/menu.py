@@ -5,10 +5,10 @@ import asteroid
 
 class Menu:
     start_game = False
-    header = config.Text("1 COIN 1 PLAY", 30)
-    footer = config.Text("STEM GAMES", 20)
-    header.pos = ((config.window.size[0] - header.font.size(header.message)[0])/2, 570)
-    footer.pos = ((config.window.size[0] - footer.font.size(footer.message)[0])/2, 690)
+    header = config.Text("1 COIN 1 PLAY", 32)
+    footer = config.Text("2 0 2 1  STEM GAMES", 16)
+    header.pos = ((config.window.size[0] - header.font.size(header.message)[0])/2, 580)
+    footer.pos = ((config.window.size[0] - footer.font.size(footer.message)[0])/2, 695)
     ufo = ufo.BigUFO((1.5, 0))
     hud = hud.HUD()
     asteroids = []

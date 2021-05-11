@@ -28,8 +28,8 @@ class BigAsteroid(Asteroid):
 
     def __init__(self):
         super().__init__()
-        self.velx = uniform(-1, 1)
-        self.vely = uniform(-1, 1)
+        self.velx = uniform(-1.5, 1.5)
+        self.vely = uniform(-1.5, 1.5)
         self.pos = (randint(0, screen_size[0]), randint(0, screen_size[1]))
 
     def move(self):
