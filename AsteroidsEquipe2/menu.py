@@ -1,6 +1,7 @@
 import config
 import ufo
 import hud
+import asteroid
 
 class Menu:
     start_game = False
@@ -8,8 +9,11 @@ class Menu:
     footer = config.Text("STEM GAMES", 20)
     header.pos = ((config.window.size[0] - header.font.size(header.message)[0])/2, 570)
     footer.pos = ((config.window.size[0] - footer.font.size(footer.message)[0])/2, 690)
-    ufo = ufo.BigUFO(6, 1)
+    ufo = ufo.BigUFO((1.5, 0))
     hud = hud.HUD()
+    asteroids = []
+    for _ in range(4):
+        asteroids.append(asteroid.BigAsteroid())
 
     def __init__(self, bg_color: tuple = config.COLOR_BLACK):
         self.bg_color = bg_color
@@ -23,4 +27,7 @@ class Menu:
         self.footer.display()
         self.hud.menu_display()
         self.ufo.display()
+        for ast in self.asteroids:
+            ast.display()
+            ast.move()
         self.ufo.move()
