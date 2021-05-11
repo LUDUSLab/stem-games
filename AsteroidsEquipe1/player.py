@@ -17,7 +17,7 @@ class PlayerShip(object):
         self.h = self.img.get_height()
         self.x = sw // 2
         self.y = sh // 2
-        self.angle = 0
+        self.angle = 30
         self.rotate = pygame.transform.rotate(self.img, self.angle)
         self.rotateRect = self.rotate.get_rect()
         self.rotateRect.center = (self.x, self.y)
@@ -54,7 +54,7 @@ class PlayerShip(object):
         self.head = (self.x + self.player_cos * self.w // 2, self.y - self.player_sin * self.h // 2)
 
     def draw_playership(self, screen):
-        screen.blit(self.img, [self.x, self.y, self.w, self.h])
+        # screen.blit(self.img, [self.x, self.y, self.w, self.h])
         screen.blit(self.rotate, self.rotateRect)
 
 
@@ -76,6 +76,9 @@ class Missile(object):
 
     def draw_missile(self, screen):
         pygame.draw.rect(screen, color_white, [self.x, self.y, self.w, self.h])
+
+
+missile = Missile()
 
 
 game_on = True
