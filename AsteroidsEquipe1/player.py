@@ -2,7 +2,7 @@ import pygame
 import math
 
 pygame.init()
-sw, sh = 1000, 1000
+sw, sh = 1440, 1080
 color_black = (0, 0, 0)
 color_white = (255, 255, 255)
 screen = pygame.display.set_mode((sw, sh))
@@ -12,7 +12,6 @@ pygame.display.set_caption("Asteroids")
 class PlayerShip(object):
     def __init__(self):
         self.img = pygame.image.load("../ronald.boadana/snakepro/assets/ronald.boadana_snakehead2.png")
-        self.color = (255, 255, 255)
         self.w = self.img.get_width()
         self.h = self.img.get_height()
         self.x = sw // 2
@@ -52,6 +51,7 @@ class PlayerShip(object):
         self.player_cos = math.cos(math.radians(self.angle + 90))
         self.player_sin = math.sin(math.radians(self.angle + 90))
         self.head = (self.x + self.player_cos * self.w // 2, self.y - self.player_sin * self.h // 2)
+        print(self.x, self.y)
 
     def draw_playership(self, screen):
         # screen.blit(self.img, [self.x, self.y, self.w, self.h])

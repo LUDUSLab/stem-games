@@ -17,8 +17,8 @@ def test_player_turn_right():
 def test_player_move_up():
     player = PlayerShip()
     player.move_up()
-    assert player.x != 500
-    assert player.y != 500
+    assert player.x != 0
+    assert player.y != 0
 
 
 def test_missile():
