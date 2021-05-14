@@ -4,10 +4,17 @@ import pygame
 
 pygame.init()
 menu = menu.Menu()
-while not menu.start_game:
-    config.check_quit_event()
-    config.clock.tick(config.framerate)
+
+while True:
+    for event in pygame.event.get():
+        config.check_quit_event(event)
+        menu.start_txt.blinker.check_blink_event(event)
+
     config.window.screen.fill(config.COLOR_BLACK)
-    menu.display_bg_animation()
+    if not menu.start_game:
+        menu.display_bg_animation()
+        # menu.menu_obj.check_enter_game()
     pygame.display.flip()
-    # menu.menu_obj.check_game_enter()
+    config.clock.tick(config.framerate)
+
+
