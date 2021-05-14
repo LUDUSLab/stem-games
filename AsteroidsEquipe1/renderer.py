@@ -7,9 +7,11 @@ class Renderer(object):
     def __init__(self):
         self.player = player.PlayerShip()
         self.enemy = enemy.EnemyShip()
-        self.missile = missile.Missile()
+        self.player_missile = player_missile.Missile()
+        self.enemy_missile = enemy_missile.EnemyMissile()
 
     def display(self, screen):
-        self.player.draw_playership(screen)
-        self.enemy.draw_enemy(screen)
-        self.missile.draw_missile(screen)
+        self.player.draw(screen)
+        self.enemy.draw(screen)
+        self.player_missile.draw(screen)
+        self.enemy_missile.draw(screen)

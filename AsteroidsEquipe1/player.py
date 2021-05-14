@@ -46,7 +46,7 @@ class PlayerShip(object):
         self.head = (self.x + self.player_cos * self.w // 2, self.y - self.player_sin * self.h // 2)
         print(self.x, self.y)
 
-    def draw_playership(self, screen):
+    def draw(self, screen):
         # screen.blit(self.img, [self.x, self.y, self.w, self.h])
         screen.blit(self.rotate, self.rotateRect)
 

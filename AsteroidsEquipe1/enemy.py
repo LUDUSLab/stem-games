@@ -27,7 +27,7 @@ class EnemyShip(object):
         self.xv = self.x_dir * 2
         self.yv = self.y_dir * 2
 
-    def draw_enemy(self, screen):
+    def draw(self, screen):
         screen.blit(self.img, (self.x, self.y))
 
 
