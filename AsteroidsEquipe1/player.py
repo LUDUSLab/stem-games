@@ -49,6 +49,4 @@ class PlayerShip(object):
         # screen.blit(self.img, [self.x, self.y, self.w, self.h])
         screen.blit(self.rotate, self.rotateRect)
 
-
 playership = PlayerShip()
-player_missile = []

@@ -18,3 +18,5 @@ game_clock = pygame.time.Clock()
 lives = 0
 enemy = []
 enemy_missile = []
+asteroids = []
+player_missile = []

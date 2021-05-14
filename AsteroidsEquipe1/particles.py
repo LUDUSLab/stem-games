@@ -1,5 +1,6 @@
 import player
-import config
+from config import *
+from player import playership
 import math
 
 
@@ -18,7 +19,7 @@ class PlayerMissile(object):
     def draw(self, screen):
         pygame.draw.rect(screen, color_white, [self.x, self.y, self.w, self.h])
 
-
+'''
 class EnemyMissile(object):
     def __init__(self):
         self.x = x
@@ -33,7 +34,6 @@ class EnemyMissile(object):
 
     def draw(self, screen):
         pygame.draw.rect(screen, color_white, [self.x, self.y, self.w, self.h])
+'''
 
-
-player_missile = PlayerMissile()
-enemy_missile = EnemyMissile()
+"""enemy_missile = EnemyMissile()"""
