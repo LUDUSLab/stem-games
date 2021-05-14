@@ -15,3 +15,5 @@ class Renderer(object):
         self.enemy.draw(screen)
         self.player_missile.draw(screen)
         self.enemy_missile.draw(screen)
+
+renderer = Renderer()
