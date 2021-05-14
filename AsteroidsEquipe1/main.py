@@ -9,9 +9,17 @@ from particles import *
 pygame.init()
 
 game_on = True
+count = 0
 
 while game_on:
     game_clock.tick(60)
+    count += 1
+
+    if count % 100 == 0:
+        asteroids.append(BigAsteroids())
+
+    for i in asteroids:
+        i.move()
 
     for i in player_missile:
         i.move()
@@ -37,8 +45,11 @@ while game_on:
     for i in player_missile:
         i.draw(screen)
 
+    for i in asteroids:
+        i.draw(screen)
+
     playership.draw(screen)
-    
+
     pygame.display.update()
 
 pygame.quit()
