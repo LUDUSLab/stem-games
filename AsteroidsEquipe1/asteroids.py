@@ -1,6 +1,6 @@
 from config import *
 from abc import ABC, abstractmethod
-import random
+from random import choice, randrange
 
 
 class Asteroids(ABC):
@@ -14,48 +14,128 @@ class Asteroids(ABC):
         pass
 
     @abstractmethod
-    def draw(self):
+    def draw(self, screen):
         pass
 
 
 class BigAsteroids(Asteroids):
 
-    def __init__(self, rank):
-        self.w = 50 * rank
-        self.h = 50 * rank
+    def __init__(self):
+        self._w = 64
+        self._h = 64
 
-        self.ranPoint = random.choice([(random.randrange(0, sw - self.w), random.choice([-1 * self.h - 5, sh + 5])),
-                                       (random.choice([-1 * self.w - 5, sw + 5]), random.randrange(0, sh - self.h))])
+        self._speed_x = choice([1, 2, 3])
+        self._speed_y = choice([1, 2, 3])
+
+        self.ranPoint = choice([(randrange(0, sw - self._w), choice([-1 * self._h - 5, sh + 5])),
+                                (choice([-1 * self._w - 5, sw + 5]), randrange(0, sh - self._h))])
+
+        self._x, self._y = self.ranPoint
+
+        if self._x < sw // 2:
+            self.dir_x = 1
+
+        else:
+            self.dir_x = -1
+
+        if self._y < sh // 2:
+            self.dir_y = 1
+
+        else:
+            self.dir_y = -1
+
+        self._asteroids = [pygame.color.Color('white'), (self._x, self._y, self._w, self._h)]
 
     def move(self):
-        pass
+        self._x += self.dir_x * self._speed_x
+        self._y += self.dir_y * self._speed_y
+
+        self._asteroids = [pygame.color.Color('white'), (self._x, self._y, self._w, self._h)]
 
     def destroy(self):
         pass
 
-    def draw(self):
-        pass
+    def draw(self, screen):
+        pygame.draw.rect(screen, self._asteroids[0], self._asteroids[1])
 
 
 class MediumAsteroids(Asteroids):
 
+    def __init__(self):
+        self._w = 32
+        self._h = 32
+
+        self._speed_x = choice([1, 2, 3])
+        self._speed_y = choice([1, 2, 3])
+
+        self.ranPoint = choice([(randrange(0, sw - self._w), choice([-1 * self._h - 5, sh + 5])),
+                                (choice([-1 * self._w - 5, sw + 5]), randrange(0, sh - self._h))])
+
+        self._x, self._y = self.ranPoint
+
+        if self._x < sw // 2:
+            self.dir_x = 1
+
+        else:
+            self.dir_x = -1
+
+        if self._y < sh // 2:
+            self.dir_y = 1
+
+        else:
+            self.dir_y = -1
+
+        self._asteroids = [pygame.color.Color('white'), (self._x, self._y, self._w, self._h)]
+
     def move(self):
-        pass
+        self._x += self.dir_x * self._speed_x
+        self._y += self.dir_y * self._speed_y
+
+        self._asteroids = [pygame.color.Color('white'), (self._x, self._y, self._w, self._h)]
 
     def destroy(self):
         pass
 
-    def draw(self):
-        pass
+    def draw(self, screen):
+        pygame.draw.rect(screen, self._asteroids[0], self._asteroids[1])
 
 
 class SmallAsteroids(Asteroids):
 
+    def __init__(self):
+        self._w = 16
+        self._h = 16
+
+        self._speed_x = choice([1, 2, 3])
+        self._speed_y = choice([1, 2, 3])
+
+        self.ranPoint = choice([(randrange(0, sw - self._w), choice([-1 * self._h - 5, sh + 5])),
+                                (choice([-1 * self._w - 5, sw + 5]), randrange(0, sh - self._h))])
+
+        self._x, self._y = self.ranPoint
+
+        if self._x < sw // 2:
+            self.dir_x = 1
+
+        else:
+            self.dir_x = -1
+
+        if self._y < sh // 2:
+            self.dir_y = 1
+
+        else:
+            self.dir_y = -1
+
+        self._asteroids = [pygame.color.Color('white'), (self._x, self._y, self._w, self._h)]
+
     def move(self):
-        pass
+        self._x += self.dir_x * self._speed_x
+        self._y += self.dir_y * self._speed_y
+
+        self._asteroids = [pygame.color.Color('white'), (self._x, self._y, self._w, self._h)]
 
     def destroy(self):
         pass
 
-    def draw(self):
-        pass
+    def draw(self, screen):
+        pygame.draw.rect(screen, self._asteroids[0], self._asteroids[1])
