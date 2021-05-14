@@ -2,6 +2,7 @@ import pygame
 from config import *
 from asteroids import *
 from player import *
+from enemy import *
 
 pygame.init()
 
@@ -33,12 +34,12 @@ while game_on:
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_e:
                 if not game_over:
-                    player_missile.append(Missile())
+                    player_missile.append(PlayerMissile())
 
     screen.fill(color_black)
     playership.draw_playership(screen)
     for i in player_missile:
-        i.draw_missile(screen)
+        i.player_missile.draw_missile(screen)
     pygame.display.update()
 
 pygame.quit()

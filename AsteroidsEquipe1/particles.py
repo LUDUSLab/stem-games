@@ -1,7 +1,7 @@
 import player
 
 
-class Missile(object):
+class PlayerMissile(object):
     def __init__(self):
         self.point = playership.head
         self.x, self.y = self.point
@@ -17,4 +17,4 @@ class Missile(object):
         pygame.draw.rect(screen, color_white, [self.x, self.y, self.w, self.h])
 
 
-missile = Missile()
+player_missile = PlayerMissile()
