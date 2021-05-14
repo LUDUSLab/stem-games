@@ -1,12 +1,6 @@
 import pygame
 import math
-
-pygame.init()
-sw, sh = 1440, 1080
-color_black = (0, 0, 0)
-color_white = (255, 255, 255)
-screen = pygame.display.set_mode((sw, sh))
-pygame.display.set_caption("Asteroids")
+from config import *
 
 
 class PlayerShip(object):
@@ -58,10 +52,6 @@ class PlayerShip(object):
         screen.blit(self.rotate, self.rotateRect)
 
 
-playership = PlayerShip()
-player_missile = []
-
-
 class Missile(object):
     def __init__(self):
         self.point = playership.head
@@ -79,36 +69,6 @@ class Missile(object):
 
 
 missile = Missile()
+playership = PlayerShip()
+player_missile = []
 
-
-game_on = True
-game_over = False
-game_clock = pygame.time.Clock()
-while game_on:
-    game_clock.tick(60)
-    for i in player_missile:
-        i.missile_move()
-    if not game_over:
-        keys = pygame.key.get_pressed()
-        if keys[pygame.K_a]:
-            playership.player_left()
-        if keys[pygame.K_d]:
-            playership.player_right()
-        if keys[pygame.K_w]:
-            playership.move_up()
-
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            game_on = False
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_e:
-                if not game_over:
-                    player_missile.append(Missile())
-
-    screen.fill(color_black)
-    playership.draw_playership(screen)
-    for i in player_missile:
-        i.draw_missile(screen)
-    pygame.display.update()
-
-pygame.quit()
