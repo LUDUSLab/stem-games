@@ -1,3 +1,5 @@
+import pygame
+
 import config
 import ufo
 import hud
@@ -17,12 +19,10 @@ class Menu:
     for _ in range(4):
         asteroids.append(asteroid.BigAsteroid())
 
-    def __init__(self, bg_color: tuple = config.COLOR_BLACK):
-        self.bg_color = bg_color
-
-    # def check_game_enter(self):
-        # if key_pressed:
-        #   self.start_game = True
+    def check_game_enter(self, event):
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
+                self.start_game = True
 
     def display_bg_animation(self):
         self.header.display()
