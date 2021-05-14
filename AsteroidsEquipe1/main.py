@@ -49,6 +49,7 @@ while game_on:
         i.draw(screen)
 
     playership.draw(screen)
+    enemyship.draw(screen)
 
     pygame.display.update()
 

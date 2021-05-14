@@ -19,21 +19,21 @@ class PlayerMissile(object):
     def draw(self, screen):
         pygame.draw.rect(screen, color_white, [self.x, self.y, self.w, self.h])
 
-'''
-class EnemyMissile(object):
-    def __init__(self):
-        self.x = x
-        self.y = y
-        self.w = 4
-        self.h = 4
-        self.dx, self.dy = player.x - self.x, player.y - self.y
-        self.dist = math.hypot(self.dx, self.dy)
-        self.dx, self.dy = self.dx / self.dist, self.dy / self.dist
-        self.xv = self.dx * 5
-        self.yv = self.dy * 5
 
-    def draw(self, screen):
-        pygame.draw.rect(screen, color_white, [self.x, self.y, self.w, self.h])
-'''
+#class EnemyMissile(object):
+    #def __init__(self):
+        #self.x = x
+        #self.y = y
+        #self.w = 4
+        #self.h = 4
+        #self.dx, self.dy = player.x - self.x, player.y - self.y
+        #self.dist = math.hypot(self.dx, self.dy)
+        #self.dx, self.dy = self.dx / self.dist, self.dy / self.dist
+        #self.xv = self.dx * 5
+        #self.yv = self.dy * 5
 
-"""enemy_missile = EnemyMissile()"""
+    #def draw(self, screen):
+        #pygame.draw.rect(screen, color_white, [self.x, self.y, self.w, self.h])
+
+
+#enemy_missile = EnemyMissile()

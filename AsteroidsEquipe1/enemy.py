@@ -7,9 +7,8 @@ class EnemyShip(object):
         self.img = pygame.image.load("../ronald.boadana/snakepro/assets/ronald.boadana_snakehead2.png")
         self.w = self.img.get_width()
         self.h = self.img.get_height()
-        self.ranPoint = random.choice([(random.randrange(0, sw - self.w), random.choice([-1 * self.h - 5, sh + 5])),
+        self.x, self.y = random.choice([(random.randrange(0, sw - self.w), random.choice([-1 * self.h - 5, sh + 5])),
                                        (random.choice([-1 * self.w - 5, sw + 5]), random.randrange(0, sh - self.h))])
-        self.x, self.y = self.ranPoint
         self.x_dir = 0
         self.y_dir = 0
         self.xv = 0
@@ -39,4 +38,4 @@ class BigEnemyShip(EnemyShip):
     pass
 
 
-enemy = EnemyShip()
+enemyship = EnemyShip()
