@@ -12,7 +12,7 @@ while game_on:
     game_clock.tick(60)
 
     for i in player_missile:
-        i.missile_move()
+        i.move()
 
     if not game_over:
         keys = pygame.key.get_pressed()
@@ -39,7 +39,7 @@ while game_on:
     screen.fill(color_black)
     playership.draw_playership(screen)
     for i in player_missile:
-        i.player_missile.draw_missile(screen)
+        i.player_missile.draw(screen)
     pygame.display.update()
 
 pygame.quit()
