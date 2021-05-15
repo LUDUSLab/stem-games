@@ -1,5 +1,6 @@
 import asteroid
 import config
+import ship
 
 class Scenario:
     aux_time = 100
@@ -10,6 +11,7 @@ class Scenario:
         self.player_turn_text = config.Text("Player 1", 32)
         self.player_turn_text.pos = ((config.window.size[0] -
                                       self.player_turn_text.font.size(self.player_turn_text.message)[0]) / 2, 110)
+        self.ship = ship.Ship()
 
     def display(self):
         if self.aux_time > 0:
@@ -19,3 +21,4 @@ class Scenario:
             for ast in self.asteroids:
                 ast.display()
                 ast.move()
+            self.ship.display()
