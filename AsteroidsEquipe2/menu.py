@@ -21,10 +21,10 @@ class Menu:
 
     def check_game_enter(self, event):
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_ESCAPE:
+            if event.key == pygame.K_RETURN:
                 self.start_game = True
 
-    def display_bg_animation(self):
+    def display(self):
         self.header.display()
         self.footer.display()
         self.start_txt.display()
