@@ -27,6 +27,7 @@ class Game:
         self.hud.game_display()
 
     def display(self):
+        self.display_hud()
         if self.player_turn == 1:
             self.player1.scenario.display()
         else:
