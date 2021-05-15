@@ -7,6 +7,7 @@ class Game:
     game_over = False
     turns = (1, 2)
     turns_aux = 0
+    aux_time = 100
     player_turn = turns[turns_aux % 2]
 
     def __init__(self):
@@ -25,9 +26,8 @@ class Game:
                 self.hud.record_score = config.Text('0' + str(self.player2.record), 16)
         self.hud.game_display()
 
-    def pre_game_display(self):
-        self.hud.player_turn_text.display()
-
     def display(self):
-        self.display_hud()
-        self.pre_game_display()
+        if self.player_turn == 1:
+            self.player1.scenario.display()
+        else:
+            self.player2.scenario.display()
