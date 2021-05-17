@@ -20,7 +20,6 @@ class PlayerMissile(object):
         pygame.draw.rect(screen, color_white, [self.x, self.y, self.w, self.h])
 
 
-player_missile = PlayerMissile()
 
 
 #class EnemyMissile(object):

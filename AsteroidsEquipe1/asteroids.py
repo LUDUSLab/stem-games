@@ -46,7 +46,6 @@ class BigAsteroids(Asteroids):
 
         self._asteroids = [pygame.color.Color('white'), (self._x, self._y, self._w, self._h)]
 
-
     def move(self):
         self._x += self.dir_x * self._speed_x
         self._y += self.dir_y * self._speed_y
@@ -58,9 +57,6 @@ class BigAsteroids(Asteroids):
 
     def draw(self, screen):
         pygame.draw.rect(screen, self._asteroids[0], self._asteroids[1])
-
-
-big_asteroids = BigAsteroids()
 
 
 class MediumAsteroids(Asteroids):
@@ -104,9 +100,6 @@ class MediumAsteroids(Asteroids):
         pygame.draw.rect(screen, self._asteroids[0], self._asteroids[1])
 
 
-medium_asteroids = MediumAsteroids()
-
-
 class SmallAsteroids(Asteroids):
 
     def __init__(self):
@@ -146,5 +139,3 @@ class SmallAsteroids(Asteroids):
 
     def draw(self, screen):
         pygame.draw.rect(screen, self._asteroids[0], self._asteroids[1])
-
-small_asteroids = SmallAsteroids()
