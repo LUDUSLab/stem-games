@@ -7,7 +7,7 @@ class Scenario:
 
     def __init__(self):
         self.asteroids_quantity = 4
-        self.asteroids = [asteroid.BigAsteroid() for _ in range(self.asteroids_quantity)]
+        self.asteroids = [asteroid.BigAsteroid((0, 0)) for _ in range(self.asteroids_quantity)]
         self.player_turn_text = config.Text("Player 1", 32)
         self.player_turn_text.pos = ((config.window.size[0] -
                                       self.player_turn_text.font.size(self.player_turn_text.message)[0]) / 2, 110)

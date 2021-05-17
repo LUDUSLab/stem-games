@@ -14,6 +14,7 @@ framerate = 60
 clock = pygame.time.Clock()
 
 window = window.Window()
+middle = (window.size[0]/2, window.size[1]/2)
 
 class Blinker:
     def __init__(self, text, font, message):

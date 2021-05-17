@@ -17,7 +17,7 @@ class Menu:
     hud = hud.HUD()
     asteroids = []
     for _ in range(4):
-        asteroids.append(asteroid.BigAsteroid())
+        asteroids.append(asteroid.BigAsteroid((0, 0)))
 
     def check_game_enter(self, event):
         if event.type == pygame.KEYDOWN:
