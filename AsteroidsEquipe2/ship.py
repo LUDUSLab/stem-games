@@ -34,13 +34,8 @@ class Ship(gameobject.GameObject):
                 key_pressed[pygame.K_w]:
             self.accelerate()
 
-    #def move(self):
-        # self.velx = self.velx + self.acceleration
-        # self.vely = self.vely + self.acceleration
-        # print(self.velx, self.vely)
-        # self.img_rect.center = (self.img_rect.center[0] + self.velx, self.img_rect.center[1] + self.vely)
-
     def display(self):
+        self.move()
         angle = self.direction.angle_to(self.UP)
         rotated_surface = pygame.transform.rotozoom(self.sprite, angle, 1.0)
         rotated_surface_size = pygame.Vector2(rotated_surface.get_size())
