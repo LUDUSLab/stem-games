@@ -4,6 +4,7 @@ import config
 import ufo
 import hud
 import asteroid
+from random import randrange
 
 class Menu:
     start_game = False
@@ -15,9 +16,8 @@ class Menu:
 
     ufo = ufo.BigUFO((1.5, 0))
     hud = hud.HUD()
-    asteroids = []
-    for _ in range(4):
-        asteroids.append(asteroid.BigAsteroid((0, 0)))
+    asteroids = [asteroid.Asteroid(pygame.Vector2(randrange(config.window.size[0]), randrange(
+            config.window.size[1]))) for _ in range(4)]
 
     def check_game_enter(self, event):
         if event.type == pygame.KEYDOWN:

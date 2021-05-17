@@ -40,16 +40,15 @@ class Ship(gameobject.GameObject):
             self.accelerating = False
 
     def display(self):
-        self.move()
         if not self.accelerating:
             if self.velocity[1] < 0:
-                self.velocity += pygame.Vector2(0, 0.008)
+                self.velocity += pygame.Vector2(0, 0.007)
             elif self.velocity[1] > 0:
-                self.velocity -= pygame.Vector2(0, 0.008)
+                self.velocity -= pygame.Vector2(0, 0.007)
             if self.velocity[0] < 0:
-                self.velocity += pygame.Vector2(0.01, 0.008)
+                self.velocity += pygame.Vector2(0.01, 0.007)
             elif self.velocity[0] > 0:
-                self.velocity -= pygame.Vector2(0.01, 0.008)
+                self.velocity -= pygame.Vector2(0.01, 0.007)
 
         angle = self.direction.angle_to(self.UP)
         rotated_surface = pygame.transform.rotozoom(self.sprite, angle, 1.0)
