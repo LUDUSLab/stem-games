@@ -1,5 +1,6 @@
 import math
 from config import *
+from asteroids import *
 
 
 class PlayerShip(object):
@@ -45,8 +46,24 @@ class PlayerShip(object):
         self.player_sin = math.sin(math.radians(self.angle + 90))
         self.head = (self.x + self.player_cos * self.w // 2, self.y - self.player_sin * self.h // 2)
 
+    def player_outside_screen(self):
+        if self.x > sw + 50:
+            self.x = 0
+        elif self.x < -self.w:
+            self.x = sw
+        elif self.y < -50:
+            self.y = sh
+        elif self.y > sh + 50:
+            self.y = 0
+
+    def player_destroy(self):
+        if player_missile.x == big_asteroids._x and player_missile.y == big_asteroids._y:
+            pass
+
+
     def draw(self, screen):
         # screen.blit(self.img, [self.x, self.y, self.w, self.h])
         screen.blit(self.rotate, self.rotateRect)
+
 
 playership = PlayerShip()

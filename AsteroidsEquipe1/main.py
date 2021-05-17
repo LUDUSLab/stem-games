@@ -32,6 +32,7 @@ while game_on:
             playership.player_right()
         if keys[pygame.K_w]:
             playership.move_up()
+        playership.player_outside_screen()
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             game_on = False
