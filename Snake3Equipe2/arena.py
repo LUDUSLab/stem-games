@@ -107,14 +107,13 @@ class Arena(object):
 
     def draw_grid(self, surface):
         if self.grid:
-            sqrsize = self.size[0] // self.columns
             x = 0
             y = 0
             for i in range(self.columns):
-                x = x + sqrsize
+                x = x + config.SQUARE_SIZE
                 pygame.draw.line(surface, config.COLOR_LIGHT_GRAY, (x, 120), (x, self.size[0]))
             for j in range(self.rows):
-                y = y + sqrsize
+                y = y + config.SQUARE_SIZE
                 pygame.draw.line(surface, config.COLOR_LIGHT_GRAY, (0, y + 80), (self.size[0], y + 80))
 
     def redraw_window(self, surface):
@@ -127,4 +126,4 @@ class Arena(object):
         self.draw_grid(surface)
 
 
-arena_obj = Arena(config.window.size, True)
+arena_obj = Arena(config.window.size, False)
