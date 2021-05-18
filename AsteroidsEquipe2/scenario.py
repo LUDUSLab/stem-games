@@ -8,7 +8,8 @@ class Scenario:
     aux_time = 100
     min_asteroid_spawn_distance = 200
 
-    def __init__(self):
+    def __init__(self, player):
+        self.player = player
         self.asteroids_quantity = 4
         self.asteroids = []
         self.projectiles = []
@@ -43,6 +44,7 @@ class Scenario:
                         self.asteroids.remove(ast)
                         self.projectiles.remove(projectile)
                         ast.split()
+                        self.player.score += ast.score
                         break
 
             self.ship.display()

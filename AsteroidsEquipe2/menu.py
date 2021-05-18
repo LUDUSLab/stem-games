@@ -15,7 +15,7 @@ class Menu:
     footer.pos = ((config.window.size[0] - footer.font.size(footer.message)[0])/2, 695)
 
     ufo = ufo.BigUFO((1.5, 0))
-    hud = hud.HUD()
+    hud = hud.HUD(None)
     asteroids = [asteroid.Asteroid(pygame.Vector2(randrange(config.window.size[0]), randrange(
             config.window.size[1])), None) for _ in range(4)]
 
