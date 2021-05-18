@@ -51,9 +51,12 @@ while game_on:
             if event.key == pygame.K_SPACE:
                 if not game_over:
                     player_missile.append(PlayerMissile())
+                    shoot_sound.play()
                     # enemy_missile.append(EnemyMissile())
 
+    # screen.blit(hud.background, (0, 0))
     screen.fill(color_black)
+
     for i in player_missile:
         i.draw(screen)
     for i in asteroids:

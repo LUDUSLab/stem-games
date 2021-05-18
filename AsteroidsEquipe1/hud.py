@@ -5,6 +5,7 @@ from config import *
 class Hud(object):
     def __init__(self):
         self.life_sprite = pygame.image.load('../AsteroidsEquipe1/assets/player.png')
+        self.background = pygame.image.load('../AsteroidsEquipe1/assets/space1.png')
         self.life_sprite = pygame.transform.scale(self.life_sprite, (30, 30))
         self.life = [(67, 50), (97, 50), (127, 50)]
         self.live = 0
