@@ -36,7 +36,12 @@ class Scenario:
                 projectile.move()
                 projectile.time_alive -= 1.45
                 if projectile.time_alive <= 0:
-                    self.projectiles.pop(0)
+                    self.projectiles.remove(projectile)
+                for ast in self.asteroids:
+                    if ast.collides_with(projectile):
+                        self.asteroids.remove(ast)
+                        self.projectiles.remove(projectile)
+                        break
 
             self.ship.display()
             self.ship.move()
