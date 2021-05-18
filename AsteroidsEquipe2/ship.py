@@ -1,15 +1,18 @@
 import pygame
 import config
 import gameobject
+import projectile
 
 class Ship(gameobject.GameObject):
     UP = pygame.Vector2(0, -1)
     MANEUVERABILITY = 3
-    ACCELERATION = 0.10
+    ACCELERATION = 0.08
+    PROJECTILE_SPEED = 8
 
-    def __init__(self):
+    def __init__(self, create_projectile_callback):
         self.sprite_path = "./assets/ship.png"
         self.sprite = pygame.image.load(self.sprite_path).convert_alpha()
+        self.create_projectile_callback = create_projectile_callback
         self.direction = pygame.Vector2(self.UP)
         super().__init__((config.window.size[0]/2, config.window.size[1]/2), self.sprite, pygame.Vector2(0))
         self.rotated_sprite = pygame.image.load(self.sprite_path).convert_alpha()
@@ -24,20 +27,30 @@ class Ship(gameobject.GameObject):
         self.rotated_sprite = pygame.transform.rotozoom(self.sprite, angle, 1.0)
 
     def accelerate(self):
-
         self.velocity += self.direction * self.ACCELERATION
 
+    def shoot(self):
+        projectile_velocity = self.direction * self.PROJECTILE_SPEED + self.velocity
+        bullet = projectile.Projectile(self.position, projectile_velocity)
+        self.create_projectile_callback(bullet)
+
     def check_ship_keys(self, key_pressed):
-        if key_pressed[pygame.K_RIGHT] or key_pressed[pygame.K_d]:
-            self.rotate(clockwise=True)
-        elif key_pressed[pygame.K_LEFT] or key_pressed[pygame.K_a]:
-            self.rotate(clockwise=False)
-        if key_pressed[pygame.K_SPACE] or key_pressed[pygame.K_x] or key_pressed[pygame.K_UP] or \
-                key_pressed[pygame.K_w]:
-            self.accelerating = True
-            self.accelerate()
-        else:
-            self.accelerating = False
+        if self:
+            if key_pressed[pygame.K_RIGHT] or key_pressed[pygame.K_d]:
+                self.rotate(clockwise=True)
+            elif key_pressed[pygame.K_LEFT] or key_pressed[pygame.K_a]:
+                self.rotate(clockwise=False)
+            if key_pressed[pygame.K_z] or key_pressed[pygame.K_UP] or \
+                    key_pressed[pygame.K_w]:
+                self.accelerating = True
+                self.accelerate()
+            else:
+                self.accelerating = False
+
+    def check_ship_shoot(self, event):
+        if event.type == pygame.KEYDOWN and \
+                (event.key == pygame.K_j or event.key == pygame.K_SPACE or event.key == pygame.K_x):
+            self.shoot()
 
     def display(self):
         if not self.accelerating:
@@ -49,7 +62,6 @@ class Ship(gameobject.GameObject):
                 self.velocity += pygame.Vector2(0.01, 0.007)
             elif self.velocity[0] > 0:
                 self.velocity -= pygame.Vector2(0.01, 0.007)
-
         angle = self.direction.angle_to(self.UP)
         rotated_surface = pygame.transform.rotozoom(self.sprite, angle, 1.0)
         rotated_surface_size = pygame.Vector2(rotated_surface.get_size())

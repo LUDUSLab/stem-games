@@ -9,9 +9,10 @@ class Scenario:
     min_asteroid_spawn_distance = 200
 
     def __init__(self):
-        self.ship = ship.Ship()
         self.asteroids_quantity = 4
         self.asteroids = []
+        self.projectiles = []
+        self.ship = ship.Ship(self.projectiles.append)
         for _ in range(self.asteroids_quantity):
             while True:
                 position = pygame.Vector2(randrange(config.window.size[0]), randrange(config.window.size[1]))
@@ -30,5 +31,12 @@ class Scenario:
             for ast in self.asteroids:
                 ast.display()
                 ast.move()
+            for projectile in self.projectiles:
+                projectile.display()
+                projectile.move()
+                projectile.time_alive -= 1.45
+                if projectile.time_alive <= 0:
+                    self.projectiles.pop(0)
+
             self.ship.display()
             self.ship.move()
