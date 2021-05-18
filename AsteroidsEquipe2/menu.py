@@ -17,7 +17,7 @@ class Menu:
     ufo = ufo.BigUFO((1.5, 0))
     hud = hud.HUD()
     asteroids = [asteroid.Asteroid(pygame.Vector2(randrange(config.window.size[0]), randrange(
-            config.window.size[1]))) for _ in range(4)]
+            config.window.size[1])), None) for _ in range(4)]
 
     def check_game_enter(self, event):
         if event.type == pygame.KEYDOWN:

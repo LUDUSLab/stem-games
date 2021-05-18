@@ -9,10 +9,10 @@ class Ship(gameobject.GameObject):
     ACCELERATION = 0.08
     PROJECTILE_SPEED = 8
 
-    def __init__(self, create_projectile_callback):
+    def __init__(self, projectile_callback):
         self.sprite_path = "./assets/ship.png"
         self.sprite = pygame.image.load(self.sprite_path).convert_alpha()
-        self.create_projectile_callback = create_projectile_callback
+        self.create_projectile_callback = projectile_callback
         self.direction = pygame.Vector2(self.UP)
         super().__init__((config.window.size[0]/2, config.window.size[1]/2), self.sprite, pygame.Vector2(0))
         self.rotated_sprite = pygame.image.load(self.sprite_path).convert_alpha()
