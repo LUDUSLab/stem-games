@@ -6,3 +6,4 @@ class Player:
         self.score = 0
         self.record = 0
         self.is_turn = False
+        self.lives = 3

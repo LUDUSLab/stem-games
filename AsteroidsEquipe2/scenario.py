@@ -32,6 +32,12 @@ class Scenario:
             for ast in self.asteroids:
                 ast.display()
                 ast.move()
+                if ast.collides_with(self.ship):
+                    self.asteroids.remove(ast)
+                    self.player.lives -= 1
+                    ast.split()
+                    self.player.score += ast.score
+                    break
             for projectile in self.projectiles:
                 projectile.display()
                 projectile.move()
