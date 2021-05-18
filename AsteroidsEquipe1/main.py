@@ -15,12 +15,11 @@ while game_on:
     game_clock.tick(60)
     count += 1
 
-
-    if count % 75 == 0:
+    if count % 65 == 0:
         asteroids.append(BigAsteroids())
-    if count % 600 == 0:
+    if count % 700 == 0:
         small_enemy.append(SmallEnemyShip())
-    if count % 1200 == 0:
+    if count % 1400 == 0:
         big_enemy.append(BigEnemyShip())
 
     for i in asteroids:
@@ -33,6 +32,7 @@ while game_on:
         i.move()
 
     if not game_over:
+        hud.live += 3
         keys = pygame.key.get_pressed()
         if keys[pygame.K_a]:
             playership.player_left()
