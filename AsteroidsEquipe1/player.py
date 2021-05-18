@@ -1,11 +1,10 @@
 import math
 from config import *
-from asteroids import *
 
 
 class PlayerShip(object):
     def __init__(self):
-        self.img = pygame.image.load("../ronald.boadana/snakepro/assets/ronald.boadana_snakehead2.png")
+        self.img = pygame.image.load("../AsteroidsEquipe1/assets/player.png")
         self.w = self.img.get_width()
         self.h = self.img.get_height()
         self.x = sw // 2
@@ -37,8 +36,8 @@ class PlayerShip(object):
         self.head = (self.x + self.player_cos * self.w // 2, self.y - self.player_sin * self.h // 2)
 
     def move_up(self):
-        self.x += self.player_cos * 6
-        self.y -= self.player_sin * 6
+        self.x += self.player_cos * 4
+        self.y -= self.player_sin * 4
         self.rotate = pygame.transform.rotate(self.img, self.angle)
         self.rotateRect = self.rotate.get_rect()
         self.rotateRect.center = (self.x, self.y)
@@ -56,10 +55,8 @@ class PlayerShip(object):
         elif self.y > sh + 50:
             self.y = 0
 
-    def player_destroy(self):
-        if player_missile.x == big_asteroids._x and player_missile.y == big_asteroids._y:
-            pass
-
+    def destroy(self):
+        pass
 
     def draw(self, screen):
         # screen.blit(self.img, [self.x, self.y, self.w, self.h])

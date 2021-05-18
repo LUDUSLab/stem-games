@@ -17,11 +17,21 @@ while game_on:
 
     if count % 100 == 0:
         asteroids.append(BigAsteroids())
+    if count % 600 == 0:
+        small_enemy.append(SmallEnemyShip())
+    if count % 1000 == 0:
+        big_enemy.append(BigEnemyShip())
 
     for i in asteroids:
         i.move()
 
     for i in player_missile:
+        i.move()
+
+    for i in small_enemy:
+        i.move()
+
+    for i in big_enemy:
         i.move()
 
     if not game_over:
@@ -52,8 +62,13 @@ while game_on:
     for i in asteroids:
         i.draw(screen)
 
+    for i in small_enemy:
+        i.draw(screen)
+
+    for i in big_enemy:
+        i.draw(screen)
+
     playership.draw(screen)
-    enemyship.draw(screen)
 
     pygame.display.update()
 
