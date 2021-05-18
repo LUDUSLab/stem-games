@@ -3,14 +3,19 @@ from abc import ABC, abstractmethod
 from random import choice, randrange
 
 
+class FactoryAsteroids(ABC):
+    @abstractmethod
+    def create(self):
+        pass
+
+    def destroy(self):
+        pass
+
+
 class Asteroids(ABC):
 
     @abstractmethod
     def move(self):
-        pass
-
-    @abstractmethod
-    def destroy(self):
         pass
 
     @abstractmethod
@@ -21,8 +26,8 @@ class Asteroids(ABC):
 class BigAsteroids(Asteroids):
 
     def __init__(self):
-        self._w = 64
-        self._h = 64
+        self._w = self._h = 64
+        self._image = pygame.image.load("assets/asteroid_big.png")
 
         self._speed_x = choice([1, 2, 3])
         self._speed_y = choice([1, 2, 3])
@@ -44,19 +49,12 @@ class BigAsteroids(Asteroids):
         else:
             self.dir_y = -1
 
-        self._asteroids = [pygame.color.Color('white'), (self._x, self._y, self._w, self._h)]
-
     def move(self):
         self._x += self.dir_x * self._speed_x
         self._y += self.dir_y * self._speed_y
 
-        self._asteroids = [pygame.color.Color('white'), (self._x, self._y, self._w, self._h)]
-
-    def destroy(self):
-        pass
-
     def draw(self, screen):
-        pygame.draw.rect(screen, self._asteroids[0], self._asteroids[1])
+        screen.blit(self._image, (self._x, self._y))
 
 
 class MediumAsteroids(Asteroids):
@@ -92,9 +90,6 @@ class MediumAsteroids(Asteroids):
         self._y += self.dir_y * self._speed_y
 
         self._asteroids = [pygame.color.Color('white'), (self._x, self._y, self._w, self._h)]
-
-    def destroy(self):
-        pass
 
     def draw(self, screen):
         pygame.draw.rect(screen, self._asteroids[0], self._asteroids[1])
@@ -133,9 +128,6 @@ class SmallAsteroids(Asteroids):
         self._y += self.dir_y * self._speed_y
 
         self._asteroids = [pygame.color.Color('white'), (self._x, self._y, self._w, self._h)]
-
-    def destroy(self):
-        pass
 
     def draw(self, screen):
         pygame.draw.rect(screen, self._asteroids[0], self._asteroids[1])
