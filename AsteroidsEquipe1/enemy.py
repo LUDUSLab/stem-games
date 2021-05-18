@@ -1,4 +1,5 @@
 from config import *
+from player import PlayerShip
 from abc import ABC, abstractmethod
 import random
 
@@ -32,14 +33,9 @@ class SmallEnemyShip(EnemyShip, ABC):
             self.x_dir = 1
         else:
             self.x_dir = -1
-        if self.y < sh // 2:
-            self.y_dir = 1
-        else:
-            self.y_dir = -1
 
     def move(self):
-        self.x += self.x_dir * 2
-        self.y += self.y_dir * 2
+        self.x += self.x_dir
 
     def shoot(self):
         pass
@@ -63,14 +59,9 @@ class BigEnemyShip(EnemyShip, ABC):
             self.x_dir = 1
         else:
             self.x_dir = -1
-        if self.y < sh // 2:
-            self.y_dir = 1
-        else:
-            self.y_dir = -1
 
     def move(self):
         self.x += self.x_dir * 2
-        self.y += self.y_dir * 2
 
     def shoot(self):
         pass
