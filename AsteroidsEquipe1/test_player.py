@@ -1,5 +1,5 @@
+import pytest
 from player import PlayerShip
-from player import Missile
 
 
 def test_player_turn_left():
@@ -19,3 +19,10 @@ def test_player_move_up():
     player.move_up()
     assert player.x != 0
     assert player.y != 0
+
+
+def test_player_outside_screen():
+    player = PlayerShip()
+    player.player_outside_screen()
+    assert player.x == sw
+    assert player.y == sh
