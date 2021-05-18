@@ -37,6 +37,7 @@ class Scenario:
                 projectile.time_alive -= 1.45
                 if projectile.time_alive <= 0:
                     self.projectiles.remove(projectile)
+            for projectile in self.projectiles:
                 for ast in self.asteroids:
                     if ast.collides_with(projectile):
                         self.asteroids.remove(ast)
