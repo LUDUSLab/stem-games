@@ -1,5 +1,7 @@
 import pygame
 import config
+import ufo
+
 
 class GameObject:
     def __init__(self, position, sprite, velocity):
@@ -8,11 +10,13 @@ class GameObject:
         self.radius = sprite.get_width() / 2
         self.velocity = pygame.Vector2(velocity)
 
-    @staticmethod
-    def wrap_position(position):
+    def wrap_position(self, position):
         x, y = position
         w, h = config.window.size
-        return pygame.Vector2(x % w, y % h)
+        if isinstance(self, ufo.UFO):
+            return pygame.Vector2(x, y % h)
+        else:
+            return pygame.Vector2(x % w, y % h)
 
     def move(self):
         self.position = self.wrap_position(self.position + self.velocity)

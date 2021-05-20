@@ -13,8 +13,7 @@ class Menu:
     start_txt = config.Text("PUSH START", 32, blink=True)
     header.pos = ((config.window.size[0] - header.font.size(header.message)[0])/2, 580)
     footer.pos = ((config.window.size[0] - footer.font.size(footer.message)[0])/2, 695)
-
-    ufo = ufo.BigUFO((1.5, 0))
+    ufo = None
     hud = hud.HUD(None)
     asteroids = [asteroid.Asteroid(pygame.Vector2(randrange(config.window.size[0]), randrange(
             config.window.size[1])), None) for _ in range(4)]
@@ -29,8 +28,19 @@ class Menu:
         self.footer.display()
         self.start_txt.display()
         self.hud.menu_display()
-        self.ufo.display()
+        if self.ufo is not None:
+            self.ufo.display()
+            self.ufo.move()
+            if self.ufo.position.x > 1300 or self.ufo.position.x < -20:
+                self.ufo = None
+        else:
+            randy = randrange(0, 721)
+            randx = randrange(0, 1281)
+            size = 1 if randx < 20 else 2
+            if randx == 0 or randx == 1280:
+                self.ufo = ufo.UFO(pygame.Vector2(randx, randy), size)
+                print("UFO APPEARED!")
         for ast in self.asteroids:
             ast.display()
             ast.move()
-        self.ufo.move()
+

@@ -1,34 +1,17 @@
 import pygame
-import config
+import gameobject
 
-class UFO:
-    def __init__(self, vel: tuple):
-        self.velx = vel[0]
-        self.vely = vel[1]
 
-    def shoot(self):
-        pass
-
-    def move(self):
-        pass
-
-    def display(self):
-        pass
-
-class BigUFO(UFO):
-    sprite_path = "./assets/temporary_ufo.png"
-    sprite = pygame.image.load(sprite_path).convert_alpha()
-    score = 200
-
-    def __init__(self, vel: tuple, pos=(0, config.window.size[1]/2)):
-        super().__init__(vel)
-        self.pos = pos
-
-    def move(self):
-        self.pos = (self.pos[0] + self.velx, self.pos[1] + self.vely)
+class UFO(gameobject.GameObject):
+    def __init__(self, position, size):
+        self.size = size
+        size_to_scale = {2: 1, 1: 0.5}
+        self.scale = size_to_scale[size]
+        self.sprite_path = "./assets/ufo.png"
+        self.sprite = pygame.transform.rotozoom(pygame.image.load(self.sprite_path).convert_alpha(), 0, self.scale)
+        self.velx = 2.2/self.size if position.x == 0 else -2.2/self.size
+        self.vely = 0
+        super().__init__(position, self.sprite, pygame.Vector2(self.velx, self.vely))
 
     def shoot(self):
         pass
-
-    def display(self):
-        config.window.screen.blit(self.sprite, self.pos)
