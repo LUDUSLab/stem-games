@@ -6,7 +6,8 @@ from random import randrange
 
 class Scenario:
     aux_time = 100
-    min_asteroid_spawn_distance = 200
+    min_asteroid_spawn_distance = 100
+    min_ship_spawn_distance = 100
 
     def __init__(self, player):
         self.player = player
@@ -32,12 +33,27 @@ class Scenario:
             for ast in self.asteroids:
                 ast.display()
                 ast.move()
-                if ast.collides_with(self.ship):
-                    self.asteroids.remove(ast)
-                    self.player.lives -= 1
-                    ast.split()
-                    self.player.score += ast.score
-                    break
+                if self.ship is not None:
+                    if not self.ship.running_death_animation:
+                        if ast.collides_with(self.ship):
+                            self.asteroids.remove(ast)
+                            self.player.lives -= 1
+                            self.ship.running_death_animation = True
+                            ast.split()
+                            self.player.score += ast.score
+                            break
+                else:
+                    if pygame.Vector2(config.middle).distance_to(ast.position) > self.min_ship_spawn_distance:
+                        self.ship = ship.Ship(self.projectiles.append)
+
+            if self.ship is not None:
+                if self.ship.running_death_animation:
+                    self.ship.death_animation()
+                    if self.ship.death_animation_time <= 0:
+                        self.ship.death_animation_time = 100
+                        self.ship.running_death_animation = False
+                        self.ship = None
+
             for projectile in self.projectiles:
                 projectile.display()
                 projectile.move()
@@ -52,6 +68,6 @@ class Scenario:
                         ast.split()
                         self.player.score += ast.score
                         break
-
-            self.ship.display()
-            self.ship.move()
+            if self.ship is not None:
+                self.ship.move()
+                self.ship.display()

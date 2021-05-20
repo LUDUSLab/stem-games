@@ -4,7 +4,6 @@ import gameobject
 
 
 class Asteroid(gameobject.GameObject):
-    min_asteroid_spawn_distance = 250
 
     def __init__(self, position, asteroid_callback, size=3):
         self.asteroid_callback = asteroid_callback

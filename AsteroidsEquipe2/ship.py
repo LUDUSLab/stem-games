@@ -8,17 +8,19 @@ class Ship(gameobject.GameObject):
     MANEUVERABILITY = 3
     ACCELERATION = 0.08
     PROJECTILE_SPEED = 8
+    death_animation_time = 100
 
     def __init__(self, projectile_callback):
         self.sprite_path = "./assets/ship.png"
         self.sprite = pygame.image.load(self.sprite_path).convert_alpha()
         self.create_projectile_callback = projectile_callback
         self.direction = pygame.Vector2(self.UP)
-        super().__init__((config.window.size[0]/2, config.window.size[1]/2), self.sprite, pygame.Vector2(0))
+        super().__init__(config.middle, self.sprite, pygame.Vector2(0))
         self.rotated_sprite = pygame.image.load(self.sprite_path).convert_alpha()
         self.radius = self.sprite.get_height()/2
         self.img_rect = self.sprite.get_rect(center=(config.window.size[0]/2, config.window.size[1]/2))
         self.accelerating = False
+        self.running_death_animation = False
 
     def rotate(self, clockwise=True):
         sign = 1 if clockwise else -1
@@ -51,6 +53,10 @@ class Ship(gameobject.GameObject):
         if event.type == pygame.KEYDOWN and \
                 (event.key == pygame.K_j or event.key == pygame.K_SPACE or event.key == pygame.K_x):
             self.shoot()
+
+    def death_animation(self):
+        # Here comes the ship's explosion animation
+        self.death_animation_time -= 1
 
     def display(self):
         if not self.accelerating:
