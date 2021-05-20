@@ -8,6 +8,7 @@ class Scenario:
     aux_time = 100
     min_asteroid_spawn_distance = 100
     min_ship_spawn_distance = 100
+    ship_can_spawn = False
 
     def __init__(self, player):
         self.player = player
@@ -42,9 +43,15 @@ class Scenario:
                             ast.split()
                             self.player.score += ast.score
                             break
-                else:
-                    if pygame.Vector2(config.middle).distance_to(ast.position) > self.min_ship_spawn_distance:
-                        self.ship = ship.Ship(self.projectiles.append)
+            if self.ship is None:
+                for ast in self.asteroids:
+                    if pygame.Vector2(config.middle).distance_to(ast.position) < self.min_ship_spawn_distance:
+                        self.ship_can_spawn = False
+                        break
+                    else:
+                        self.ship_can_spawn = True
+                if self.ship_can_spawn:
+                    self.ship = ship.Ship(self.projectiles.append)
 
             if self.ship is not None:
                 if self.ship.running_death_animation:
