@@ -8,7 +8,7 @@ class Asteroid(gameobject.GameObject):
     def __init__(self, position, asteroid_callback, size=3):
         self.asteroid_callback = asteroid_callback
         self.size = size
-        size_to_scale = {3: 1, 2: 0.5,1: 0.25}
+        size_to_scale = {3: 1, 2: 0.7,1: 0.4}
         self.scale = size_to_scale[size]
         self.randomvisual = str(randint(1, 3))
         self.sprite_path = "./assets/asteroid_"+self.randomvisual+".png"

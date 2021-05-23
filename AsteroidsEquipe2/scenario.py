@@ -15,8 +15,9 @@ class Scenario:
         self.player = player
         self.asteroids_quantity = 4
         self.asteroids = []
-        self.projectiles = []
-        self.ship = ship.Ship(self.projectiles.append)
+        self.ufo_projectiles = []
+        self.ship_projectiles = []
+        self.ship = ship.Ship(self.ship_projectiles.append)
         self.ufo = None
         for _ in range(self.asteroids_quantity):
             while True:
@@ -58,7 +59,7 @@ class Scenario:
                 randx = randrange(0, 1281)
                 size = 1 if randx < 20 else 2
                 if randx == 0 or randx == 1280:
-                    self.ufo = ufo.UFO(pygame.Vector2(randx, randy), size, self.projectiles.append)
+                    self.ufo = ufo.UFO(pygame.Vector2(randx, randy), size, self.ufo_projectiles.append)
             for ast in self.asteroids:
                 ast.display()
                 ast.move()
@@ -87,7 +88,7 @@ class Scenario:
                     else:
                         self.ship_can_spawn = True
                 if self.ship_can_spawn:
-                    self.ship = ship.Ship(self.projectiles.append)
+                    self.ship = ship.Ship(self.ship_projectiles.append)
 
             if self.ship is not None:
                 if self.ship.running_death_animation:
@@ -97,19 +98,33 @@ class Scenario:
                         self.ship.running_death_animation = False
                         self.ship = None
 
-            for projectile in self.projectiles:
+            for projectile in self.ship_projectiles:
                 projectile.display()
                 projectile.move()
                 projectile.time_alive -= 1.45
                 if projectile.time_alive <= 0:
-                    self.projectiles.remove(projectile)
+                    self.ship_projectiles.remove(projectile)
                 if self.ufo is not None and projectile.collides_with(self.ufo):
                     self.player.score += self.ufo.score
                     self.ufo = None
                 for ast in self.asteroids:
                     if ast.collides_with(projectile):
                         self.asteroids.remove(ast)
-                        self.projectiles.remove(projectile)
+                        self.ship_projectiles.remove(projectile)
+                        ast.split()
+                        self.player.score += ast.score
+                        break
+
+            for projectile in self.ufo_projectiles:
+                projectile.display()
+                projectile.move()
+                projectile.time_alive -= 1.45
+                if projectile.time_alive <= 0:
+                    self.ufo_projectiles.remove(projectile)
+                for ast in self.asteroids:
+                    if ast.collides_with(projectile):
+                        self.asteroids.remove(ast)
+                        self.ufo_projectiles.remove(projectile)
                         ast.split()
                         self.player.score += ast.score
                         break
