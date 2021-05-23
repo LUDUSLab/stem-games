@@ -69,8 +69,13 @@ class Menu:
             randy = randrange(0, 721)
             randx = randrange(0, 1281)
             size = 1 if randx < 20 else 2
-            if 0 <= randx <= 3 or 1277 <= randx <= 1280:
+            if randx == 0 or randx == 1280:
                 self.ufo = ufo.UFO(pygame.Vector2(randx, randy), size, self.projectiles.append)
         for ast in self.asteroids:
             ast.display()
             ast.move()
+            if self.ufo is not None and ast.collides_with(self.ufo):
+                self.asteroids.remove(ast)
+                ast.split()
+                self.ufo = None
+                break

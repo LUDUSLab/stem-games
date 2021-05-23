@@ -14,7 +14,7 @@ class UFO(gameobject.GameObject):
         self.scale = size_to_scale[size]
         self.sprite_path = "./assets/ufo.png"
         self.sprite = pygame.transform.rotozoom(pygame.image.load(self.sprite_path).convert_alpha(), 0, self.scale)
-        self.velx = 2.2/self.size if position.x == 0 else -2.2/self.size
+        self.velx = 2.5/self.size if position.x == 0 else -2.5/self.size
         self.vely = 0
         self.ship_position: pygame.Vector2 = ship_position
         self.moving_y = False
@@ -23,8 +23,8 @@ class UFO(gameobject.GameObject):
 
     def shoot(self):
         if self.size == 2 or self.ship_position is None:
-            projectile_velocity = pygame.Vector2(uniform(-1, 1), uniform(-1, 1)) *\
-                                  self.PROJECTILE_SPEED + self.velocity
+            angle = radians(uniform(0, 360))
+            projectile_velocity = pygame.Vector2(cos(angle), sin(angle)) * self.PROJECTILE_SPEED + self.velocity
         else:
             angle = radians(self.position.angle_to(self.ship_position))
             projectile_velocity = pygame.Vector2(cos(angle), sin(angle)) * self.PROJECTILE_SPEED + self.velocity
