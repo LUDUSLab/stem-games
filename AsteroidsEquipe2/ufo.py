@@ -18,6 +18,7 @@ class UFO(gameobject.GameObject):
         self.vely = 0
         self.ship_position: pygame.Vector2 = ship_position
         self.moving_y = False
+        self.score = 200 if self.size == 2 else 1000
 
         super().__init__(position, self.sprite, pygame.Vector2(self.velx, self.vely))
 

@@ -33,7 +33,6 @@ class Ship(gameobject.GameObject):
 
     def shoot(self):
         projectile_velocity = self.direction * self.PROJECTILE_SPEED + self.velocity
-        print(self.direction)
         bullet = projectile.Projectile(self.position, projectile_velocity)
         self.create_projectile_callback(bullet)
 
