@@ -40,6 +40,7 @@ while game_on:
             playership.player_right()
         if keys[pygame.K_w]:
             playership.move_up()
+            #playership.acceleration()
 
         playership.player_outside_screen()
 

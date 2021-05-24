@@ -19,6 +19,14 @@ class Hud(object):
         for i in self.life:
             screen.blit(self.life_sprite, i)
 
+    def text_blink_effect(self):
+        self.count += 1
+        self.colors = ['color_black', 'color_white']
+        if self.count % 2 == 0:
+            self.color = self.colors[0]
+        elif self.count % 3 == 0:
+            self.color = self.colors[1]
+
     def display_score(self, screen):
         screen.blit(self.score_text, self.score_rect)
         screen.blit(self.credits, (385, 640))
