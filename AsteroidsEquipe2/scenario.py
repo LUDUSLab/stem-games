@@ -7,6 +7,7 @@ from random import randrange
 
 class Scenario:
     aux_time = 100
+    aux_ast_spawn_time = 100
     min_asteroid_spawn_distance = 200
     min_ship_spawn_distance = 200
     ship_can_spawn = False
@@ -35,15 +36,18 @@ class Scenario:
             self.player_turn_text.display()
             self.aux_time -= 1
         else:
-            if len(self.asteroids) == 0:
-                if self.asteroids_quantity < 10:
-                    self.asteroids_quantity += 2
-                for _ in range(self.asteroids_quantity):
-                    while True:
-                        position = pygame.Vector2(randrange(config.window.size[0]), randrange(config.window.size[1]))
-                        if position.distance_to(self.ship.position) > self.min_asteroid_spawn_distance:
-                            break
-                    self.asteroids.append(asteroid.Asteroid(position, self.asteroids.append))
+            if len(self.asteroids) == 0 and self.ufo is None:
+                self.aux_ast_spawn_time -= 1
+                if self.aux_ast_spawn_time <= 0:
+                    if self.asteroids_quantity < 10:
+                        self.asteroids_quantity += 2
+                    for _ in range(self.asteroids_quantity):
+                        while True:
+                            position = pygame.Vector2(randrange(config.window.size[0]),randrange(config.window.size[1]))
+                            if position.distance_to(self.ship.position) > self.min_asteroid_spawn_distance:
+                                break
+                        self.asteroids.append(asteroid.Asteroid(position, self.asteroids.append))
+                    self.aux_ast_spawn_time = 100
             if self.ufo is not None:
                 self.ufo.display()
                 self.ufo.move()
