@@ -73,7 +73,7 @@ class Scenario:
                 randy = randrange(721)
                 randx = randrange(1281)
                 auxrandsize = randrange(1024)
-                size = 1 if auxrandsize < 20 else 2
+                size = 1 if auxrandsize < 30 else 2
                 if randx == 0 or randx == 1280 and auxrandsize <= 100:
                     self.ufo = ufo.UFO(pygame.Vector2(randx, randy), size, self.projectiles[1].append)
             for ast in self.asteroids:
@@ -101,7 +101,7 @@ class Scenario:
                 if self.ship is not None:
                     if not self.ship.running_death_animation:
                         if ast.collides_with(self.ship):
-                            self.asteroids.remove(ast)
+                            ast.running_death_animation = True
                             self.player.lives -= 1
                             self.ship.running_death_animation = True
                             ast.split()
@@ -115,6 +115,11 @@ class Scenario:
                         break
                     else:
                         self.ship_can_spawn = True
+                if self.ufo is not None and pygame.Vector2(config.middle).distance_to(self.ufo.position)\
+                        < self.min_ship_spawn_distance:
+                    self.ship_can_spawn = False
+                else:
+                    self.ship_can_spawn = True
                 if self.ship_can_spawn:
                     self.ship = ship.Ship(self.projectiles[0].append)
 
@@ -135,7 +140,7 @@ class Scenario:
                         p_lst.remove(p)
                         break
                     for ast in self.asteroids:
-                        if ast.collides_with(p):
+                        if not ast.running_death_animation and ast.collides_with(p):
                             ast.running_death_animation = True
                             p_lst.remove(p)
                             ast.split()
@@ -146,7 +151,7 @@ class Scenario:
                     if self.ufo is not None and p_lst is self.projectiles[0] and p.collides_with(self.ufo):
                         self.player.score += self.ufo.score
                         p_lst.remove(p)
-                        self.ufo = None
+                        self.ufo.running_death_animation = True
                         break
                     if self.ship is not None and p_lst is self.projectiles[1] and p.collides_with(self.ship):
                         self.ship.running_death_animation = True
@@ -156,8 +161,9 @@ class Scenario:
                     self.ship.move()
                 self.ship.display()
                 if self.ufo is not None:
-                    if self.ship.collides_with(self.ufo):
-                        self.player.lives -= 1
+                    if not self.ship.running_death_animation and not self.ufo.running_death_animation and \
+                            self.ship.collides_with(self.ufo):
+                        self.ufo.running_death_animation = True
                         self.ship.running_death_animation = True
+                        self.player.lives -= 1
                         self.player.score += self.ufo.score
-                        self.ufo = None

@@ -54,8 +54,7 @@ class Menu:
             if self.aux_projectile_time <= 0:
                 self.ufo.shoot()
                 self.aux_projectile_time = 40
-            if self.ufo.position.x > 1300 or self.ufo.position.x < -20:
-                self.ufo = None
+
             for projectile in self.projectiles:
                 projectile.display()
                 projectile.move()
@@ -65,22 +64,42 @@ class Menu:
             for projectile in self.projectiles:
                 for ast in self.asteroids:
                     if ast.collides_with(projectile):
-                        self.asteroids.remove(ast)
+                        ast.running_death_animation = True
                         self.projectiles.remove(projectile)
                         ast.split()
                         break
+            if self.ufo.position.x > 1300 or self.ufo.position.x < -20:
+                self.ufo = None
+            elif self.ufo.running_death_animation:
+                self.ufo.explosion_animation()
+            if self.ufo is not None and self.ufo.animation_aux > 5:
+                self.ufo.running_death_animation = False
+                self.ufo.animation_aux = 1
+                self.ufo = None
         else:
             randy = randrange(721)
             randx = randrange(1281)
             auxrandsize = randrange(1024)
-            size = 1 if auxrandsize < 20 else 2
-            if randx == 0 or randx == 1280 and auxrandsize <= 100:
+            size = 1 if auxrandsize < 30 else 2
+            if randx == 0 or randx == 1280:
                 self.ufo = ufo.UFO(pygame.Vector2(randx, randy), size, self.projectiles.append)
         for ast in self.asteroids:
             ast.display()
-            ast.move()
-            if self.ufo is not None and ast.collides_with(self.ufo):
-                self.asteroids.remove(ast)
-                ast.split()
-                self.ufo = None
-                break
+            if not ast.running_death_animation:
+                ast.move()
+            if self.ufo is not None:
+                if not self.ufo.running_death_animation and ast.collides_with(self.ufo):
+                    ast.split()
+                    self.ufo.running_death_animation = True
+                    ast.running_death_animation = True
+                    # self.asteroids.remove(ast)
+                    # ast.split()
+                    # self.ufo = None
+                    # break
+                if ast.running_death_animation:
+                    ast.explosion_animation()
+                    if ast.animation_aux > 5:
+                        self.asteroids.remove(ast)
+                        ast.running_death_animation = False
+                        ast.animation_aux = 1
+                        break

@@ -8,7 +8,7 @@ class GameObject:
         self.sprite = sprite
         self.radius = sprite.get_width() / 2
         self.velocity = pygame.Vector2(velocity)
-        self.explosion_animation_time = 3
+        self.explosion_animation_time = 5
         self.running_death_animation = False
         self.animation_aux = 1
 
@@ -30,7 +30,7 @@ class GameObject:
     def explosion_animation(self):
         if self.explosion_animation_time <= 0:
             self.sprite = pygame.image.load(f'./assets/obstacle_explosion_{self.animation_aux}.png').convert_alpha()
-            self.explosion_animation_time = 3
+            self.explosion_animation_time = 5
             self.animation_aux += 1
         self.explosion_animation_time -= 1
 
