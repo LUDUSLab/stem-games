@@ -35,6 +35,15 @@ class Scenario:
             self.player_turn_text.display()
             self.aux_time -= 1
         else:
+            if len(self.asteroids) == 0:
+                if self.asteroids_quantity < 10:
+                    self.asteroids_quantity += 2
+                for _ in range(self.asteroids_quantity):
+                    while True:
+                        position = pygame.Vector2(randrange(config.window.size[0]), randrange(config.window.size[1]))
+                        if position.distance_to(self.ship.position) > self.min_asteroid_spawn_distance:
+                            break
+                    self.asteroids.append(asteroid.Asteroid(position, self.asteroids.append))
             if self.ufo is not None:
                 self.ufo.display()
                 self.ufo.move()
@@ -122,12 +131,11 @@ class Scenario:
                         self.ship.running_death_animation = True
 
             if self.ship is not None:
+                self.ship.move()
+                self.ship.display()
                 if self.ufo is not None:
                     if self.ship.collides_with(self.ufo):
                         self.player.lives -= 1
                         self.ship.running_death_animation = True
                         self.player.score += self.ufo.score
                         self.ufo = None
-
-                self.ship.move()
-                self.ship.display()
