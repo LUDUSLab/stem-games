@@ -2,6 +2,7 @@ import pytest
 from player import PlayerShip
 
 
+@pytest.fixture
 def test_player_turn_left():
     player = PlayerShip()
     player.player_left()
@@ -24,5 +25,5 @@ def test_player_move_up():
 def test_player_outside_screen():
     player = PlayerShip()
     player.player_outside_screen()
-    assert player.x == sw
-    assert player.y == sh
+    assert player.x >= 1280
+    assert player.y >= 720

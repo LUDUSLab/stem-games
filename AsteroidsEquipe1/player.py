@@ -57,13 +57,13 @@ class PlayerShip(object):
         elif self.y > sh + 50:
             self.y = 0
 
-    def acceleration(self):
-        if self:
-            self.speed_on = True
-            self.x += 5 * self.speed
-            self.y += 5 * self.speed
-        else:
-            self.speed_on = False
+    # def acceleration(self):
+        # if self:
+            # self.speed_on = True
+            # self.x += 5 * self.speed
+            # self.y += 5 * self.speed
+        # else:
+            # self.speed_on = False
 
     def destroy(self):
         pass

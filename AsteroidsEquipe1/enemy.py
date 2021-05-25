@@ -1,5 +1,5 @@
 from config import *
-from player import PlayerShip
+# from player import PlayerShip
 from abc import ABC, abstractmethod
 import random
 
