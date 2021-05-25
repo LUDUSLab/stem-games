@@ -7,17 +7,16 @@ from random import randrange
 
 class Scenario:
     aux_time = 100
-    min_asteroid_spawn_distance = 100
-    min_ship_spawn_distance = 100
+    min_asteroid_spawn_distance = 200
+    min_ship_spawn_distance = 200
     ship_can_spawn = False
 
     def __init__(self, player):
         self.player = player
         self.asteroids_quantity = 4
         self.asteroids = []
-        self.ufo_projectiles = []
-        self.ship_projectiles = []
-        self.ship = ship.Ship(self.ship_projectiles.append)
+        self.projectiles = [[], []]
+        self.ship = ship.Ship(self.projectiles[0].append)
         self.ufo = None
         for _ in range(self.asteroids_quantity):
             while True:
@@ -50,16 +49,17 @@ class Scenario:
                         self.ufo.moving_y = False
                 self.aux_projectile_time -= 1
                 if self.aux_projectile_time <= 0:
-                    self.ufo.shoot()
+                    self.ufo.shoot(self.ship.position)
                     self.aux_projectile_time = 40
                 if self.ufo.position.x > 1300 or self.ufo.position.x < -20:
                     self.ufo = None
             else:
-                randy = randrange(0, 721)
-                randx = randrange(0, 1281)
-                size = 1 if randx < 20 else 2
-                if randx == 0 or randx == 1280:
-                    self.ufo = ufo.UFO(pygame.Vector2(randx, randy), size, self.ufo_projectiles.append)
+                randy = randrange(721)
+                randx = randrange(1281)
+                auxrandsize = randrange(1024)
+                size = 1 if auxrandsize < 20 else 2
+                if randx == 0 or randx == 1280 and auxrandsize <= 100:
+                    self.ufo = ufo.UFO(pygame.Vector2(randx, randy), size, self.projectiles[1].append)
             for ast in self.asteroids:
                 ast.display()
                 ast.move()
@@ -88,7 +88,7 @@ class Scenario:
                     else:
                         self.ship_can_spawn = True
                 if self.ship_can_spawn:
-                    self.ship = ship.Ship(self.ship_projectiles.append)
+                    self.ship = ship.Ship(self.projectiles[0].append)
 
             if self.ship is not None:
                 if self.ship.running_death_animation:
@@ -98,36 +98,36 @@ class Scenario:
                         self.ship.running_death_animation = False
                         self.ship = None
 
-            for projectile in self.ship_projectiles:
-                projectile.display()
-                projectile.move()
-                projectile.time_alive -= 1.45
-                if projectile.time_alive <= 0:
-                    self.ship_projectiles.remove(projectile)
-                if self.ufo is not None and projectile.collides_with(self.ufo):
-                    self.player.score += self.ufo.score
-                    self.ufo = None
-                for ast in self.asteroids:
-                    if ast.collides_with(projectile):
-                        self.asteroids.remove(ast)
-                        self.ship_projectiles.remove(projectile)
-                        ast.split()
-                        self.player.score += ast.score
+            for p_lst in self.projectiles:
+                for p in p_lst:
+                    p.display()
+                    p.move()
+                    p.time_alive -= 1.45
+                    if p.time_alive <= 0:
+                        p_lst.remove(p)
                         break
+                    for ast in self.asteroids:
+                        if ast.collides_with(p):
+                            self.asteroids.remove(ast)
+                            p_lst.remove(p)
+                            ast.split()
+                            self.player.score += ast.score
+                            break
+                    if self.ufo is not None and p_lst is self.projectiles[0] and p.collides_with(self.ufo):
+                        self.player.score += self.ufo.score
+                        p_lst.remove(p)
+                        self.ufo = None
+                        break
+                    if self.ship is not None and p_lst is self.projectiles[1] and p.collides_with(self.ship):
+                        self.ship.running_death_animation = True
 
-            for projectile in self.ufo_projectiles:
-                projectile.display()
-                projectile.move()
-                projectile.time_alive -= 1.45
-                if projectile.time_alive <= 0:
-                    self.ufo_projectiles.remove(projectile)
-                for ast in self.asteroids:
-                    if ast.collides_with(projectile):
-                        self.asteroids.remove(ast)
-                        self.ufo_projectiles.remove(projectile)
-                        ast.split()
-                        self.player.score += ast.score
-                        break
             if self.ship is not None:
+                if self.ufo is not None:
+                    if self.ship.collides_with(self.ufo):
+                        self.player.lives -= 1
+                        self.ship.running_death_animation = True
+                        self.player.score += self.ufo.score
+                        self.ufo = None
+
                 self.ship.move()
                 self.ship.display()

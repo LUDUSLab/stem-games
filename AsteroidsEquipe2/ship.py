@@ -5,7 +5,7 @@ import projectile
 
 class Ship(gameobject.GameObject):
     UP = pygame.Vector2(0, -1)
-    MANEUVERABILITY = 3
+    MANEUVERABILITY = 3.5
     ACCELERATION = 0.08
     PROJECTILE_SPEED = 8
     death_animation_time = 100

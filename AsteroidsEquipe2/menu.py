@@ -66,10 +66,11 @@ class Menu:
                         ast.split()
                         break
         else:
-            randy = randrange(0, 721)
-            randx = randrange(0, 1281)
-            size = 1 if randx < 20 else 2
-            if randx == 0 or randx == 1280:
+            randy = randrange(721)
+            randx = randrange(1281)
+            auxrandsize = randrange(1024)
+            size = 1 if auxrandsize < 20 else 2
+            if randx == 0 or randx == 1280 and auxrandsize <= 100:
                 self.ufo = ufo.UFO(pygame.Vector2(randx, randy), size, self.projectiles.append)
         for ast in self.asteroids:
             ast.display()
