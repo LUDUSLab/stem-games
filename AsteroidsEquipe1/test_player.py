@@ -2,9 +2,8 @@ import pytest
 from player import PlayerShip
 
 
-@pytest.fixture
 def test_player_turn_left():
-    player = PlayerShip()
+    player = PlayerShip
     player.player_left()
     assert player.angle != 0
 
