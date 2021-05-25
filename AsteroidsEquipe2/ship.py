@@ -13,6 +13,7 @@ class Ship(gameobject.GameObject):
     def __init__(self, projectile_callback):
         self.sprite_path = "./assets/ship.png"
         self.sprite = pygame.image.load(self.sprite_path).convert_alpha()
+        self.aux_sprite_time = 10
         self.create_projectile_callback = projectile_callback
         self.direction = pygame.Vector2(self.UP)
         super().__init__(config.middle, self.sprite, pygame.Vector2(0))
@@ -45,9 +46,17 @@ class Ship(gameobject.GameObject):
             if key_pressed[pygame.K_z] or key_pressed[pygame.K_UP] or \
                     key_pressed[pygame.K_w]:
                 self.accelerating = True
+                if self.aux_sprite_time <= 4:
+                    self.sprite = pygame.image.load(self.sprite_path).convert_alpha()
+                    if self.aux_sprite_time <= 0:
+                        self.aux_sprite_time = 10
+                else:
+                    self.sprite = pygame.image.load("./assets/moving_ship.png").convert_alpha()
+                self.aux_sprite_time -= 1.25
                 self.accelerate()
             else:
                 self.accelerating = False
+                self.sprite = pygame.image.load(self.sprite_path).convert_alpha()
 
     def check_ship_shoot(self, event):
         if event.type == pygame.KEYDOWN and \

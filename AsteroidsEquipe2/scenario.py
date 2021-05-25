@@ -44,7 +44,8 @@ class Scenario:
                     for _ in range(self.asteroids_quantity):
                         while True:
                             position = pygame.Vector2(randrange(config.window.size[0]),randrange(config.window.size[1]))
-                            if position.distance_to(self.ship.position) > self.min_asteroid_spawn_distance:
+                            if self.ship is not None and position.distance_to(self.ship.position) > \
+                                    self.min_asteroid_spawn_distance:
                                 break
                         self.asteroids.append(asteroid.Asteroid(position, self.asteroids.append))
                     self.aux_ast_spawn_time = 100
@@ -62,8 +63,9 @@ class Scenario:
                         self.ufo.moving_y = False
                 self.aux_projectile_time -= 1
                 if self.aux_projectile_time <= 0:
-                    self.ufo.shoot(self.ship.position)
-                    self.aux_projectile_time = 40
+                    if self.ship is not None:
+                        self.ufo.shoot(self.ship.position)
+                        self.aux_projectile_time = 40
                 if self.ufo.position.x > 1300 or self.ufo.position.x < -20:
                     self.ufo = None
             else:
