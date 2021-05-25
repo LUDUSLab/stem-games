@@ -20,16 +20,17 @@ class HUD:
         self.score_p1.display()
         self.score_p2.display()
 
-    def game_display(self):
+    def game_display(self, pvp_mode):
         aux_x = 195
         self.record_score.display()
         self.p1_lives = self.players[0].lives
         for _ in range(self.p1_lives):
             config.window.screen.blit(self.lives_sprite, (aux_x, 45))
             aux_x += 26
-
-        if self.is_p1_turn:
-            self.score_p1.display()
-        else:
+        self.score_p1.display()
+        if pvp_mode:
+            self.p2_lives = self.players[1].lives
+            for _ in range(self.p2_lives):
+                config.window.screen.blit(self.lives_sprite, (config.window.size[0] - aux_x+26, 45))
+                aux_x -= 26
             self.score_p2.display()
-        # Here i need to display the ship lives sprite

@@ -23,6 +23,7 @@ while True:
     if not menu.start_game:
         menu.display()
     elif not saving_score:
+        game.pvp_mode = menu.pvp_mode
         game.display()
         is_key_pressed = pygame.key.get_pressed()
         if game.players[game.turns_aux % 2].scenario.ship is not None:

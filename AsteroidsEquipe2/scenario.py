@@ -25,7 +25,7 @@ class Scenario:
                 if position.distance_to(self.ship.position) > self.min_asteroid_spawn_distance:
                     break
             self.asteroids.append(asteroid.Asteroid(position, self.asteroids.append))
-        self.player_turn_text = config.Text("Player 1", 32)
+        self.player_turn_text = config.Text(f'Player {self.player.id}', 32)
         self.player_turn_text.pos = ((config.window.size[0] -
                                       self.player_turn_text.font.size(self.player_turn_text.message)[0]) / 2, 110)
         self.aux_movey_time = 120

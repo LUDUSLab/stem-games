@@ -19,6 +19,7 @@ class Menu:
     asteroids = []
     aux_projectile_time = 40
     aux_movey_time = 120
+    pvp_mode = False
     for _ in range(4):
         asteroids.append(asteroid.Asteroid(pygame.Vector2(randrange(config.window.size[0]), randrange(
                 config.window.size[1])), asteroids.append))
@@ -26,6 +27,9 @@ class Menu:
     def check_game_enter(self, event):
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RETURN:
+                self.start_game = True
+            elif event.key == pygame.K_2:
+                self.pvp_mode = True
                 self.start_game = True
 
     def display(self):

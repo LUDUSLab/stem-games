@@ -3,14 +3,13 @@ import hud
 import config
 
 class Game:
-    pvp_mode = False
     game_over = False
     turns_aux = 0
     aux_time = 100
+    pvp_mode = False
 
     def __init__(self):
-        self.players = [player.Player(), player.Player()]
-        self.players[0].is_turn = True
+        self.players = [player.Player(1), player.Player(2)]
         self.hud = hud.HUD(self.players)
 
     def display_hud(self):
@@ -29,8 +28,10 @@ class Game:
                 self.hud.record_score = config.Text('0' + str(self.players[0].record), 16)
             else:
                 self.hud.record_score = config.Text('0' + str(self.players[1].record), 16)
-        self.hud.game_display()
+        self.hud.game_display(self.pvp_mode)
 
     def display(self):
         self.display_hud()
         self.players[self.turns_aux % 2].scenario.display()
+        if self.pvp_mode and self.players[self.turns_aux % 2].scenario.ship is None:
+            self.turns_aux += 1
