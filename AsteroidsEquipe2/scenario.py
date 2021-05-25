@@ -51,7 +51,8 @@ class Scenario:
                     self.aux_ast_spawn_time = 100
             if self.ufo is not None:
                 self.ufo.display()
-                self.ufo.move()
+                if not self.ufo.running_death_animation:
+                    self.ufo.move()
                 aux_rand = randrange(400)
                 if aux_rand == 10 and not self.ufo.moving_y:
                     self.ufo.movey()
@@ -77,15 +78,26 @@ class Scenario:
                     self.ufo = ufo.UFO(pygame.Vector2(randx, randy), size, self.projectiles[1].append)
             for ast in self.asteroids:
                 ast.display()
-                ast.move()
+                if not ast.running_death_animation:
+                    ast.move()
                 if self.ufo is not None and ast.collides_with(self.ufo):
-                    self.asteroids.remove(ast)
-                    ast.split()
+                    ast.running_death_animation = True
+                    self.ufo.running_death_animation = True
+                if ast.running_death_animation:
+                    ast.explosion_animation()
+                    if ast.animation_aux > 5:
+                        self.asteroids.remove(ast)
+                        ast.running_death_animation = False
+                        ast.animation_aux = 1
+                        break
+            if self.ufo is not None:
+                if self.ufo.running_death_animation:
+                    self.ufo.explosion_animation()
+                if self.ufo.animation_aux > 5:
+                    self.ufo.running_death_animation = False
+                    self.ufo.animation_aux = 1
                     self.ufo = None
-                    break
             for ast in self.asteroids:
-                ast.display()
-                ast.move()
                 if self.ship is not None:
                     if not self.ship.running_death_animation:
                         if ast.collides_with(self.ship):
@@ -95,6 +107,7 @@ class Scenario:
                             ast.split()
                             self.player.score += ast.score
                             break
+
             if self.ship is None:
                 for ast in self.asteroids:
                     if pygame.Vector2(config.middle).distance_to(ast.position) < self.min_ship_spawn_distance:
@@ -123,11 +136,13 @@ class Scenario:
                         break
                     for ast in self.asteroids:
                         if ast.collides_with(p):
-                            self.asteroids.remove(ast)
+                            ast.running_death_animation = True
                             p_lst.remove(p)
                             ast.split()
-                            self.player.score += ast.score
+                            if p_lst is self.projectiles[0]:
+                                self.player.score += ast.score
                             break
+
                     if self.ufo is not None and p_lst is self.projectiles[0] and p.collides_with(self.ufo):
                         self.player.score += self.ufo.score
                         p_lst.remove(p)
@@ -137,7 +152,8 @@ class Scenario:
                         self.ship.running_death_animation = True
 
             if self.ship is not None:
-                self.ship.move()
+                if not self.ship.running_death_animation:
+                    self.ship.move()
                 self.ship.display()
                 if self.ufo is not None:
                     if self.ship.collides_with(self.ufo):

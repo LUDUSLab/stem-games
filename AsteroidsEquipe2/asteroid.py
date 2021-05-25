@@ -27,3 +27,4 @@ class Asteroid(gameobject.GameObject):
                 elif asteroid.size == 1:
                     asteroid.score = 100
                 self.asteroid_callback(asteroid)
+

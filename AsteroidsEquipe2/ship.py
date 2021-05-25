@@ -21,7 +21,6 @@ class Ship(gameobject.GameObject):
         self.radius = self.sprite.get_height()/2
         self.img_rect = self.sprite.get_rect(center=(config.window.size[0]/2, config.window.size[1]/2))
         self.accelerating = False
-        self.running_death_animation = False
 
     def rotate(self, clockwise=True):
         sign = 1 if clockwise else -1
