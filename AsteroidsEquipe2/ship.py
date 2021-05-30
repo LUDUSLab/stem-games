@@ -9,6 +9,8 @@ class Ship(gameobject.GameObject):
     ACCELERATION = 0.08
     PROJECTILE_SPEED = 8
     death_animation_time = 100
+    aux_death_animation_sprite = 8
+    death_animation_aux = 1
 
     def __init__(self, projectile_callback):
         self.sprite_path = "./assets/ship.png"
@@ -64,6 +66,11 @@ class Ship(gameobject.GameObject):
 
     def death_animation(self):
         # Here comes the ship's explosion animation
+        if self.aux_death_animation_sprite <= 0:
+            self.sprite = pygame.image.load(f'./assets/ship_explosion_{self.death_animation_aux}.png').convert_alpha()
+            self.aux_death_animation_sprite = 8
+            self.death_animation_aux += 1
+        self.aux_death_animation_sprite -= 1
         self.death_animation_time -= 1
 
     def display(self):
