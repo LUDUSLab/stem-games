@@ -5,7 +5,6 @@ import config
 class Game:
     game_over = False
     turns_aux = 0
-    aux_time = 100
     pvp_mode = False
 
     def __init__(self):

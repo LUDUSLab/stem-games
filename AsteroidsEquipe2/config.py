@@ -20,7 +20,7 @@ class Blinker:
     def __init__(self, text, font, message):
         self.on_text_surface = text
         self.blink_rect = self.on_text_surface.get_rect()
-        self.blink_rect.center = ((window.size[0] - font.size(message)[0])/2 + 125, 120)
+        self.blink_rect.center = ((window.size[0] - font.size(message)[0])/2 + 125, 100)
         self.off_text_surface = pygame.surface.Surface(self.blink_rect.size)
         self.blink_surfaces = cycle([self.on_text_surface, self.off_text_surface])
         self.blink_surface = next(self.blink_surfaces)

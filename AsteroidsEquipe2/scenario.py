@@ -7,7 +7,7 @@ from random import randrange
 
 class Scenario:
     min_asteroid_spawn_distance = 200
-    min_ship_spawn_distance = 200
+    min_ship_spawn_distance = 125
     switch_round = False
 
     def __init__(self, player):
