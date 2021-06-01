@@ -12,7 +12,7 @@ class ScoreMenu:
         self.start_txt = start_txt
         self.footer1 = footer1
         self.footer2 = footer2
-        self.header = config.Text("HIGH SCORES", 32)
+        self.header = config.Text("HIGH  SCORES", 32)
         self.header.pos = ((config.window.size[0] - self.header.text.get_size()[0])/2, 150)
         self.pvp_mode = False
         self.nick_box_text = ""
@@ -29,14 +29,18 @@ class ScoreMenu:
 
     def write_nick(self, key_name):
         global wkey_aux, hs_aux
+        self.nick_box_text += key_name
         if wkey_aux > 2:
+            if hs_aux == 1:
+                self.nick_box_text = self.nick_box_text[:3]
+            aux_str = "".join([" " for _ in range(7-len(self.hud.score_p1.message))])
             self.record_scores.append(
-                config.Text(f'{hs_aux}   {self.hud.score_p1.message} {self.nick_box_text}', 32, pos=(
-                    self.header.pos[0], self.header.pos[1] + 75+hs_aux*30)))
+                config.Text(f'{hs_aux}{aux_str}{self.hud.score_p1.message} {self.nick_box_text}', 32, pos=(
+                    self.header.pos[0], self.header.pos[1] + 75+hs_aux*40)))
             hs_aux += 1
+            wkey_aux = 0
             self.has_entered_nick = True
 
-        self.nick_box_text += key_name
         self.nick_box = config.Text(f'{self.nick_box_text}', 32)
         self.nick_box.pos = ((config.window.size[0] - self.nick_box.text.get_size()[0])/2, 600)
         wkey_aux += 1
