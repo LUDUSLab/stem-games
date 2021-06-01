@@ -7,7 +7,8 @@ import score_menu
 pygame.init()
 menu = menu.Menu()
 game = game.Game()
-score_menu = score_menu.ScoreMenu()
+score_menu_obj = score_menu.ScoreMenu(game.hud)
+aux_flag = True
 
 while True:
     config.window.screen.fill(config.COLOR_BLACK)
@@ -30,7 +31,6 @@ while True:
             if not game.players[game.turns_aux % 2].scenario.ship.running_death_animation:
                 game.players[game.turns_aux % 2].scenario.ship.check_ship_keys(is_key_pressed)
     else:
-        score_menu.display()
-
+        score_menu_obj.display()
     pygame.display.flip()
     config.clock.tick(config.framerate)

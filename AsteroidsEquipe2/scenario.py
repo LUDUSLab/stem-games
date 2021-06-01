@@ -6,17 +6,22 @@ import pygame
 from random import randrange
 
 class Scenario:
-    aux_time = 100
-    aux_ast_spawn_time = 100
     min_asteroid_spawn_distance = 200
     min_ship_spawn_distance = 200
-    ship_can_spawn = False
+    switch_round = False
 
     def __init__(self, player):
         self.player = player
         self.asteroids_quantity = 4
         self.asteroids = []
         self.projectiles = [[], []]
+        self.ship_can_spawn = False
+        self.game_over_header = config.Text("GAME OVER", 32)
+        self.game_over_header.pos = ((config.window.size[0] - self.game_over_header.text.get_size()[0])/2, 150)
+        self.showing_game_over_header = False
+        self.aux_time_game_over_header = 185
+        self.aux_time = 100
+        self.aux_ast_spawn_time = 100
         self.ship = ship.Ship(self.projectiles[0].append)
         self.ufo = None
         for _ in range(self.asteroids_quantity):
@@ -106,6 +111,8 @@ class Scenario:
                             self.ship.running_death_animation = True
                             ast.split()
                             self.player.score += ast.score
+                            if self.player.lives <= 0:
+                                self.showing_game_over_header = True
                             break
 
             if self.ship is None:
@@ -118,9 +125,9 @@ class Scenario:
                 if self.ufo is not None and pygame.Vector2(config.middle).distance_to(self.ufo.position)\
                         < self.min_ship_spawn_distance:
                     self.ship_can_spawn = False
-                else:
-                    self.ship_can_spawn = True
-                if self.ship_can_spawn:
+
+                if self.ship_can_spawn and not self.showing_game_over_header:
+                    self.switch_round = True
                     self.ship = ship.Ship(self.projectiles[0].append)
 
             if self.ship is not None:
@@ -159,7 +166,8 @@ class Scenario:
             if self.ship is not None:
                 if not self.ship.running_death_animation:
                     self.ship.move()
-                self.ship.display()
+                if not self.switch_round:
+                    self.ship.display()
                 if self.ufo is not None:
                     if not self.ship.running_death_animation and not self.ufo.running_death_animation and \
                             self.ship.collides_with(self.ufo):
@@ -167,3 +175,12 @@ class Scenario:
                         self.ship.running_death_animation = True
                         self.player.lives -= 1
                         self.player.score += self.ufo.score
+                        if self.player.lives <= 0:
+                            self.showing_game_over_header = True
+            if self.showing_game_over_header:
+                self.aux_time_game_over_header -= 1
+                if self.aux_time_game_over_header >= 0:
+                    self.game_over_header.display()
+                else:
+                    self.aux_time_game_over_header = 100
+                    self.showing_game_over_header = False

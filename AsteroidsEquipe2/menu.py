@@ -26,11 +26,9 @@ class Menu:
 
     def check_game_enter(self, event):
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_RETURN:
-                self.start_game = True
-            elif event.key == pygame.K_2:
+            if event.key == pygame.K_2:
                 self.pvp_mode = True
-                self.start_game = True
+            self.start_game = True
 
     def display(self):
         self.header.display()
