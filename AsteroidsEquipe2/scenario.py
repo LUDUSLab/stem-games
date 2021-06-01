@@ -21,6 +21,7 @@ class Scenario:
         self.showing_game_over_header = False
         self.aux_time_game_over_header = 185
         self.aux_time = 100
+        self.aux_time2 = 0
         self.aux_ast_spawn_time = 100
         self.ship = ship.Ship(self.projectiles[0].append)
         self.ufo = None
@@ -41,6 +42,9 @@ class Scenario:
             self.player_turn_text.display()
             self.aux_time -= 1
         else:
+            if self.aux_time2 > 0:
+                self.player_turn_text.display()
+                self.aux_time2 -= 1
             if len(self.asteroids) == 0 and self.ufo is None:
                 self.aux_ast_spawn_time -= 1
                 if self.aux_ast_spawn_time <= 0:
@@ -134,7 +138,7 @@ class Scenario:
                 if self.ship.running_death_animation:
                     self.ship.death_animation()
                     if self.ship.death_animation_time <= 0:
-                        self.ship.death_animation_time = 100
+                        self.ship.death_animation_time = 170
                         self.ship.running_death_animation = False
                         self.ship = None
 
@@ -162,6 +166,7 @@ class Scenario:
                         break
                     if self.ship is not None and p_lst is self.projectiles[1] and p.collides_with(self.ship):
                         self.ship.running_death_animation = True
+                        self.player.lives -= 1
 
             if self.ship is not None:
                 if not self.ship.running_death_animation:

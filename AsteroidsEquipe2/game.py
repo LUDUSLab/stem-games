@@ -10,6 +10,8 @@ class Game:
     def __init__(self):
         self.players = [player.Player(1), player.Player(2)]
         self.hud = hud.HUD(self.players)
+        if self.pvp_mode:
+            self.players[0].scenario.aux_time2, self.players[1].scenario.aux_time2 = 100, 100
 
     def display_hud(self):
         if self.players[0].score < 10:
@@ -31,6 +33,8 @@ class Game:
                     (self.players[0].lives > 0 and self.players[1].lives > 0):
                 self.players[self.turns_aux % 2].scenario.switch_round = False
                 self.turns_aux += 1
+                self.players[self.turns_aux % 2].scenario.aux_time2 = 100
+
         else:
             self.players[self.turns_aux % 2].scenario.switch_round = False
             if self.players[self.turns_aux % 2].lives <= 0 and \

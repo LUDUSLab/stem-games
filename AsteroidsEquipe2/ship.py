@@ -8,7 +8,7 @@ class Ship(gameobject.GameObject):
     MANEUVERABILITY = 3.5
     ACCELERATION = 0.08
     PROJECTILE_SPEED = 8
-    death_animation_time = 100
+    death_animation_time = 170
     aux_death_animation_sprite = 8
     death_animation_aux = 1
 
