@@ -9,7 +9,7 @@ from random import uniform, randrange
 class UFO(gameobject.GameObject):
     PROJECTILE_SPEED = 8
 
-    def __init__(self, position, size, projectile_callback):
+    def __init__(self, position, size, projectile_callback, ufo_in_menu=False):
         self.size = size
         size_to_scale = {2: 1, 1: 0.5}
         self.create_projectile_callback = projectile_callback
@@ -21,10 +21,12 @@ class UFO(gameobject.GameObject):
         self.moving_y = False
         self.score = 200 if self.size == 2 else 1000
         self.running_death_animation = False
-        if self.size == 2:
-            pygame.mixer.Channel(4).play(config.big_ufo_appears, loops=-1)
-        elif self.size == 1:
-            pygame.mixer.Channel(4).play(config.small_ufo_appears, loops=-1)
+        self.in_menu = ufo_in_menu
+        if not self.in_menu:
+            if self.size == 2:
+                pygame.mixer.Channel(4).play(config.big_ufo_appears, loops=-1)
+            elif self.size == 1:
+                pygame.mixer.Channel(4).play(config.small_ufo_appears, loops=-1)
         super().__init__(position, self.sprite, pygame.Vector2(self.velx, self.vely))
 
     def shoot(self, ship_position=None):

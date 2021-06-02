@@ -48,7 +48,8 @@ class Ship(gameobject.GameObject):
             if key_pressed[pygame.K_z] or key_pressed[pygame.K_UP] or \
                     key_pressed[pygame.K_w]:
                 self.accelerating = True
-                pygame.mixer.Channel(1).play(config.ship_acceleration_sound)
+                if not pygame.mixer.Channel(1).get_busy():
+                    pygame.mixer.Channel(1).play(config.ship_acceleration_sound)
                 if self.aux_sprite_time <= 4:
                     self.sprite = pygame.image.load(self.sprite_path).convert_alpha()
                     if self.aux_sprite_time <= 0:

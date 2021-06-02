@@ -13,8 +13,8 @@ class Asteroid(gameobject.GameObject):
         self.randomvisual = str(randint(1, 3))
         self.sprite_path = "./assets/asteroid_"+self.randomvisual+".png"
         self.sprite = pygame.transform.rotozoom(pygame.image.load(self.sprite_path).convert_alpha(), 0, self.scale)
-        self.velx = uniform(-2, 2)
-        self.vely = uniform(-2, 2)
+        self.velx = uniform(-4.5+self.size, 4.5-self.size)
+        self.vely = uniform(-4.5+self.size, 4.5-self.size)
         self.score = 20
         self.explosion_sound = config.asteroid_explosion_sounds[3-self.size]
         super().__init__(position, self.sprite, pygame.Vector2(self.velx, self.vely))

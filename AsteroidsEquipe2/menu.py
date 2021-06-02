@@ -38,7 +38,7 @@ class Menu:
         if self.ufo is not None:
             self.ufo.display()
             self.ufo.move()
-            aux_rand = randrange(400)
+            aux_rand = randrange(250)
             if aux_rand == 10 and not self.ufo.moving_y:
                 self.ufo.movey()
             if self.ufo.moving_y:
@@ -78,9 +78,10 @@ class Menu:
             randy = randrange(721)
             randx = randrange(1281)
             auxrandsize = randrange(1024)
-            size = 1 if auxrandsize < 30 else 2
+            size = 1 if auxrandsize < 102 else 2
             if randx == 0 or randx == 1280:
-                self.ufo = ufo.UFO(pygame.Vector2(randx, randy), size, self.projectiles.append)
+                self.ufo = ufo.UFO(pygame.Vector2(randx, randy), size, self.projectiles.append, ufo_in_menu=True)
+
         for ast in self.asteroids:
             ast.display()
             if not ast.running_death_animation:

@@ -44,10 +44,9 @@ class Scenario:
             self.player_turn_text.display()
             self.aux_time -= 1
         else:
-            if self.aux_beat % (117-5*self.max_ast_num) == 0:
+            if self.aux_beat % (121-6*self.max_ast_num) == 0:
                 pygame.mixer.Channel(6).play(config.beat1)
-                print(self.max_ast_num)
-            elif self.aux_beat % (117-5*self.max_ast_num) == (117-5*self.max_ast_num) //2:
+            elif self.aux_beat % (121-6*self.max_ast_num) == (121-6*self.max_ast_num)//2:
                 pygame.mixer.Channel(6).play(config.beat2)
 
             self.aux_beat -= 1
@@ -71,7 +70,7 @@ class Scenario:
                 self.ufo.display()
                 if not self.ufo.running_death_animation:
                     self.ufo.move()
-                aux_rand = randrange(400)
+                aux_rand = randrange(250)
                 if aux_rand == 10 and not self.ufo.moving_y:
                     self.ufo.movey()
                 if self.ufo.moving_y:
@@ -92,7 +91,7 @@ class Scenario:
                 randy = randrange(721)
                 randx = randrange(1281)
                 auxrandsize = randrange(1024)
-                size = 1 if auxrandsize < 30 else 2
+                size = 1 if auxrandsize < 102 else 2
                 if randx == 0 or randx == 1280 and auxrandsize <= 100:
                     self.ufo = ufo.UFO(pygame.Vector2(randx, randy), size, self.projectiles[1].append)
             for ast in self.asteroids:
@@ -181,7 +180,8 @@ class Scenario:
                         p_lst.remove(p)
                         self.ufo.running_death_animation = True
                         break
-                    if self.ship is not None and p_lst is self.projectiles[1] and p.collides_with(self.ship):
+                    if self.ship is not None and p_lst is self.projectiles[1] and p.collides_with(self.ship) and\
+                            not self.ship.running_death_animation:
                         self.ship.running_death_animation = True
                         self.player.lives -= 1
                         break
