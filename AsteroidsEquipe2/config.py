@@ -16,6 +16,18 @@ clock = pygame.time.Clock()
 window = window.Window()
 middle = (window.size[0]/2, window.size[1]/2)
 
+ship_shoot_sound = pygame.mixer.Sound('./assets/ship_shoot.wav')
+ship_acceleration_sound = pygame.mixer.Sound('./assets/ship_acceleration.wav')
+asteroid_explosion_sounds = [
+    pygame.mixer.Sound('./assets/big_asteroid_explosion.wav'),
+    pygame.mixer.Sound('./assets/medium_asteroid_explosion.wav'),
+    pygame.mixer.Sound('./assets/small_asteroid_explosion.wav'),
+]
+big_ufo_appears = pygame.mixer.Sound('./assets/big_ufo_appears.wav')
+small_ufo_appears = pygame.mixer.Sound('./assets/small_ufo_appears.wav')
+beat1 = pygame.mixer.Sound('./assets/beat1.wav')
+beat2 = pygame.mixer.Sound('./assets/beat2.wav')
+
 class Blinker:
     def __init__(self, text, font, message):
         self.on_text_surface = text

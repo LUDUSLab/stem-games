@@ -37,6 +37,7 @@ class Ship(gameobject.GameObject):
         projectile_velocity = self.direction * self.PROJECTILE_SPEED + self.velocity
         bullet = projectile.Projectile(self.position, projectile_velocity)
         self.create_projectile_callback(bullet)
+        pygame.mixer.Channel(0).play(config.ship_shoot_sound)
 
     def check_ship_keys(self, key_pressed):
         if self:
@@ -47,6 +48,7 @@ class Ship(gameobject.GameObject):
             if key_pressed[pygame.K_z] or key_pressed[pygame.K_UP] or \
                     key_pressed[pygame.K_w]:
                 self.accelerating = True
+                pygame.mixer.Channel(1).play(config.ship_acceleration_sound)
                 if self.aux_sprite_time <= 4:
                     self.sprite = pygame.image.load(self.sprite_path).convert_alpha()
                     if self.aux_sprite_time <= 0:

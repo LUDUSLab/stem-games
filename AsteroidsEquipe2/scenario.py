@@ -22,6 +22,8 @@ class Scenario:
         self.aux_time_game_over_header = 185
         self.aux_time = 100
         self.aux_time2 = 0
+        self.aux_beat = 50
+        self.max_ast_num = 4
         self.aux_ast_spawn_time = 100
         self.ship = ship.Ship(self.projectiles[0].append)
         self.ufo = None
@@ -42,6 +44,13 @@ class Scenario:
             self.player_turn_text.display()
             self.aux_time -= 1
         else:
+            if self.aux_beat % (117-5*self.max_ast_num) == 0:
+                pygame.mixer.Channel(6).play(config.beat1)
+                print(self.max_ast_num)
+            elif self.aux_beat % (117-5*self.max_ast_num) == (117-5*self.max_ast_num) //2:
+                pygame.mixer.Channel(6).play(config.beat2)
+
+            self.aux_beat -= 1
             if self.aux_time2 > 0:
                 self.player_turn_text.display()
                 self.aux_time2 -= 1
@@ -77,6 +86,7 @@ class Scenario:
                         self.ufo.shoot(self.ship.position)
                         self.aux_projectile_time = 40
                 if self.ufo.position.x > 1300 or self.ufo.position.x < -20:
+                    pygame.mixer.Channel(4).stop()
                     self.ufo = None
             else:
                 randy = randrange(721)
@@ -102,9 +112,12 @@ class Scenario:
             if self.ufo is not None:
                 if self.ufo.running_death_animation:
                     self.ufo.explosion_animation()
+                    if self.ufo.animation_aux == 1:
+                        pygame.mixer.Channel(5).play(config.asteroid_explosion_sounds[2])
                 if self.ufo.animation_aux > 5:
                     self.ufo.running_death_animation = False
                     self.ufo.animation_aux = 1
+                    pygame.mixer.Channel(4).stop()
                     self.ufo = None
             for ast in self.asteroids:
                 if self.ship is not None:
@@ -114,6 +127,8 @@ class Scenario:
                             self.player.lives -= 1
                             self.ship.running_death_animation = True
                             ast.split()
+                            if len(self.asteroids) > self.max_ast_num:
+                                self.max_ast_num = len(self.asteroids)
                             self.player.score += ast.score
                             if self.player.lives <= 0:
                                 self.showing_game_over_header = True
@@ -155,6 +170,8 @@ class Scenario:
                             ast.running_death_animation = True
                             p_lst.remove(p)
                             ast.split()
+                            if len(self.asteroids) > self.max_ast_num:
+                                self.max_ast_num = len(self.asteroids)
                             if p_lst is self.projectiles[0]:
                                 self.player.score += ast.score
                             break
@@ -167,6 +184,7 @@ class Scenario:
                     if self.ship is not None and p_lst is self.projectiles[1] and p.collides_with(self.ship):
                         self.ship.running_death_animation = True
                         self.player.lives -= 1
+                        break
 
             if self.ship is not None:
                 if not self.ship.running_death_animation:

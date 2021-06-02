@@ -1,10 +1,10 @@
 import pygame
 from random import uniform, randint
+
+import config
 import gameobject
 
-
 class Asteroid(gameobject.GameObject):
-
     def __init__(self, position, asteroid_callback, size=3):
         self.asteroid_callback = asteroid_callback
         self.size = size
@@ -16,9 +16,11 @@ class Asteroid(gameobject.GameObject):
         self.velx = uniform(-2, 2)
         self.vely = uniform(-2, 2)
         self.score = 20
+        self.explosion_sound = config.asteroid_explosion_sounds[3-self.size]
         super().__init__(position, self.sprite, pygame.Vector2(self.velx, self.vely))
 
     def split(self):
+        pygame.mixer.Channel(2).play(self.explosion_sound)
         if self.size > 1:
             for _ in range(2):
                 asteroid = Asteroid(self.position, self.asteroid_callback, self.size-1)
@@ -27,4 +29,3 @@ class Asteroid(gameobject.GameObject):
                 elif asteroid.size == 1:
                     asteroid.score = 100
                 self.asteroid_callback(asteroid)
-

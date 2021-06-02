@@ -1,5 +1,7 @@
 import pygame
 from math import atan2, pi, cos, sin, radians
+
+import config
 import projectile
 import gameobject
 from random import uniform, randrange
@@ -19,7 +21,10 @@ class UFO(gameobject.GameObject):
         self.moving_y = False
         self.score = 200 if self.size == 2 else 1000
         self.running_death_animation = False
-
+        if self.size == 2:
+            pygame.mixer.Channel(4).play(config.big_ufo_appears, loops=-1)
+        elif self.size == 1:
+            pygame.mixer.Channel(4).play(config.small_ufo_appears, loops=-1)
         super().__init__(position, self.sprite, pygame.Vector2(self.velx, self.vely))
 
     def shoot(self, ship_position=None):
@@ -33,6 +38,7 @@ class UFO(gameobject.GameObject):
             angle %= 2*pi
             projectile_velocity = pygame.Vector2(cos(angle), sin(angle)) * self.PROJECTILE_SPEED + self.velocity
         bullet = projectile.Projectile(self.position, projectile_velocity)
+        pygame.mixer.Channel(3).play(config.ship_shoot_sound)
         self.create_projectile_callback(bullet)
 
     def movey(self):
