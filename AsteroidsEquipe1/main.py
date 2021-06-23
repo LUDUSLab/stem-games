@@ -40,7 +40,8 @@ while game_on:
             playership.player_right()
         if keys[pygame.K_w]:
             playership.move_up()
-            #playership.acceleration()
+        else:
+            playership.acceleration()
 
         playership.player_outside_screen()
 
@@ -48,6 +49,7 @@ while game_on:
         if event.type == pygame.QUIT:
             game_on = False
             hud.live += 4
+
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
                 if not game_over:
@@ -55,8 +57,8 @@ while game_on:
                     shoot_sound.play()
                     # enemy_missile.append(EnemyMissile())
 
-    # screen.blit(hud.background, (0, 0))
-    screen.fill(color_black)
+    screen.blit(hud.background, (0, 0))
+    # screen.fill(color_black)
 
     for i in player_missile:
         i.draw(screen)

@@ -1,11 +1,13 @@
 import pygame.image
+import turtle
 from config import *
 
 
 class Hud(object):
     def __init__(self):
-        self.life_sprite = pygame.image.load('../AsteroidsEquipe1/assets/player.png')
-        self.background = pygame.image.load('../AsteroidsEquipe1/assets/space1.png')
+        self.colors = ['color_black', 'color_white']
+        self.life_sprite = pygame.image.load('../AsteroidsEquipe1/assets/player.png').convert_alpha()
+        self.background = pygame.image.load('../AsteroidsEquipe1/assets/space1.png').convert_alpha()
         self.life_sprite = pygame.transform.scale(self.life_sprite, (30, 30))
         self.life = [(67, 50), (97, 50), (127, 50)]
         self.live = 0
@@ -20,12 +22,7 @@ class Hud(object):
             screen.blit(self.life_sprite, i)
 
     def text_blink_effect(self):
-        self.count += 1
-        self.colors = ['color_black', 'color_white']
-        if self.count % 2 == 0:
-            self.color = self.colors[0]
-        elif self.count % 3 == 0:
-            self.color = self.colors[1]
+        pass
 
     def display_score(self, screen):
         screen.blit(self.score_text, self.score_rect)

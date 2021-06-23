@@ -2,6 +2,7 @@ import pytest
 from player import PlayerShip
 
 
+@pytest.fixture
 def test_player_turn_left():
     player = PlayerShip
     player.player_left()

@@ -9,8 +9,6 @@ class PlayerShip(object):
         self.h = self.img.get_height()
         self.x = sw // 2
         self.y = sh // 2
-        self.speed = 0.07
-        self.speed_on = True
         self.angle = 0
         self.rotate = pygame.transform.rotate(self.img, self.angle)
         self.rotateRect = self.rotate.get_rect()
@@ -57,19 +55,18 @@ class PlayerShip(object):
         elif self.y > sh + 50:
             self.y = 0
 
-    # def acceleration(self):
-        # if self:
-            # self.speed_on = True
-            # self.x += 5 * self.speed
-            # self.y += 5 * self.speed
-        # else:
-            # self.speed_on = False
+    def acceleration(self):
+        self.x += self.player_cos * 0.8
+        self.y -= self.player_sin * 0.8
+        self.rotate = pygame.transform.rotate(self.img, self.angle)
+        self.rotateRect = self.rotate.get_rect()
+        self.rotateRect.center = (self.x, self.y)
+        self.head = (self.x + self.player_cos * self.w // 2, self.y - self.player_sin * self.h // 2)
 
     def destroy(self):
         pass
 
     def draw(self, screen):
-        # screen.blit(self.img, [self.x, self.y, self.w, self.h])
         screen.blit(self.rotate, self.rotateRect)
 
 
