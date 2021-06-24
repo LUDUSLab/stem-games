@@ -116,10 +116,8 @@ while game_on:
         if keys[pygame.K_d]:
             player.player_right()
         if keys[pygame.K_w]:
-            player.move_up()
-            player.a += 0.01
-        else:
             player.acceleration()
+            player.move_up()
 
         player.player_outside_screen()
 

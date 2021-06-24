@@ -3,6 +3,50 @@ from abc import ABC, abstractmethod
 from random import choice, randrange
 
 
+class Factory(ABC):
+
+    @abstractmethod
+    def create(self):
+        pass
+
+    def crack(self, asteroid):
+        pass
+
+    @abstractmethod
+    def destroy(self, position):
+        pass
+
+
+class FactoryAsteroids(Factory):
+
+    def create(self):
+        asteroids.append(BigAsteroids())
+
+    def crack(self, asteroid):
+        if asteroid.w == 64:
+            asteroid_temporary1 = MediumAsteroids()
+            asteroid_temporary2 = MediumAsteroids()
+
+            asteroid_temporary1.x = asteroid_temporary2.x = asteroid.x
+            asteroid_temporary1.y = asteroid_temporary2.y = asteroid.y
+
+            asteroids.append(asteoridTemporary1)
+            asteroids.append(asteoridTemporary2)
+
+        elif asteroid.w == 32:
+            asteroid_temporary1 = SmallAsteroids()
+            asteroid_temporary2 = SmallAsteroids()
+
+            asteroid_temporary1.x = asteroid_temporary2.x = asteroid.x
+            asteroid_temporary1.y = asteroid_temporary2.y = asteroid.y
+
+            asteroids.append(asteoridTemporary1)
+            asteroids.append(asteoridTemporary2)
+
+    def destroy(self, position):
+        asteroids.pop(asteroids.index(position))
+
+
 class Asteroids(ABC):
 
     @abstractmethod

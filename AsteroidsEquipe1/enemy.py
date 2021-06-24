@@ -1,7 +1,34 @@
 from config import *
-# from player import PlayerShip
 from abc import ABC, abstractmethod
 import random
+
+
+class Factory(ABC):
+
+    @abstractmethod
+    def create(self, time):
+        pass
+
+    @abstractmethod
+    def destroy(self, position):
+        pass
+
+
+class FactoryEnemy(Factory):
+
+    def create(self, time):
+        if time % 200 == 0:
+            small_enemy.append(SmallEnemyShip)
+
+        if time % 400 == 0:
+            big_enemy.append(BigEnemyShip)
+
+    def destroy(self, position):
+        if position.w == 32:
+            small_enemy.pop(position)
+
+        if position.w == 100:
+            big_enemy.pop(position)
 
 
 class EnemyShip(ABC):
@@ -14,15 +41,11 @@ class EnemyShip(ABC):
         pass
 
     @abstractmethod
-    def destroy(self):
-        pass
-
-    @abstractmethod
     def draw(self, screen):
         pass
 
 
-class SmallEnemyShip(EnemyShip, ABC):
+class SmallEnemyShip(EnemyShip):
     def __init__(self):
         self.img = pygame.image.load("../AsteroidsEquipe1/assets/enemy_small.png")
         self.w = self.img.get_width()
@@ -40,14 +63,11 @@ class SmallEnemyShip(EnemyShip, ABC):
     def shoot(self):
         pass
 
-    def destroy(self):
-        pass
-
     def draw(self, screen):
         screen.blit(self.img, (self.x, self.y))
 
 
-class BigEnemyShip(EnemyShip, ABC):
+class BigEnemyShip(EnemyShip):
     def __init__(self):
         self.img = pygame.image.load("../AsteroidsEquipe1/assets/enemy_big.png")
         self.w = self.img.get_width()
@@ -64,9 +84,6 @@ class BigEnemyShip(EnemyShip, ABC):
         self.x += self.x_dir * 2
 
     def shoot(self):
-        pass
-
-    def destroy(self):
         pass
 
     def draw(self, screen):

@@ -23,9 +23,6 @@ class Hud(object):
             if self.point == 10000:
                 self.life.append((2000, 2000))
 
-    def text_blink_effect(self):
-        pass
-
     def display_score(self, screen):
         screen.blit(self.score_text, self.score_rect)
         screen.blit(self.credits, (385, 640))

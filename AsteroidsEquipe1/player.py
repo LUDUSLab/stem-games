@@ -37,8 +37,8 @@ class PlayerShip(object):
         self.head = (self.x + self.player_cos * self.w // 2, self.y - self.player_sin * self.h // 2)
 
     def move_up(self):
-        self.x += self.player_cos * 4
-        self.y -= self.player_sin * 4
+        self.x += self.player_cos * self.a
+        self.y -= self.player_sin * self.a
         self.rotate = pygame.transform.rotate(self.img, self.angle)
         self.rotateRect = self.rotate.get_rect()
         self.rotateRect.center = (self.x, self.y)
@@ -57,12 +57,18 @@ class PlayerShip(object):
             self.y = 0
 
     def acceleration(self):
-        self.x += self.player_cos * self.a
-        self.y -= self.player_sin * self.a
-        self.rotate = pygame.transform.rotate(self.img, self.angle)
-        self.rotateRect = self.rotate.get_rect()
-        self.rotateRect.center = (self.x, self.y)
-        self.head = (self.x + self.player_cos * self.w // 2, self.y - self.player_sin * self.h // 2)
+        if self.a < 5:
+            self.a += 0.08
+
+        else:
+            self.a = 4
+
+    def non_acceleration(self):
+        if self.a > 0:
+            self.a -= 0.08
+
+        else:
+            self.a = 0
 
     def destroy(self):
         self.x = sw // 2
