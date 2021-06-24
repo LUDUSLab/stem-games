@@ -10,6 +10,7 @@ class PlayerShip(object):
         self.x = sw // 2
         self.y = sh // 2
         self.angle = 0
+        self.a = 0
         self.rotate = pygame.transform.rotate(self.img, self.angle)
         self.rotateRect = self.rotate.get_rect()
         self.rotateRect.center = (self.x, self.y)
@@ -56,8 +57,8 @@ class PlayerShip(object):
             self.y = 0
 
     def acceleration(self):
-        self.x += self.player_cos * 0.8
-        self.y -= self.player_sin * 0.8
+        self.x += self.player_cos * self.a
+        self.y -= self.player_sin * self.a
         self.rotate = pygame.transform.rotate(self.img, self.angle)
         self.rotateRect = self.rotate.get_rect()
         self.rotateRect.center = (self.x, self.y)

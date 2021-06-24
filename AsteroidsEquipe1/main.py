@@ -109,8 +109,10 @@ while game_on:
             player.player_right()
         if keys[pygame.K_w]:
             player.move_up()
+            player.a += 0.01
         else:
             player.acceleration()
+        print(player.a)
 
         player.player_outside_screen()
 
@@ -127,7 +129,6 @@ while game_on:
                     # enemy_missile.append(EnemyMissile())
 
     screen.blit(hud.background, (0, 0))
-    # screen.fill(color_black)
 
     for i in player_missile:
         i.draw(screen)
