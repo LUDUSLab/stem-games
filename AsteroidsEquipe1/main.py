@@ -13,7 +13,7 @@ count = 0
 
 while game_on:
     game_clock.tick(60)
-    background_sound.play()
+    #background_sound.play()
     count += 1
 
     if count % 65 == 0:
@@ -28,14 +28,17 @@ while game_on:
             if (b.x >= a.x and b.x <= a.x + a.w) or b.x + b.w >= a.x and b.x + b.w <= a.x + a.w:
                 if (b.y >= a.y and b.y <= a.y + a.h) or b.y + b.h >= a.y and b.y + b.h <= a.y + a.h:
                     small_enemy.pop(i)
+                    player_ship_explosion_sound.play()
+                    hud.point += 1000
                     break
 
     for i, a in enumerate(big_enemy):
-
         for b in player_missile:
             if (b.x >= a.x and b.x <= a.x + a.w) or b.x + b.w >= a.x and b.x + b.w <= a.x + a.w:
                 if (b.y >= a.y and b.y <= a.y + a.h) or b.y + b.h >= a.y and b.y + b.h <= a.y + a.h:
                     big_enemy.pop(i)
+                    player_ship_explosion_sound.play()
+                    hud.point += 200
                     break
 
     for a in asteroids:
@@ -78,6 +81,8 @@ while game_on:
                         na2.y = a.y
                         asteroids.append(na1)
                         asteroids.append(na2)
+                        asteroids_explosion_sound.play()
+                        hud.point += 50
                     elif a.w == 32:
                         na1 = SmallAsteroids()
                         na2 = SmallAsteroids()
@@ -87,6 +92,8 @@ while game_on:
                         na2.y = a.y
                         asteroids.append(na1)
                         asteroids.append(na2)
+                        asteroids_explosion_sound.play()
+                        hud.point += 100
                     asteroids.pop(asteroids.index(a))
                     player_missile.pop(player_missile.index(b))
                     break
@@ -100,8 +107,9 @@ while game_on:
     for i in big_enemy:
         i.move()
 
+    hud.score_text = score_font.render(str(hud.point), True, color_white)
+
     if not game_over:
-        hud.live += 3
         keys = pygame.key.get_pressed()
         if keys[pygame.K_a]:
             player.player_left()
@@ -112,15 +120,12 @@ while game_on:
             player.a += 0.01
         else:
             player.acceleration()
-        print(player.a)
 
         player.player_outside_screen()
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             game_on = False
-            hud.live += 4
-
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
                 if not game_over:
