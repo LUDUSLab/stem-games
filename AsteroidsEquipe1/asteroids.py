@@ -3,25 +3,6 @@ from abc import ABC, abstractmethod
 from random import choice, randrange
 
 
-class FactoryAsteroids(ABC):
-    @abstractmethod
-    def create(self):
-        pass
-
-    @abstractmethod
-    def destroy(self):
-        pass
-
-
-class Factory(FactoryAsteroids):
-    @abstractmethod
-    def create(self):
-        pass
-
-    def destroy(self):
-        pass
-
-
 class Asteroids(ABC):
 
     @abstractmethod
@@ -70,8 +51,8 @@ class BigAsteroids(Asteroids):
 class MediumAsteroids(Asteroids):
 
     def __init__(self):
-        self.w = 32
-        self.h = 32
+        self.w = self.h = 32
+
         self._image = pygame.image.load("assets/asteroid_medium.png")
 
         self._speed_x = choice([1, 2, 3])
@@ -105,8 +86,8 @@ class MediumAsteroids(Asteroids):
 class SmallAsteroids(Asteroids):
 
     def __init__(self):
-        self.w = 16
-        self.h = 16
+        self.w = self.h = 16
+
         self._image = pygame.image.load("assets/asteroid_small.png")
 
         self._speed_x = choice([1, 2, 3])

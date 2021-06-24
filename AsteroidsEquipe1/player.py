@@ -64,10 +64,11 @@ class PlayerShip(object):
         self.head = (self.x + self.player_cos * self.w // 2, self.y - self.player_sin * self.h // 2)
 
     def destroy(self):
-        pass
+        self.x = sw // 2
+        self.y = sh // 2
 
     def draw(self, screen):
         screen.blit(self.rotate, self.rotateRect)
 
 
-playership = PlayerShip()
+player = PlayerShip()

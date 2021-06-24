@@ -30,6 +30,7 @@ while game_on:
                     break
 
     for i, a in enumerate(big_enemy):
+
         for b in player_missile:
             if (b.x >= a.x and b.x <= a.x + a.w) or b.x + b.w >= a.x and b.x + b.w <= a.x + a.w:
                 if (b.y >= a.y and b.y <= a.y + a.h) or b.y + b.h >= a.y and b.y + b.h <= a.y + a.h:
@@ -37,6 +38,32 @@ while game_on:
                     break
 
     for a in asteroids:
+        if (a.x >= player.x - player.w // 2 and a.x <= player.x + player.w // 2) or (
+                a.x + a.w <= player.x + player.w // 2 and a.x + a.w >= player.x - player.w // 2):
+            if (a.y >= player.y - player.h // 2 and a.y <= player.y + player.h // 2) or (
+                    a.y + a.h >= player.y - player.h // 2 and a.y + a.h <= player.y + player.h // 2):
+                asteroids.pop(asteroids.index(a))
+                player.destroy()
+                if a.w == 64:
+                    na1 = MediumAsteroids()
+                    na2 = MediumAsteroids()
+                    na1.x = a.x
+                    na2.x = a.x
+                    na1.y = a.y
+                    na2.y = a.y
+                    asteroids.append(na1)
+                    asteroids.append(na2)
+                elif a.w == 32:
+                    na1 = SmallAsteroids()
+                    na2 = SmallAsteroids()
+                    na1.x = a.x
+                    na2.x = a.x
+                    na1.y = a.y
+                    na2.y = a.y
+                    asteroids.append(na1)
+                    asteroids.append(na2)
+                break
+
         # bullet collision
         for b in player_missile:
             if (b.x >= a.x and b.x <= a.x + a.w) or b.x + b.w >= a.x and b.x + b.w <= a.x + a.w:
@@ -76,15 +103,15 @@ while game_on:
         hud.live += 3
         keys = pygame.key.get_pressed()
         if keys[pygame.K_a]:
-            playership.player_left()
+            player.player_left()
         if keys[pygame.K_d]:
-            playership.player_right()
+            player.player_right()
         if keys[pygame.K_w]:
-            playership.move_up()
+            player.move_up()
         else:
-            playership.acceleration()
+            player.acceleration()
 
-        playership.player_outside_screen()
+        player.player_outside_screen()
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -110,7 +137,7 @@ while game_on:
     for i in big_enemy:
         i.draw(screen)
 
-    playership.draw(screen)
+    player.draw(screen)
     hud.display_life(screen)
     hud.display_score(screen)
     pygame.display.update()
