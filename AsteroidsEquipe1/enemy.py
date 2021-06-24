@@ -1,3 +1,4 @@
+import pygame.transform
 from config import *
 from abc import ABC, abstractmethod
 import random
@@ -47,7 +48,8 @@ class EnemyShip(ABC):
 
 class SmallEnemyShip(EnemyShip):
     def __init__(self):
-        self.img = pygame.image.load("../AsteroidsEquipe1/assets/enemy_small.png")
+        self.img = pygame.image.load("../AsteroidsEquipe1/assets/enemy_small.png").convert_alpha()
+        self.img = pygame.transform.scale(self.img, [27, 27])
         self.w = self.img.get_width()
         self.h = self.img.get_height()
         self.x, self.y = random.choice([(random.randrange(0, sw - self.w), random.choice([-1 * self.h - 5, sh + 5])),
@@ -69,7 +71,8 @@ class SmallEnemyShip(EnemyShip):
 
 class BigEnemyShip(EnemyShip):
     def __init__(self):
-        self.img = pygame.image.load("../AsteroidsEquipe1/assets/enemy_big.png")
+        self.img = pygame.image.load("../AsteroidsEquipe1/assets/enemy_big.png").convert_alpha()
+        self.img = pygame.transform.scale(self.img, [64, 64])
         self.w = self.img.get_width()
         self.h = self.img.get_height()
         self.x, self.y = random.choice([(random.randrange(0, sw - self.w), random.choice([-1 * self.h - 5, sh + 5])),

@@ -62,7 +62,7 @@ class BigAsteroids(Asteroids):
 
     def __init__(self):
         self.w = self.h = 64
-        self._image = pygame.image.load("assets/asteroid_big.png")
+        self._image = pygame.image.load("assets/asteroid_big.png").convert_alpha()
 
         self._speed_x = choice([1, 2, 3])
         self._speed_y = choice([1, 2, 3])
@@ -97,7 +97,7 @@ class MediumAsteroids(Asteroids):
     def __init__(self):
         self.w = self.h = 32
 
-        self._image = pygame.image.load("assets/asteroid_medium.png")
+        self._image = pygame.image.load("assets/asteroid_medium.png").convert_alpha()
 
         self._speed_x = choice([1, 2, 3])
         self._speed_y = choice([1, 2, 3])
@@ -132,7 +132,7 @@ class SmallAsteroids(Asteroids):
     def __init__(self):
         self.w = self.h = 16
 
-        self._image = pygame.image.load("assets/asteroid_small.png")
+        self._image = pygame.image.load("assets/asteroid_small.png").convert_alpha()
 
         self._speed_x = choice([1, 2, 3])
         self._speed_y = choice([1, 2, 3])

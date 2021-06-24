@@ -4,7 +4,7 @@ from config import *
 
 class PlayerShip(object):
     def __init__(self):
-        self.img = pygame.image.load("../AsteroidsEquipe1/assets/player.png")
+        self.img = pygame.image.load("../AsteroidsEquipe1/assets/player.png").convert_alpha()
         self.w = self.img.get_width()
         self.h = self.img.get_height()
         self.x = sw // 2

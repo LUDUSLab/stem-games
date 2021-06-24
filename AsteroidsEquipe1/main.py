@@ -13,7 +13,7 @@ count = 0
 
 while game_on:
     game_clock.tick(60)
-    #background_sound.play()
+
     count += 1
 
     if count % 65 == 0:
@@ -25,8 +25,8 @@ while game_on:
 
     for i, a in enumerate(small_enemy):
         for b in player_missile:
-            if (b.x >= a.x and b.x <= a.x + a.w) or b.x + b.w >= a.x and b.x + b.w <= a.x + a.w:
-                if (b.y >= a.y and b.y <= a.y + a.h) or b.y + b.h >= a.y and b.y + b.h <= a.y + a.h:
+            if (a.x <= b.x <= a.x + a.w) or a.x <= b.x + b.w <= a.x + a.w:
+                if (a.y <= b.y <= a.y + a.h) or a.y <= b.y + b.h <= a.y + a.h:
                     small_enemy.pop(i)
                     player_ship_explosion_sound.play()
                     hud.point += 1000
@@ -34,18 +34,18 @@ while game_on:
 
     for i, a in enumerate(big_enemy):
         for b in player_missile:
-            if (b.x >= a.x and b.x <= a.x + a.w) or b.x + b.w >= a.x and b.x + b.w <= a.x + a.w:
-                if (b.y >= a.y and b.y <= a.y + a.h) or b.y + b.h >= a.y and b.y + b.h <= a.y + a.h:
+            if (a.x <= b.x <= a.x + a.w) or a.x <= b.x + b.w <= a.x + a.w:
+                if (a.y <= b.y <= a.y + a.h) or a.y <= b.y + b.h <= a.y + a.h:
                     big_enemy.pop(i)
                     player_ship_explosion_sound.play()
                     hud.point += 200
                     break
 
     for a in asteroids:
-        if (a.x >= player.x - player.w // 2 and a.x <= player.x + player.w // 2) or (
-                a.x + a.w <= player.x + player.w // 2 and a.x + a.w >= player.x - player.w // 2):
-            if (a.y >= player.y - player.h // 2 and a.y <= player.y + player.h // 2) or (
-                    a.y + a.h >= player.y - player.h // 2 and a.y + a.h <= player.y + player.h // 2):
+        if (player.x - player.w // 2 <= a.x <= player.x + player.w // 2) or (
+                player.x + player.w // 2 >= a.x + a.w >= player.x - player.w // 2):
+            if (player.y - player.h // 2 <= a.y <= player.y + player.h // 2) or (
+                    player.y - player.h // 2 <= a.y + a.h <= player.y + player.h // 2):
                 asteroids.pop(asteroids.index(a))
                 player.destroy()
                 if a.w == 64:
@@ -70,8 +70,8 @@ while game_on:
 
         # bullet collision
         for b in player_missile:
-            if (b.x >= a.x and b.x <= a.x + a.w) or b.x + b.w >= a.x and b.x + b.w <= a.x + a.w:
-                if (b.y >= a.y and b.y <= a.y + a.h) or b.y + b.h >= a.y and b.y + b.h <= a.y + a.h:
+            if (a.x <= b.x <= a.x + a.w) or a.x <= b.x + b.w <= a.x + a.w:
+                if (a.y <= b.y <= a.y + a.h) or a.y <= b.y + b.h <= a.y + a.h:
                     if a.w == 64:
                         na1 = MediumAsteroids()
                         na2 = MediumAsteroids()
@@ -122,9 +122,12 @@ while game_on:
         player.player_outside_screen()
 
     for event in pygame.event.get():
+        # background_sound.play()
         if event.type == pygame.QUIT:
             game_on = False
         if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
+                game_on = False
             if event.key == pygame.K_SPACE:
                 if not game_over:
                     player_missile.append(PlayerMissile())
