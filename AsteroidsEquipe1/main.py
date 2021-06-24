@@ -22,6 +22,33 @@ while game_on:
     if count % 1400 == 0:
         big_enemy.append(BigEnemyShip())
 
+    for a in asteroids:
+        # bullet collision
+        for b in player_missile:
+            if (b.x >= a.x and b.x <= a.x + a.w) or b.x + b.w >= a.x and b.x + b.w <= a.x + a.w:
+                if (b.y >= a.y and b.y <= a.y + a.h) or b.y + b.h >= a.y and b.y + b.h <= a.y + a.h:
+                    if a.w == 64:
+                        na1 = MediumAsteroids()
+                        na2 = MediumAsteroids()
+                        na1.x = a.x
+                        na2.x = a.x
+                        na1.y = a.y
+                        na2.y = a.y
+                        asteroids.append(na1)
+                        asteroids.append(na2)
+                    elif a.w == 32:
+                        na1 = SmallAsteroids()
+                        na2 = SmallAsteroids()
+                        na1.x = a.x
+                        na2.x = a.x
+                        na1.y = a.y
+                        na2.y = a.y
+                        asteroids.append(na1)
+                        asteroids.append(na2)
+                    asteroids.pop(asteroids.index(a))
+                    player_missile.pop(player_missile.index(b))
+                    break
+
     for i in asteroids:
         i.move()
     for i in player_missile:

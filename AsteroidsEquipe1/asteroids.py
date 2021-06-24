@@ -8,6 +8,16 @@ class FactoryAsteroids(ABC):
     def create(self):
         pass
 
+    @abstractmethod
+    def destroy(self):
+        pass
+
+
+class Factory(FactoryAsteroids):
+    @abstractmethod
+    def create(self):
+        pass
+
     def destroy(self):
         pass
 
@@ -26,108 +36,102 @@ class Asteroids(ABC):
 class BigAsteroids(Asteroids):
 
     def __init__(self):
-        self._w = self._h = 64
+        self.w = self.h = 64
         self._image = pygame.image.load("assets/asteroid_big.png")
 
         self._speed_x = choice([1, 2, 3])
         self._speed_y = choice([1, 2, 3])
 
-        self.ranPoint = choice([(randrange(0, sw - self._w), choice([-1 * self._h - 5, sh + 5])),
-                                (choice([-1 * self._w - 5, sw + 5]), randrange(0, sh - self._h))])
+        self.ranPoint = choice([(randrange(0, sw - self.w), choice([-1 * self.h - 5, sh + 5])),
+                                (choice([-1 * self.w - 5, sw + 5]), randrange(0, sh - self.h))])
 
-        self._x, self._y = self.ranPoint
+        self.x, self.y = self.ranPoint
 
-        if self._x < sw // 2:
+        if self.x < sw // 2:
             self.dir_x = 1
 
         else:
             self.dir_x = -1
 
-        if self._y < sh // 2:
+        if self.y < sh // 2:
             self.dir_y = 1
 
         else:
             self.dir_y = -1
 
     def move(self):
-        self._x += self.dir_x * self._speed_x
-        self._y += self.dir_y * self._speed_y
+        self.x += self.dir_x * self._speed_x
+        self.y += self.dir_y * self._speed_y
 
     def draw(self, screen):
-        screen.blit(self._image, (self._x, self._y))
+        screen.blit(self._image, (self.x, self.y))
 
 
 class MediumAsteroids(Asteroids):
 
     def __init__(self):
-        self._w = 32
-        self._h = 32
+        self.w = 32
+        self.h = 32
+        self._image = pygame.image.load("assets/asteroid_medium.png")
 
         self._speed_x = choice([1, 2, 3])
         self._speed_y = choice([1, 2, 3])
 
-        self.ranPoint = choice([(randrange(0, sw - self._w), choice([-1 * self._h - 5, sh + 5])),
-                                (choice([-1 * self._w - 5, sw + 5]), randrange(0, sh - self._h))])
+        self.ranPoint = choice([(randrange(0, sw - self.w), choice([-1 * self.h - 5, sh + 5])),
+                                (choice([-1 * self.w - 5, sw + 5]), randrange(0, sh - self.h))])
 
-        self._x, self._y = self.ranPoint
+        self.x, self.y = self.ranPoint
 
-        if self._x < sw // 2:
+        if self.x < sw // 2:
             self.dir_x = 1
 
         else:
             self.dir_x = -1
 
-        if self._y < sh // 2:
+        if self.y < sh // 2:
             self.dir_y = 1
 
         else:
             self.dir_y = -1
 
-        self._asteroids = [pygame.color.Color('white'), (self._x, self._y, self._w, self._h)]
-
     def move(self):
-        self._x += self.dir_x * self._speed_x
-        self._y += self.dir_y * self._speed_y
-
-        self._asteroids = [pygame.color.Color('white'), (self._x, self._y, self._w, self._h)]
+        self.x += self.dir_x * self._speed_x
+        self.y += self.dir_y * self._speed_y
 
     def draw(self, screen):
-        pygame.draw.rect(screen, self._asteroids[0], self._asteroids[1])
+        screen.blit(self._image, (self.x, self.y))
 
 
 class SmallAsteroids(Asteroids):
 
     def __init__(self):
-        self._w = 16
-        self._h = 16
+        self.w = 16
+        self.h = 16
+        self._image = pygame.image.load("assets/asteroid_small.png")
 
         self._speed_x = choice([1, 2, 3])
         self._speed_y = choice([1, 2, 3])
 
-        self.ranPoint = choice([(randrange(0, sw - self._w), choice([-1 * self._h - 5, sh + 5])),
-                                (choice([-1 * self._w - 5, sw + 5]), randrange(0, sh - self._h))])
+        self.ranPoint = choice([(randrange(0, sw - self.w), choice([-1 * self.h - 5, sh + 5])),
+                                (choice([-1 * self.w - 5, sw + 5]), randrange(0, sh - self.h))])
 
-        self._x, self._y = self.ranPoint
+        self.x, self.y = self.ranPoint
 
-        if self._x < sw // 2:
+        if self.x < sw // 2:
             self.dir_x = 1
 
         else:
             self.dir_x = -1
 
-        if self._y < sh // 2:
+        if self.y < sh // 2:
             self.dir_y = 1
 
         else:
             self.dir_y = -1
 
-        self._asteroids = [pygame.color.Color('white'), (self._x, self._y, self._w, self._h)]
-
     def move(self):
-        self._x += self.dir_x * self._speed_x
-        self._y += self.dir_y * self._speed_y
-
-        self._asteroids = [pygame.color.Color('white'), (self._x, self._y, self._w, self._h)]
+        self.x += self.dir_x * self._speed_x
+        self.y += self.dir_y * self._speed_y
 
     def draw(self, screen):
-        pygame.draw.rect(screen, self._asteroids[0], self._asteroids[1])
+        screen.blit(self._image, (self.x, self.y))
