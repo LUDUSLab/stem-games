@@ -13,6 +13,7 @@ count = 0
 
 while game_on:
     game_clock.tick(60)
+    background_sound.play()
     count += 1
 
     if count % 65 == 0:
