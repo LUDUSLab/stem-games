@@ -1,5 +1,6 @@
 import math
 from config import *
+from hud import *
 
 
 class PlayerShip(object):

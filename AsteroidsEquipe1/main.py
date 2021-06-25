@@ -28,6 +28,7 @@ while game_on:
             if (a.x <= b.x <= a.x + a.w) or a.x <= b.x + b.w <= a.x + a.w:
                 if (a.y <= b.y <= a.y + a.h) or a.y <= b.y + b.h <= a.y + a.h:
                     small_enemy.pop(i)
+                    hud.tam -= 1
                     player_ship_explosion_sound.play()
                     hud.point += 1000
                     break
@@ -37,6 +38,7 @@ while game_on:
             if (a.x <= b.x <= a.x + a.w) or a.x <= b.x + b.w <= a.x + a.w:
                 if (a.y <= b.y <= a.y + a.h) or a.y <= b.y + b.h <= a.y + a.h:
                     big_enemy.pop(i)
+                    hud.tam -= 1
                     player_ship_explosion_sound.play()
                     hud.point += 200
                     break
@@ -48,6 +50,7 @@ while game_on:
                     player.y - player.h // 2 <= a.y + a.h <= player.y + player.h // 2):
                 asteroids.pop(asteroids.index(a))
                 player.destroy()
+                hud.tam -= 1
                 if a.w == 64:
                     na1 = MediumAsteroids()
                     na2 = MediumAsteroids()
