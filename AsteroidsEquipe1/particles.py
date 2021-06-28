@@ -1,8 +1,10 @@
-from config import *
+import pygame
 import math
+from config import color_white
 
 
-class PlayerMissile(object):
+class Bullet(object):
+
     def __init__(self, head, cos, sin):
         self.point = head
         self.x, self.y = self.point
@@ -32,6 +34,3 @@ class PlayerMissile(object):
     # def move(self):
         # self.xv += self.dx * 5
         # self.yv -= self.dy * 5
-
-    # def draw(self, screen):
-        # pygame.draw.rect(screen, color_white, [self.x, self.y, self.w, self.h])

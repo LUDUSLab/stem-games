@@ -10,6 +10,9 @@ from renderer import *
 class GameAsteroids(object):
 
     __ON = True
+    __start = True
+    __gameOver = True
+
     __time = 0
     __keys = pygame.key.get_pressed()
 
@@ -19,7 +22,7 @@ class GameAsteroids(object):
         self.smallAlien = []
         self.bigAlien = []
 
-        self.player = PlayerShip()
+        self.player = Player()
 
         self.factoryAsteroids = FactoryAsteroids()
         self.factoryAliens = FactoryAliens()
@@ -32,6 +35,17 @@ class GameAsteroids(object):
 
         pygame.init()
 
+        while self.__start:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    self.__ON = False
+
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_RETURN:
+                        self.__start = False
+
+            self.renderer.start()
+
         while self.__ON:
             game_clock.tick(60)
 
@@ -41,14 +55,14 @@ class GameAsteroids(object):
 
             if self.hud.size >= 1:
                 if self.__keys[pygame.K_a]:
-                    self.player.player_left()
+                    self.player.left()
 
                 if self.__keys[pygame.K_d]:
-                    self.player.player_right()
+                    self.player.right()
 
                 if self.__keys[pygame.K_w]:
                     self.player.acceleration()
-                    self.player.move_up()
+                    self.player.forward()
 
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
@@ -56,7 +70,7 @@ class GameAsteroids(object):
 
                     if event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_SPACE:
-                            self.bullets.append(PlayerMissile(self.player.head, self.player.cos, self.player.sin))
+                            self.bullets.append(Bullet(self.player.head, self.player.cos, self.player.sin))
                             shoot_sound.play()
 
                 self.__time += 1
@@ -76,8 +90,16 @@ class GameAsteroids(object):
                                       self.hud.position)
 
             else:
-                self.__ON = False
-                print("ending! ! !")
+                while self.__gameOver:
+                    for event in pygame.event.get():
+                        if event.type == pygame.QUIT:
+                            self.__ON = False
+
+                        if event.type == pygame.KEYDOWN:
+                            if event.key == pygame.K_RETURN:
+                                self.__start = False
+                    
+                    self.renderer.game_over()
 
         pygame.quit()
 
@@ -177,7 +199,7 @@ class GameAsteroids(object):
         for alien in self.bigAlien:
             alien.move()
 
-        self.player.player_outside_screen()
+        self.player.outside()
 
 
 game = GameAsteroids()

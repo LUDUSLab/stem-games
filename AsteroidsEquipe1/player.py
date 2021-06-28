@@ -3,7 +3,7 @@ from config import *
 from hud import *
 
 
-class PlayerShip(object):
+class Player(object):
     def __init__(self):
         self.img = pygame.image.load("../AsteroidsEquipe1/assets/player.png").convert_alpha()
         self.w = self.img.get_width()
@@ -19,7 +19,7 @@ class PlayerShip(object):
         self.sin = math.sin(math.radians(self.angle + 90))
         self.head = (self.x + self.cos * self.w // 2, self.y - self.sin * self.h // 2)
 
-    def player_left(self):
+    def left(self):
         self.angle += 5
         self.rotate = pygame.transform.rotate(self.img, self.angle)
         self.rotateRect = self.rotate.get_rect()
@@ -28,7 +28,7 @@ class PlayerShip(object):
         self.sin = math.sin(math.radians(self.angle + 90))
         self.head = (self.x + self.cos * self.w // 2, self.y - self.sin * self.h // 2)
 
-    def player_right(self):
+    def right(self):
         self.angle -= 5
         self.rotate = pygame.transform.rotate(self.img, self.angle)
         self.rotateRect = self.rotate.get_rect()
@@ -37,7 +37,7 @@ class PlayerShip(object):
         self.sin = math.sin(math.radians(self.angle + 90))
         self.head = (self.x + self.cos * self.w // 2, self.y - self.sin * self.h // 2)
 
-    def move_up(self):
+    def forward(self):
         self.x += self.cos * self.a
         self.y -= self.sin * self.a
         self.rotate = pygame.transform.rotate(self.img, self.angle)
@@ -47,7 +47,7 @@ class PlayerShip(object):
         self.sin = math.sin(math.radians(self.angle + 90))
         self.head = (self.x + self.cos * self.w // 2, self.y - self.sin * self.h // 2)
 
-    def player_outside_screen(self):
+    def outside(self):
         if self.x > sw + 50:
             self.x = 0
         elif self.x < -self.w:

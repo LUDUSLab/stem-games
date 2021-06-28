@@ -1,4 +1,5 @@
-from config import *
+import pygame
+from config import sw, sh
 from abc import ABC, abstractmethod
 from random import choice, randrange
 
