@@ -21,3 +21,4 @@ class Hud(object):
 
         for i in range(0, self._tam):
             screen.blit(self._life_sprite, self._life[i])
+

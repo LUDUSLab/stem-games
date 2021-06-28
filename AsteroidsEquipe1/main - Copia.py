@@ -66,16 +66,20 @@ class GameAsteroids(object):
 
                 for index, alien in enumerate(self.smallAlien):
                     if (self.player.x - self.player.w // 2 <= alien.x <= self.player.x + self.player.w // 2) or (
-                            self.player.x + self.player.w // 2 >= alien.x + alien.w >= self.player.x - self.player.w // 2):
+                            self.player.x + self.player.w // 2
+                            >= alien.x + alien.w >= self.player.x - self.player.w // 2):
                         if (self.player.y - self.player.h // 2 <= alien.y <= self.player.y + self.player.h // 2) or (
-                                self.player.y - self.player.h // 2 <= alien.y + alien.h <= self.player.y + self.player.h // 2):
+                                self.player.y - self.player.h // 2 <=
+                                alien.y + alien.h <= self.player.y + self.player.h // 2):
                             self.factoryAliens.destroy(self.smallAlien, index)
                             self.player.destroy()
                             break
 
                     for bullets in self.bullets:
-                        if (alien.x <= bullets.x <= alien.x + alien.w) or alien.x <= bullets.x + bullets.w <= alien.x + alien.w:
-                            if (alien.y <= bullets.y <= alien.y + alien.h) or alien.y <= bullets.y + bullets.h <= alien.y + alien.h:
+                        if (alien.x <= bullets.x <= alien.x + alien.w) or\
+                                alien.x <= bullets.x + bullets.w <= alien.x + alien.w:
+                            if (alien.y <= bullets.y <= alien.y + alien.h) or\
+                                    alien.y <= bullets.y + bullets.h <= alien.y + alien.h:
                                 self.factoryAliens.destroy(self.smallAlien, index)
                                 self.bullets.pop(self.bullets.index(bullets))
                                 player_ship_explosion_sound.play()
@@ -83,34 +87,43 @@ class GameAsteroids(object):
 
                 for index, alien in enumerate(self.bigAlien):
                     if (self.player.x - self.player.w // 2 <= alien.x <= self.player.x + self.player.w // 2) or (
-                            self.player.x + self.player.w // 2 >= alien.x + alien.w >= self.player.x - self.player.w // 2):
+                            self.player.x + self.player.w // 2 >=
+                            alien.x + alien.w >= self.player.x - self.player.w // 2):
                         if (self.player.y - self.player.h // 2 <= alien.y <= self.player.y + self.player.h // 2) or (
-                                self.player.y - self.player.h // 2 <= alien.y + alien.h <= self.player.y + self.player.h // 2):
+                                self.player.y - self.player.h // 2 <= alien.y + alien.h <=
+                                self.player.y + self.player.h // 2):
                             self.factoryAliens.destroy(self.bigAlien, index)
                             self.player.destroy()
                             break
 
                     for bullets in self.bullets:
-                        if (alien.x <= bullets.x <= alien.x + alien.w) or alien.x <= bullets.x + bullets.w <= alien.x + alien.w:
-                            if (alien.y <= bullets.y <= alien.y + alien.h) or alien.y <= bullets.y + bullets.h <= alien.y + alien.h:
+                        if (alien.x <= bullets.x <= alien.x + alien.w) or\
+                                alien.x <= bullets.x + bullets.w <= alien.x + alien.w:
+                            if (alien.y <= bullets.y <= alien.y + alien.h) or\
+                                    alien.y <= bullets.y + bullets.h <= alien.y + alien.h:
                                 self.factoryAliens.destroy(self.bigAlien, index)
                                 self.bullets.pop(self.bullets.index(bullets))
                                 player_ship_explosion_sound.play()
                                 break
 
                 for asteroid in self.asteroids:
-                    if (self.player.x - self.player.w // 2 <= asteroid.x <= self.player.x + self.player.w // 2) or (
-                            self.player.x + self.player.w // 2 >= asteroid.x + asteroid.w >= self.player.x - self.player.w // 2):
+                    if (self.player.x - self.player.w // 2 <= asteroid.x
+                        <= self.player.x + self.player.w // 2) or (
+                            self.player.x + self.player.w // 2 >=
+                            asteroid.x + asteroid.w >= self.player.x - self.player.w // 2):
                         if (self.player.y - self.player.h // 2 <= asteroid.y <= self.player.y + self.player.h // 2) or (
-                                self.player.y - self.player.h // 2 <= asteroid.y + asteroid.h <= self.player.y + self.player.h // 2):
+                                self.player.y - self.player.h // 2 <= asteroid.y + asteroid.h
+                                <= self.player.y + self.player.h // 2):
                             self.factoryAsteroids.destroy(self.asteroids, asteroid)
                             self.player.destroy()
                             break
 
                     # bullet collision
                     for bullets in self.bullets:
-                        if (asteroid.x <= bullets.x <= asteroid.x + asteroid.w) or asteroid.x <= bullets.x + bullets.w <= asteroid.x + asteroid.w:
-                            if (asteroid.y <= bullets.y <= asteroid.y + asteroid.h) or asteroid.y <= bullets.y + bullets.h <= asteroid.y + asteroid.h:
+                        if (asteroid.x <= bullets.x <= asteroid.x + asteroid.w) or\
+                                asteroid.x <= bullets.x + bullets.w <= asteroid.x + asteroid.w:
+                            if (asteroid.y <= bullets.y <= asteroid.y + asteroid.h) or\
+                                    asteroid.y <= bullets.y + bullets.h <= asteroid.y + asteroid.h:
 
                                 self.factoryAsteroids.crack(self.asteroids, asteroid)
 
