@@ -1,4 +1,4 @@
-from config import screen, background, font, sw, sh
+from config import screen, background, sw, sh
 import pygame
 
 
@@ -9,8 +9,9 @@ class Renderer(object):
         screen.blit(image, position)
 
     @staticmethod
-    def write(string):
-        return font.render(f"{string}", True,  (255, 255, 255))
+    def write(string, font_size):
+        font = pygame.font.Font('../AsteroidsEquipe1/assets/ThinPixel7-1Yq0.ttf', font_size)
+        return font.render(f"{string}", True, (255, 255, 255))
 
     @staticmethod
     def display(asteroids, bullets, smallAlien, bigAlien, player, score, position):
@@ -30,11 +31,13 @@ class Renderer(object):
 
         Renderer.draw(player.rotate, player.rotateRect)
 
-        Renderer.draw(Renderer.write(score), (0, 0))
+        Renderer.draw(Renderer.write(score, 80), (70, -20))
 
         for lives in position:
             Renderer.draw(player.img, lives)
 
-        Renderer.draw(Renderer.write("ASTEROIDSTEAM1 POWERED BY ©2021 STEM-GAMES"), (0, sh - 80))
+        Renderer.draw(Renderer.write("PRESS ENTER TO START", 55), (460, 200))
+        Renderer.draw(Renderer.write("| COIN | PLAY", 55), (525, 550))
+        Renderer.draw(Renderer.write("ASTEROIDSTEAM1 POWERED BY ©2021 STEM-GAMES", 40), (385, 640))
 
         pygame.display.update()
