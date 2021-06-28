@@ -1,34 +1,36 @@
-import pygame.image
 from config import *
 
 
 class Hud(object):
     def __init__(self):
-        self.colors = ['color_black', 'color_white']
-        self.life_sprite = pygame.image.load('../AsteroidsEquipe1/assets/player.png').convert_alpha()
-        self.background = pygame.image.load('../AsteroidsEquipe1/assets/space1.png').convert_alpha()
-        self.life_sprite = pygame.transform.scale(self.life_sprite, (30, 30))
-        self.life = [(67, 50), (97, 50), (127, 50)]
-        self.tam = len(self.life)
-        self.point = 9900
-        self.p = 10000
-        self.score_text = score_font.render(str(self.point), True, color_white)
-        self.score_rect = self.score_text.get_rect()
-        self.score_rect.center = (77, 25)
-        self.play = play_font.render('| COIN | PLAY', True, color_white)
-        self.credits = credits_font.render('ASTEROIDSTEAM1 POWERED BY ©2021 STEM-GAMES', True, color_white)
+        self._life_sprite = pygame.image.load('../AsteroidsEquipe1/assets/player.png').convert_alpha()
+        self._background = pygame.image.load('../AsteroidsEquipe1/assets/space1.png').convert_alpha()
+        self._life_sprite = pygame.transform.scale(self._life_sprite, (30, 30))
+        self._life = [(67, 50), (97, 50), (127, 50)]
+        self._tam = len(self._life)
+        self._point = 0
+        self._p = 10000
+        self._score_text = score_font.render(str(self._point), True, color_white)
+        self._score_rect = self._score_text.get_rect()
+        self._score_rect.center = (77, 25)
+        self._credits = credits_font.render('ASTEROIDSTEAM1 POWERED BY ©2021 STEM-GAMES', True, color_white)
 
-    def display_life(self, screen):
-        if self.point >= self.p:
-            self.p += 10000
-            self.life.append((self.life[-1][0] + 30, 50))
-        for i in range(0, self.tam):
-            screen.blit(self.life_sprite, self.life[i])
+    @property
+    def point(self):
+        return self._point
+
+    def adding_life(self, screen):
+        if self._point >= self._p:
+            self._life.append((self._life[-1][0] + 30, self._life[-1][1]))
+            self._tam = len(self._life)
+            self._p += 10000
+
+        for i in range(0, self._tam):
+            screen.blit(self._life_sprite, self._life[i])
 
     def display_score(self, screen):
-        screen.blit(self.score_text, self.score_rect)
-        screen.blit(self.credits, (385, 640))
-        screen.blit(self.play, (525, 550))
+        screen.blit(self._score_text, self._score_rect)
+        screen.blit(self._credits, (385, 640))
 
 
 hud = Hud()

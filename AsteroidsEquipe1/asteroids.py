@@ -6,44 +6,45 @@ from random import choice, randrange
 class Factory(ABC):
 
     @abstractmethod
-    def create(self):
+    def create(self, asteroids, time):
         pass
 
-    def crack(self, asteroid):
+    def crack(self, asteroid, position):
         pass
 
     @abstractmethod
-    def destroy(self, position):
+    def destroy(self, asteroids, position):
         pass
 
 
 class FactoryAsteroids(Factory):
 
-    def create(self):
-        asteroids.append(BigAsteroids())
+    def create(self, asteroids, time):
+        if time % 65 == 0:
+            asteroids.append(BigAsteroids())
 
-    def crack(self, asteroid):
-        if asteroid.w == 64:
+    def crack(self, asteroids, position):
+        if position.w == 64:
             asteroid_temporary1 = MediumAsteroids()
             asteroid_temporary2 = MediumAsteroids()
 
-            asteroid_temporary1.x = asteroid_temporary2.x = asteroid.x
-            asteroid_temporary1.y = asteroid_temporary2.y = asteroid.y
+            asteroid_temporary1.x = asteroid_temporary2.x = position.x
+            asteroid_temporary1.y = asteroid_temporary2.y = position.y
 
-            asteroids.append(asteoridTemporary1)
-            asteroids.append(asteoridTemporary2)
+            asteroids.append(asteroid_temporary1)
+            asteroids.append(asteroid_temporary2)
 
-        elif asteroid.w == 32:
+        elif position.w == 32:
             asteroid_temporary1 = SmallAsteroids()
             asteroid_temporary2 = SmallAsteroids()
 
-            asteroid_temporary1.x = asteroid_temporary2.x = asteroid.x
-            asteroid_temporary1.y = asteroid_temporary2.y = asteroid.y
+            asteroid_temporary1.x = asteroid_temporary2.x = position.x
+            asteroid_temporary1.y = asteroid_temporary2.y = position.y
 
-            asteroids.append(asteoridTemporary1)
-            asteroids.append(asteoridTemporary2)
+            asteroids.append(asteroid_temporary1)
+            asteroids.append(asteroid_temporary2)
 
-    def destroy(self, position):
+    def destroy(self, asteroids, position):
         asteroids.pop(asteroids.index(position))
 
 
@@ -67,10 +68,10 @@ class BigAsteroids(Asteroids):
         self._speed_x = choice([1, 2, 3])
         self._speed_y = choice([1, 2, 3])
 
-        self.ranPoint = choice([(randrange(0, sw - self.w), choice([-1 * self.h - 5, sh + 5])),
+        self._ranPoint = choice([(randrange(0, sw - self.w), choice([-1 * self.h - 5, sh + 5])),
                                 (choice([-1 * self.w - 5, sw + 5]), randrange(0, sh - self.h))])
 
-        self.x, self.y = self.ranPoint
+        self.x, self.y = self._ranPoint
 
         if self.x < sw // 2:
             self.dir_x = 1

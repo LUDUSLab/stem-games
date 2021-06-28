@@ -7,32 +7,32 @@ import random
 class Factory(ABC):
 
     @abstractmethod
-    def create(self, time):
+    def create(self, small, big, time):
         pass
 
     @abstractmethod
-    def destroy(self, position):
+    def destroy(self, small, big, position):
         pass
 
 
-class FactoryEnemy(Factory):
+class FactoryAliens(Factory):
 
-    def create(self, time):
-        if time % 200 == 0:
-            small_enemy.append(SmallEnemyShip)
+    def create(self, small, big, time):
+        if time % 10 == 0:
+            small.append(SmallAlien())
 
         if time % 400 == 0:
-            big_enemy.append(BigEnemyShip)
+            big.append(BigAlien())
 
-    def destroy(self, position):
-        if position.w == 32:
-            small_enemy.pop(position)
+    def destroy(self, small, big, position):
+        if small[position].w == 32:
+            small.pop(position)
 
-        if position.w == 100:
-            big_enemy.pop(position)
+        if big[position].w == 100:
+            big.pop(position)
 
 
-class EnemyShip(ABC):
+class AlienShip(ABC):
     @abstractmethod
     def move(self):
         pass
@@ -46,7 +46,7 @@ class EnemyShip(ABC):
         pass
 
 
-class SmallEnemyShip(EnemyShip):
+class SmallAlien(AlienShip):
     def __init__(self):
         self.img = pygame.image.load("../AsteroidsEquipe1/assets/enemy_small.png").convert_alpha()
         self.img = pygame.transform.scale(self.img, [27, 27])
@@ -69,7 +69,7 @@ class SmallEnemyShip(EnemyShip):
         screen.blit(self.img, (self.x, self.y))
 
 
-class BigEnemyShip(EnemyShip):
+class BigAlien(AlienShip):
     def __init__(self):
         self.img = pygame.image.load("../AsteroidsEquipe1/assets/enemy_big.png").convert_alpha()
         self.img = pygame.transform.scale(self.img, [64, 64])

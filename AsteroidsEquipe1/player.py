@@ -15,37 +15,37 @@ class PlayerShip(object):
         self.rotate = pygame.transform.rotate(self.img, self.angle)
         self.rotateRect = self.rotate.get_rect()
         self.rotateRect.center = (self.x, self.y)
-        self.player_cos = math.cos(math.radians(self.angle + 90))
-        self.player_sin = math.sin(math.radians(self.angle + 90))
-        self.head = (self.x + self.player_cos * self.w // 2, self.y - self.player_sin * self.h // 2)
+        self.cos = math.cos(math.radians(self.angle + 90))
+        self.sin = math.sin(math.radians(self.angle + 90))
+        self.head = (self.x + self.cos * self.w // 2, self.y - self.sin * self.h // 2)
 
     def player_left(self):
         self.angle += 5
         self.rotate = pygame.transform.rotate(self.img, self.angle)
         self.rotateRect = self.rotate.get_rect()
         self.rotateRect.center = (self.x, self.y)
-        self.player_cos = math.cos(math.radians(self.angle + 90))
-        self.player_sin = math.sin(math.radians(self.angle + 90))
-        self.head = (self.x + self.player_cos * self.w // 2, self.y - self.player_sin * self.h // 2)
+        self.cos = math.cos(math.radians(self.angle + 90))
+        self.sin = math.sin(math.radians(self.angle + 90))
+        self.head = (self.x + self.cos * self.w // 2, self.y - self.sin * self.h // 2)
 
     def player_right(self):
         self.angle -= 5
         self.rotate = pygame.transform.rotate(self.img, self.angle)
         self.rotateRect = self.rotate.get_rect()
         self.rotateRect.center = (self.x, self.y)
-        self.player_cos = math.cos(math.radians(self.angle + 90))
-        self.player_sin = math.sin(math.radians(self.angle + 90))
-        self.head = (self.x + self.player_cos * self.w // 2, self.y - self.player_sin * self.h // 2)
+        self.cos = math.cos(math.radians(self.angle + 90))
+        self.sin = math.sin(math.radians(self.angle + 90))
+        self.head = (self.x + self.cos * self.w // 2, self.y - self.sin * self.h // 2)
 
     def move_up(self):
-        self.x += self.player_cos * self.a
-        self.y -= self.player_sin * self.a
+        self.x += self.cos * self.a
+        self.y -= self.sin * self.a
         self.rotate = pygame.transform.rotate(self.img, self.angle)
         self.rotateRect = self.rotate.get_rect()
         self.rotateRect.center = (self.x, self.y)
-        self.player_cos = math.cos(math.radians(self.angle + 90))
-        self.player_sin = math.sin(math.radians(self.angle + 90))
-        self.head = (self.x + self.player_cos * self.w // 2, self.y - self.player_sin * self.h // 2)
+        self.cos = math.cos(math.radians(self.angle + 90))
+        self.sin = math.sin(math.radians(self.angle + 90))
+        self.head = (self.x + self.cos * self.w // 2, self.y - self.sin * self.h // 2)
 
     def player_outside_screen(self):
         if self.x > sw + 50:
@@ -77,6 +77,3 @@ class PlayerShip(object):
 
     def draw(self, screen):
         screen.blit(self.rotate, self.rotateRect)
-
-
-player = PlayerShip()

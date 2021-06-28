@@ -1,15 +1,14 @@
 import player
 from config import *
-from player import player
 import math
 
 
 class PlayerMissile(object):
-    def __init__(self):
-        self.point = player.head
+    def __init__(self, head, cos, sin):
+        self.point = head
         self.x, self.y = self.point
         self.w, self.h = 4, 4
-        self.c, self.s = player.player_cos, player.player_sin
+        self.c, self.s = cos, sin
         self.xv, self.yv = self.c * 10, self.s * 10
 
     def move(self):
