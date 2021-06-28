@@ -20,7 +20,7 @@ class Factory(ABC):
 class FactoryAsteroids(Factory):
 
     def create(self, asteroids, time):
-        if time % 65 == 0:
+        if time % 30 == 0:
             asteroids.append(BigAsteroids())
 
     def crack(self, asteroids, position):

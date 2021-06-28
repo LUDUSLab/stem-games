@@ -7,9 +7,8 @@ sw, sh = 1280, 720
 screen = pygame.display.set_mode((sw, sh))
 pygame.display.set_caption("Asteroids")
 
-score_font = pygame.font.Font('../AsteroidsEquipe1/assets/ThinPixel7-1Yq0.ttf', 80)
-credits_font = pygame.font.Font('../AsteroidsEquipe1/assets/ThinPixel7-1Yq0.ttf', 40)
-play_font = pygame.font.Font('../AsteroidsEquipe1/assets/ThinPixel7-1Yq0.ttf', 55)
+font = pygame.font.Font('../AsteroidsEquipe1/assets/ThinPixel7-1Yq0.ttf', 80)
+
 background = pygame.image.load("../AsteroidsEquipe1/assets/space1.png").convert_alpha()
 
 shoot_sound = pygame.mixer.Sound('../AsteroidsEquipe1/assets/391660__jeckkech__projectile.wav')

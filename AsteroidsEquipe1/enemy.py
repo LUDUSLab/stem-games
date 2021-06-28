@@ -18,10 +18,10 @@ class Factory(ABC):
 class FactoryAliens(Factory):
 
     def create(self, small, big, time):
-        if time % 100 == 0:
+        if time % 200 == 0:
             big.append(BigAlien())
 
-        if time % 200 == 0:
+        if time % 400 == 0:
             small.append(SmallAlien())
 
     def destroy(self, alien, position):
