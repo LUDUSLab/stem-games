@@ -1,16 +1,29 @@
+from config import screen, background
 import pygame
 
 
 class Renderer(object):
 
     @staticmethod
-    def draw(screen, image, position):
+    def draw(image, position):
         screen.blit(image, position)
 
     @staticmethod
-    def display(screen, asteroids):
+    def display(asteroids, bullets, smallAlien, bigAlien, player):
+        Renderer.draw(background, (0, 0))
 
         for asteroid in asteroids:
-            asteroid.draw(screen, asteroid._image, (asteroid.x, asteroid.y))
+            Renderer.draw(asteroid._image, (asteroid.x, asteroid.y))
+
+        for bullet in bullets:
+            Renderer.draw(bullet.rect, (bullet.x, bullet.y))
+
+        for alien in smallAlien:
+            Renderer.draw(alien.img, (alien.x, alien.y))
+
+        for alien in bigAlien:
+            Renderer.draw(alien.img, (alien.x, alien.y))
+
+        Renderer.draw(player.rotate, player.rotateRect)
 
         pygame.display.update()

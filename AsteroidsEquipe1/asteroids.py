@@ -54,10 +54,6 @@ class Asteroids(ABC):
     def move(self):
         pass
 
-    @abstractmethod
-    def draw(self, screen):
-        pass
-
 
 class BigAsteroids(Asteroids):
 
@@ -88,9 +84,6 @@ class BigAsteroids(Asteroids):
     def move(self):
         self.x += self.dir_x * self._speed_x
         self.y += self.dir_y * self._speed_y
-
-    def draw(self, screen):
-        screen.blit(self._image, (self.x, self.y))
 
 
 class MediumAsteroids(Asteroids):
@@ -158,6 +151,3 @@ class SmallAsteroids(Asteroids):
     def move(self):
         self.x += self.dir_x * self._speed_x
         self.y += self.dir_y * self._speed_y
-
-    def draw(self, screen):
-        screen.blit(self._image, (self.x, self.y))

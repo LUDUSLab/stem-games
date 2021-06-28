@@ -74,6 +74,3 @@ class PlayerShip(object):
     def destroy(self):
         self.x = sw // 2
         self.y = sh // 2
-
-    def draw(self, screen):
-        screen.blit(self.rotate, self.rotateRect)

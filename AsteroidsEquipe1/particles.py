@@ -1,4 +1,3 @@
-import player
 from config import *
 import math
 
@@ -11,12 +10,12 @@ class PlayerMissile(object):
         self.c, self.s = cos, sin
         self.xv, self.yv = self.c * 10, self.s * 10
 
+        self.rect = pygame.Surface((self.w, self.h))
+        self.rect.fill(color_white)
+
     def move(self):
         self.x += self.xv
         self.y -= self.yv
-
-    def draw(self, screen):
-        pygame.draw.rect(screen, color_white, [self.x, self.y, self.w, self.h])
 
 
 # class EnemyMissile(object):

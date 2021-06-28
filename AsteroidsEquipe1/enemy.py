@@ -11,25 +11,21 @@ class Factory(ABC):
         pass
 
     @abstractmethod
-    def destroy(self, small, big, position):
+    def destroy(self, alien, position):
         pass
 
 
 class FactoryAliens(Factory):
 
     def create(self, small, big, time):
-        if time % 10 == 0:
-            small.append(SmallAlien())
-
-        if time % 400 == 0:
+        if time % 100 == 0:
             big.append(BigAlien())
 
-    def destroy(self, small, big, position):
-        if small[position].w == 32:
-            small.pop(position)
+        if time % 200 == 0:
+            small.append(SmallAlien())
 
-        if big[position].w == 100:
-            big.pop(position)
+    def destroy(self, alien, position):
+        alien.pop(position)
 
 
 class AlienShip(ABC):
@@ -39,10 +35,6 @@ class AlienShip(ABC):
 
     @abstractmethod
     def shoot(self):
-        pass
-
-    @abstractmethod
-    def draw(self, screen):
         pass
 
 
@@ -65,9 +57,6 @@ class SmallAlien(AlienShip):
     def shoot(self):
         pass
 
-    def draw(self, screen):
-        screen.blit(self.img, (self.x, self.y))
-
 
 class BigAlien(AlienShip):
     def __init__(self):
@@ -88,6 +77,3 @@ class BigAlien(AlienShip):
 
     def shoot(self):
         pass
-
-    def draw(self, screen):
-        screen.blit(self.img, (self.x, self.y))

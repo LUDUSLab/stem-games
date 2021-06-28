@@ -10,7 +10,9 @@ from renderer import *
 class GameAsteroids(object):
 
     __ON = True
+    __run = True
     __time = 0
+    __keys = pygame.key.get_pressed()
 
     def __init__(self):
         self.asteroids = []
@@ -32,108 +34,113 @@ class GameAsteroids(object):
         pygame.init()
 
         while self.__ON:
-            game_clock.tick(60)
 
-            self.__time += 1
+            self.__keys = pygame.key.get_pressed()
 
-            self.factoryAsteroids.create(self.asteroids, self.__time)
-            self.factoryAliens.create(self.smallAlien, self.bigAlien, self.__time)
-
-            for i, asteroid in enumerate(self.smallAlien):
-                for bullets in self.bullets:
-                    if (asteroid.x <= bullets.x <= asteroid.x + asteroid.w) or asteroid.x <= bullets.x + bullets.w <= asteroid.x + asteroid.w:
-                        if (asteroid.y <= bullets.y <= asteroid.y + asteroid.h) or asteroid.y <= bullets.y + bullets.h <= asteroid.y + asteroid.h:
-                            self.smallAlien.pop(i)
-                            player_ship_explosion_sound.play()
-                            self.hud._point += 1000
-                            break
-
-            for i, asteroid in enumerate(self.bigAlien):
-                for bullets in self.bullets:
-                    if (asteroid.x <= bullets.x <= asteroid.x + asteroid.w) or asteroid.x <= bullets.x + bullets.w <= asteroid.x + asteroid.w:
-                        if (asteroid.y <= bullets.y <= asteroid.y + asteroid.h) or asteroid.y <= bullets.y + bullets.h <= asteroid.y + asteroid.h:
-                            self.bigAlien.pop(i)
-                            player_ship_explosion_sound.play()
-                            hud._point += 200
-                            break
-
-            for asteroid in self.asteroids:
-                if (self.player.x - self.player.w // 2 <= asteroid.x <= self.player.x + self.player.w // 2) or (
-                        self.player.x + self.player.w // 2 >= asteroid.x + asteroid.w >= self.player.x - self.player.w // 2):
-                    if (self.player.y - self.player.h // 2 <= asteroid.y <= self.player.y + self.player.h // 2) or (
-                            self.player.y - self.player.h // 2 <= asteroid.y + asteroid.h <= self.player.y + self.player.h // 2):
-                        self.factoryAsteroids.destroy(self.asteroids, asteroid)
-                        self.player.destroy()
-                        break
-
-                # bullet collision
-                for bullets in self.bullets:
-                    if (asteroid.x <= bullets.x <= asteroid.x + asteroid.w) or asteroid.x <= bullets.x + bullets.w <= asteroid.x + asteroid.w:
-                        if (asteroid.y <= bullets.y <= asteroid.y + asteroid.h) or asteroid.y <= bullets.y + bullets.h <= asteroid.y + asteroid.h:
-
-                            self.factoryAsteroids.crack(self.asteroids, asteroid)
-
-                            self.factoryAsteroids.destroy(self.asteroids, asteroid)
-                            self.bullets.pop(self.bullets.index(bullets))
-                            break
-
-            for i in self.asteroids:
-                i.move()
-            for i in self.bullets:
-                i.move()
-            for i in self.smallAlien:
-                i.move()
-            for i in self.bigAlien:
-                i.move()
-
-            hud.score_text = score_font.render(str(hud._point), True, color_white)
-
-            if not game_over:
-                keys = pygame.key.get_pressed()
-                if keys[pygame.K_a]:
+            if self.__run:
+                if self.__keys[pygame.K_a]:
                     self.player.player_left()
-                if keys[pygame.K_d]:
+
+                if self.__keys[pygame.K_d]:
                     self.player.player_right()
-                if keys[pygame.K_w]:
+
+                if self.__keys[pygame.K_w]:
                     self.player.acceleration()
                     self.player.move_up()
 
-                self.player.player_outside_screen()
-
-            for event in pygame.event.get():
-                # background_sound.play()
-                if event.type == pygame.QUIT:
-                    self.__ON = False
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_ESCAPE:
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
                         self.__ON = False
-                    if event.key == pygame.K_SPACE:
-                        if not game_over:
+
+                    if event.type == pygame.KEYDOWN:
+                        if event.key == pygame.K_SPACE:
                             self.bullets.append(PlayerMissile(self.player.head, self.player.cos, self.player.sin))
                             shoot_sound.play()
-                            # enemy_missile.append(EnemyMissile())
 
-            screen.blit(hud._background, (0, 0))
+                game_clock.tick(60)
 
-            for i in self.bullets:
-                i.draw(screen)
-            for i in self.asteroids:
-                i.draw(screen)
-            for i in self.smallAlien:
-                i.draw(screen)
-            for i in self.bigAlien:
-                i.draw(screen)
+                self.__time += 1
 
-            self.player.draw(screen)
-            self.hud.adding_life(screen)
-            self.hud.display_score(screen)
+                self.factoryAsteroids.create(self.asteroids, self.__time)
+                self.factoryAliens.create(self.smallAlien, self.bigAlien, self.__time)
 
-            pygame.display.update()
+                for index, alien in enumerate(self.smallAlien):
+                    if (self.player.x - self.player.w // 2 <= alien.x <= self.player.x + self.player.w // 2) or (
+                            self.player.x + self.player.w // 2 >= alien.x + alien.w >= self.player.x - self.player.w // 2):
+                        if (self.player.y - self.player.h // 2 <= alien.y <= self.player.y + self.player.h // 2) or (
+                                self.player.y - self.player.h // 2 <= alien.y + alien.h <= self.player.y + self.player.h // 2):
+                            self.factoryAliens.destroy(self.smallAlien, index)
+                            self.player.destroy()
+                            break
+
+                    for bullets in self.bullets:
+                        if (alien.x <= bullets.x <= alien.x + alien.w) or alien.x <= bullets.x + bullets.w <= alien.x + alien.w:
+                            if (alien.y <= bullets.y <= alien.y + alien.h) or alien.y <= bullets.y + bullets.h <= alien.y + alien.h:
+                                self.factoryAliens.destroy(self.smallAlien, index)
+                                self.bullets.pop(self.bullets.index(bullets))
+                                player_ship_explosion_sound.play()
+                                break
+
+                for index, alien in enumerate(self.bigAlien):
+                    if (self.player.x - self.player.w // 2 <= alien.x <= self.player.x + self.player.w // 2) or (
+                            self.player.x + self.player.w // 2 >= alien.x + alien.w >= self.player.x - self.player.w // 2):
+                        if (self.player.y - self.player.h // 2 <= alien.y <= self.player.y + self.player.h // 2) or (
+                                self.player.y - self.player.h // 2 <= alien.y + alien.h <= self.player.y + self.player.h // 2):
+                            self.factoryAliens.destroy(self.bigAlien, index)
+                            self.player.destroy()
+                            break
+
+                    for bullets in self.bullets:
+                        if (alien.x <= bullets.x <= alien.x + alien.w) or alien.x <= bullets.x + bullets.w <= alien.x + alien.w:
+                            if (alien.y <= bullets.y <= alien.y + alien.h) or alien.y <= bullets.y + bullets.h <= alien.y + alien.h:
+                                self.factoryAliens.destroy(self.bigAlien, index)
+                                self.bullets.pop(self.bullets.index(bullets))
+                                player_ship_explosion_sound.play()
+                                break
+
+                for asteroid in self.asteroids:
+                    if (self.player.x - self.player.w // 2 <= asteroid.x <= self.player.x + self.player.w // 2) or (
+                            self.player.x + self.player.w // 2 >= asteroid.x + asteroid.w >= self.player.x - self.player.w // 2):
+                        if (self.player.y - self.player.h // 2 <= asteroid.y <= self.player.y + self.player.h // 2) or (
+                                self.player.y - self.player.h // 2 <= asteroid.y + asteroid.h <= self.player.y + self.player.h // 2):
+                            self.factoryAsteroids.destroy(self.asteroids, asteroid)
+                            self.player.destroy()
+                            break
+
+                    # bullet collision
+                    for bullets in self.bullets:
+                        if (asteroid.x <= bullets.x <= asteroid.x + asteroid.w) or asteroid.x <= bullets.x + bullets.w <= asteroid.x + asteroid.w:
+                            if (asteroid.y <= bullets.y <= asteroid.y + asteroid.h) or asteroid.y <= bullets.y + bullets.h <= asteroid.y + asteroid.h:
+
+                                self.factoryAsteroids.crack(self.asteroids, asteroid)
+
+                                self.factoryAsteroids.destroy(self.asteroids, asteroid)
+                                self.bullets.pop(self.bullets.index(bullets))
+                                break
+
+                for index in self.asteroids:
+                    index.move()
+                for index in self.bullets:
+                    index.move()
+                for index in self.smallAlien:
+                    index.move()
+                for index in self.bigAlien:
+                    index.move()
+
+                self.player.player_outside_screen()
+
+                self.renderer.display(self.asteroids,
+                                      self.bullets,
+                                      self.smallAlien,
+                                      self.bigAlien,
+                                      self.player)
 
         pygame.quit()
 
-    @staticmethod
-    def collision():
+    def collision(self):
+        pass
+
+    def moves(self):
         pass
 
 
