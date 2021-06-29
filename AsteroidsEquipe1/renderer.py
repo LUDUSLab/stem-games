@@ -49,9 +49,8 @@ class Renderer(object):
         Renderer.draw(Renderer.write("A S T E R O I D S", 200), (130, 25))
 
         if time() % 1 > 0.5:
-            Renderer.draw(Renderer.write("PRESS ENTER TO START", 55), (460, 350))
+            Renderer.draw(Renderer.write("PRESS ENTER TO START", 55), (460, 370))
 
-        Renderer.draw(Renderer.write("| COIN | PLAY", 55), (525, 550))
         Renderer.draw(Renderer.write("ASTEROIDSTEAM1 POWERED BY ©2021 STEM-GAMES", 40), (385, 640))
         Renderer.draw(Renderer.write("PRESS ESC TO EXIT", 40), (25, 670))
 

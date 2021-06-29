@@ -21,5 +21,3 @@ color_black = (0, 0, 0)
 color_white = (255, 255, 255)
 
 game_clock = pygame.time.Clock()
-
-lives = 0
