@@ -17,6 +17,8 @@ class GameAsteroids(object):
     __time = 0
     __keys = pygame.key.get_pressed()
 
+    __text = ""
+
     def __init__(self):
         self.asteroids = []
         self.bullets = []
@@ -80,7 +82,10 @@ class GameAsteroids(object):
 
                         if event.key == pygame.K_ESCAPE:
                             self.__ON = False
-
+                
+                if self.hud.point >= self.hud.max:
+                    self.hud.adding()
+                
                 self.__time += 1
 
                 self.factoryAsteroids.create(self.asteroids, self.__time)
@@ -102,17 +107,19 @@ class GameAsteroids(object):
                 while self.__gameOver:
                     for event in pygame.event.get():
                         if event.type == pygame.QUIT:
-                            self.__ON = False
-                            self.hud.highest_score = self.hud.point
+                            pygame.quit()
 
                         if event.type == pygame.KEYDOWN:
-                            if event.key == pygame.K_RETURN:
-                                self.__start = False
-                            if event.key == pygame.K_ESCAPE:
-                                self.__ON = False
-                    
+                            if event.key == pygame.K_BACKSPACE:
+                                if len(self.__text) > 0:
+                                    self.__text = self.__text[:-1]
+                                    
+                            else:
+                                self.__text += event.unicode
+
                     self.renderer.game_over(self.hud.point,
-                                            self.hud.highest_score)
+                                            self.hud.highest_score,
+                                            self.__text)
 
     def collision(self):
 
