@@ -1,4 +1,4 @@
-from config import screen, background, sw, sh
+from config import screen, background
 import pygame
 
 
@@ -50,8 +50,11 @@ class Renderer(object):
 
     @staticmethod
     def game_over():
-        screen.fill((0, 0, 0))
+        Renderer.draw(background, (0, 0))
 
-        Renderer.draw(Renderer.write("TEM QUE ESCREVER A MENSAGEMM DE GAME OVER AQUI!!!!!!!!!!!!!!!", 55), (0, 0))
+        Renderer.draw(Renderer.write("YOUR SCORE IS ONE OF THE TEN BEST", 80), (75, 120))
+        Renderer.draw(Renderer.write("PLEASE ENTER YOUR INITIALS", 80), (75, 170))
+        Renderer.draw(Renderer.write("PUSH ROTATE TO SELECT LETTER", 80), (75, 220))
+        Renderer.draw(Renderer.write("PUSH HYPERSPACE WHEN LETTER IS CORRECT", 80), (75, 270))
 
         pygame.display.update()

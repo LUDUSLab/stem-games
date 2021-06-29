@@ -1,3 +1,4 @@
+import pygame
 from config import *
 from asteroids import *
 from player import *
@@ -72,6 +73,8 @@ class GameAsteroids(object):
                         if event.key == pygame.K_SPACE:
                             self.bullets.append(Bullet(self.player.head, self.player.cos, self.player.sin))
                             shoot_sound.play()
+                        if event.key == pygame.K_ESCAPE:
+                            self.__ON = False
 
                 self.__time += 1
 
@@ -98,6 +101,8 @@ class GameAsteroids(object):
                         if event.type == pygame.KEYDOWN:
                             if event.key == pygame.K_RETURN:
                                 self.__start = False
+                            if event.key == pygame.K_ESCAPE:
+                                self.__ON = False
                     
                     self.renderer.game_over()
 
@@ -161,7 +166,8 @@ class GameAsteroids(object):
 
         for asteroid in self.asteroids:
             if (self.player.x - self.player.w // 2 <= asteroid.x <= self.player.x + self.player.w // 2) or \
-                    (self.player.x + self.player.w // 2 >= asteroid.x + asteroid.w >= self.player.x - self.player.w // 2):
+                    (self.player.x + self.player.w // 2 >= asteroid.x + asteroid.w
+                     >= self.player.x - self.player.w // 2):
                 if (self.player.y - self.player.h // 2
                     <= asteroid.y <= self.player.y + self.player.h // 2) or (
                         self.player.y - self.player.h // 2 <= asteroid.y + asteroid.h
