@@ -39,7 +39,7 @@ class GameAsteroids(object):
         while self.__start:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    self.__ON = False
+                    pygame.quit()
 
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_RETURN:
@@ -63,7 +63,11 @@ class GameAsteroids(object):
 
                 if self.__keys[pygame.K_w]:
                     self.player.acceleration()
+
                     self.player.forward()
+
+                if not self.__keys[pygame.K_w]:
+                    self.player.non_acceleration()
 
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
@@ -72,7 +76,8 @@ class GameAsteroids(object):
                     if event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_SPACE:
                             self.bullets.append(Bullet(self.player.head, self.player.cos, self.player.sin))
-                            shoot_sound.play()
+                            shootSound.play()
+
                         if event.key == pygame.K_ESCAPE:
                             self.__ON = False
 
@@ -106,8 +111,6 @@ class GameAsteroids(object):
                     
                     self.renderer.game_over()
 
-        pygame.quit()
-
     def collision(self):
 
         for index, alien in enumerate(self.smallAlien):
@@ -120,6 +123,8 @@ class GameAsteroids(object):
                     self.factoryAliens.destroy(self.smallAlien, index)
 
                     self.hud.delete()
+
+                    shipDestruction.play()
                     break
 
             for bullets in self.bullets:
@@ -133,7 +138,7 @@ class GameAsteroids(object):
 
                         self.hud.point += 500
 
-                        player_ship_explosion_sound.play()
+                        shipDestruction.play()
                         break
 
         for index, alien in enumerate(self.bigAlien):
@@ -148,6 +153,8 @@ class GameAsteroids(object):
                     self.factoryAliens.destroy(self.bigAlien, index)
 
                     self.hud.delete()
+
+                    shipDestruction.play()
                     break
 
             for bullets in self.bullets:
@@ -161,7 +168,7 @@ class GameAsteroids(object):
 
                         self.hud.point += 250
 
-                        player_ship_explosion_sound.play()
+                        shipDestruction.play()
                         break
 
         for asteroid in self.asteroids:
@@ -178,6 +185,9 @@ class GameAsteroids(object):
                     self.factoryAsteroids.destroy(self.asteroids, asteroid)
 
                     self.hud.delete()
+
+                    shipDestruction.play()
+                    asteroidsDestruction.play()
                     break
 
             for bullets in self.bullets:
@@ -185,10 +195,22 @@ class GameAsteroids(object):
                         asteroid.x <= bullets.x + bullets.w <= asteroid.x + asteroid.w:
                     if (asteroid.y <= bullets.y <= asteroid.y + asteroid.h) or \
                             asteroid.y <= bullets.y + bullets.h <= asteroid.y + asteroid.h:
-                        self.factoryAsteroids.crack(self.asteroids, asteroid)
+
                         self.factoryAsteroids.destroy(self.asteroids, asteroid)
+                        self.factoryAsteroids.crack(self.asteroids, asteroid)
 
                         self.bullets.pop(self.bullets.index(bullets))
+
+                        if asteroid.w == 64:
+                            self.hud.point += 50
+
+                        elif asteroid.w == 32:
+                            self.hud.point += 100
+
+                        elif asteroid.w == 16:
+                            self.hud.point += 150
+
+                        asteroidsDestruction.play()
                         break
 
     def moves(self):

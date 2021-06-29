@@ -58,19 +58,20 @@ class Player(object):
             self.y = 0
 
     def acceleration(self):
-        if self.a < 5:
+        if self.a < 10:
             self.a += 0.08
 
         else:
-            self.a = 4
+            self.a = 10
 
     def non_acceleration(self):
         if self.a > 0:
             self.a -= 0.08
 
         else:
-            self.a = 0
+            self.a = 0.08
 
     def destroy(self):
         self.x = sw // 2
         self.y = sh // 2
+        self.angle = 0
