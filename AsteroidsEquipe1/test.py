@@ -9,7 +9,7 @@ GRAY = (200, 200, 200)
 pygame.init()
 screen = pygame.display.set_mode((640, 240))
 
-text = 'this text is editable'
+text = ''
 font = pygame.font.SysFont(None, 48)
 img = font.render(text, True, RED)
 

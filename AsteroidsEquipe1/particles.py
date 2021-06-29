@@ -20,17 +20,16 @@ class Bullet(object):
         self.y -= self.yv
 
 
-# class EnemyMissile(object):
-    # def __init__(self, x, y):
-        # self.x = x
-        # self.y = y
-        # self.w = 4
-        # self.h = 4
-        # self.dx, self.dy = player.x - self.x, player.y - self.y
-        # self.dist = math.hypot(self.dx, self.dy)
-        # self.dx /= self.dist
-        # self.dy /= self.dist
+class AlienBullet(object):
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+        self.w = self.h = 4
+        self.dx, self.dy = player.x - self.x, player.y - self.y
+        self.dist = math.hypot(self.dx, self.dy)
+        self.dx, self.dy = self.dx / self.dist, self.dy / self.dist
+        self.xv = self.dx * 5
+        self.yv = self.dy * 5
 
-    # def move(self):
-        # self.xv += self.dx * 5
-        # self.yv -= self.dy * 5
+    def draw(self, win):
+        pygame.draw.rect(win, (255, 255, 255), [self.x, self.y, self.w, self.h])

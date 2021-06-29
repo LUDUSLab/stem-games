@@ -63,7 +63,7 @@ class Renderer(object):
         Renderer.draw(Renderer.write(score, 80), (70, -20))
         Renderer.draw(Renderer.write(highest_score, 60), (sw / 2, -15))
 
-        Renderer.draw(Renderer.write(txt, 80), (10, 10))
+        Renderer.draw(Renderer.write(txt, 110), (580, 450))
 
         Renderer.draw(Renderer.write("YOUR SCORE IS ONE OF THE TEN BEST", 80), (75, 120))
         Renderer.draw(Renderer.write("PLEASE ENTER YOUR INITIALS", 80), (75, 170))

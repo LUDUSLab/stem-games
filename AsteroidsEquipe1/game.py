@@ -24,6 +24,7 @@ class GameAsteroids(object):
         self.bullets = []
         self.smallAlien = []
         self.bigAlien = []
+        self.alienBullets = []
 
         self.player = Player()
 

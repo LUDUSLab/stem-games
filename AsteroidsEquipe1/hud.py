@@ -10,7 +10,7 @@ class Hud(object):
         self.position = [(67, 50), (97, 50), (127, 50)]
         self.size = len(self.position)
 
-        self.point = 9990
+        self.point = 0
         self.highest_score = 0
         self.max = 10000
 
