@@ -53,6 +53,7 @@ class Renderer(object):
 
         Renderer.draw(Renderer.write("| COIN | PLAY", 55), (525, 550))
         Renderer.draw(Renderer.write("ASTEROIDSTEAM1 POWERED BY ©2021 STEM-GAMES", 40), (385, 640))
+        Renderer.draw(Renderer.write("PRESS ESC TO EXIT", 40), (25, 670))
 
         pygame.display.update()
 
@@ -71,5 +72,6 @@ class Renderer(object):
         Renderer.draw(Renderer.write("PUSH HYPERSPACE WHEN LETTER IS CORRECT", 80), (75, 270))
 
         Renderer.draw(Renderer.write("©2021 STEM-GAMES", 40), (535, 640))
+        Renderer.draw(Renderer.write("PRESS ESC TO EXIT", 40), (25, 670))
 
         pygame.display.update()

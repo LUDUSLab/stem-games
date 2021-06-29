@@ -45,6 +45,8 @@ class GameAsteroids(object):
                     pygame.quit()
 
                 if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE:
+                        pygame.quit()
                     if event.key == pygame.K_RETURN:
                         self.__start = False
 
@@ -82,7 +84,7 @@ class GameAsteroids(object):
                             shootSound.play()
 
                         if event.key == pygame.K_ESCAPE:
-                            self.__ON = False
+                            pygame.quit()
                 
                 if self.hud.point >= self.hud.max:
                     self.hud.adding()
@@ -111,6 +113,8 @@ class GameAsteroids(object):
                             pygame.quit()
 
                         if event.type == pygame.KEYDOWN:
+                            if event.key == pygame.K_ESCAPE:
+                                pygame.quit()
                             if event.key == pygame.K_BACKSPACE:
                                 if len(self.__text) > 0:
                                     self.__text = self.__text[:-1]
