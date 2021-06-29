@@ -95,6 +95,7 @@ class GameAsteroids(object):
                                       self.bigAlien,
                                       self.player,
                                       self.hud.point,
+                                      self.hud.highest_score,
                                       self.hud.position)
 
             else:
@@ -102,6 +103,7 @@ class GameAsteroids(object):
                     for event in pygame.event.get():
                         if event.type == pygame.QUIT:
                             self.__ON = False
+                            self.hud.highest_score = self.hud.point
 
                         if event.type == pygame.KEYDOWN:
                             if event.key == pygame.K_RETURN:
@@ -109,7 +111,8 @@ class GameAsteroids(object):
                             if event.key == pygame.K_ESCAPE:
                                 self.__ON = False
                     
-                    self.renderer.game_over()
+                    self.renderer.game_over(self.hud.point,
+                                            self.hud.highest_score)
 
     def collision(self):
 

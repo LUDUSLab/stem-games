@@ -15,8 +15,9 @@ class Renderer(object):
         return font.render(f"{string}", True, (255, 255, 255))
 
     @staticmethod
-    def display(asteroids, bullets, smallAlien, bigAlien, player, score, position):
+    def display(asteroids, bullets, smallAlien, bigAlien, player, score, highest_score,position):
         Renderer.draw(background, (0, 0))
+        Renderer.draw(Renderer.write("©2021 STEM-GAMES", 40), (535, 640))
 
         for asteroid in asteroids:
             Renderer.draw(asteroid._image, (asteroid.x, asteroid.y))
@@ -34,6 +35,8 @@ class Renderer(object):
 
         Renderer.draw(Renderer.write(score, 80), (70, -20))
 
+        Renderer.draw(Renderer.write(highest_score, 60), (sw / 2, -15))
+
         for lives in position:
             Renderer.draw(player.img, lives)
 
@@ -43,10 +46,10 @@ class Renderer(object):
     def start():
         Renderer.draw(background, (0, 0))
 
-        Renderer.draw(Renderer.write("A S T E R O I D S", 200), (sw / 4, sh / 2))
+        Renderer.draw(Renderer.write("A S T E R O I D S", 200), (130, 25))
 
         if time() % 1 > 0.5:
-            Renderer.draw(Renderer.write("PRESS ENTER TO START", 55), (460, 200))
+            Renderer.draw(Renderer.write("PRESS ENTER TO START", 55), (460, 350))
 
         Renderer.draw(Renderer.write("| COIN | PLAY", 55), (525, 550))
         Renderer.draw(Renderer.write("ASTEROIDSTEAM1 POWERED BY ©2021 STEM-GAMES", 40), (385, 640))
@@ -54,12 +57,17 @@ class Renderer(object):
         pygame.display.update()
 
     @staticmethod
-    def game_over():
+    def game_over(score, highest_score):
         Renderer.draw(background, (0, 0))
+
+        Renderer.draw(Renderer.write(score, 80), (70, -20))
+        Renderer.draw(Renderer.write(highest_score, 60), (sw / 2, -15))
 
         Renderer.draw(Renderer.write("YOUR SCORE IS ONE OF THE TEN BEST", 80), (75, 120))
         Renderer.draw(Renderer.write("PLEASE ENTER YOUR INITIALS", 80), (75, 170))
         Renderer.draw(Renderer.write("PUSH ROTATE TO SELECT LETTER", 80), (75, 220))
         Renderer.draw(Renderer.write("PUSH HYPERSPACE WHEN LETTER IS CORRECT", 80), (75, 270))
+
+        Renderer.draw(Renderer.write("©2021 STEM-GAMES", 40), (535, 640))
 
         pygame.display.update()

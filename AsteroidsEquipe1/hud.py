@@ -11,6 +11,7 @@ class Hud(object):
         self.size = len(self.position)
 
         self.point = 0
+        self.highest_score = 00
         self._max = 10000
 
     def adding(self):
