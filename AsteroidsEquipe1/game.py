@@ -54,6 +54,7 @@ class GameAsteroids(object):
 
         while self.__ON:
             game_clock.tick(60)
+            backgroundSound.play()
 
             self.__keys = pygame.key.get_pressed()
 
@@ -108,6 +109,7 @@ class GameAsteroids(object):
 
             else:
                 while self.__gameOver:
+                    self.hud.highest_score = self.hud.point
                     for event in pygame.event.get():
                         if event.type == pygame.QUIT:
                             pygame.quit()
