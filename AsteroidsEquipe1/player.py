@@ -48,12 +48,11 @@ class Player(object):
         self.rotateRect.center = (self.x, self.y)
         self.cos = math.cos(math.radians(self.angle + 90))
         self.sin = math.sin(math.radians(self.angle + 90))
-        self.dx += self.cos
-        self.dy += self.sin
         self.head = (self.x + self.cos * self.w // 2, self.y - self.sin * self.h // 2)
 
-    def acceleration_x(self):
-        pass
+    def acceleration(self):
+        self.dx += self.cos
+        self.dy += self.sin
 
     def outside(self):
         if self.x > sw + 50:

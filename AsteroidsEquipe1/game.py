@@ -9,7 +9,6 @@ from renderer import *
 
 
 class GameAsteroids(object):
-
     __ON = True
     __start = True
     __gameOver = True
@@ -67,7 +66,7 @@ class GameAsteroids(object):
                     self.player.right()
 
                 if self.__keys[pygame.K_w]:
-                    self.player.forward()
+                    self.player.acceleration()
 
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
@@ -80,13 +79,13 @@ class GameAsteroids(object):
 
                         if event.key == pygame.K_ESCAPE:
                             pygame.quit()
-                
+
                 if self.hud.point >= self.hud.max:
                     self.hud.adding()
-                
+
                 self.__time += 1
 
-                # self.factoryAsteroids.create(self.asteroids, self.__time)
+                self.factoryAsteroids.create(self.asteroids, self.__time)
                 self.factoryAliens.create(self.smallAlien, self.bigAlien, self.__time)
 
                 GameAsteroids.moves(self)
@@ -94,7 +93,7 @@ class GameAsteroids(object):
 
                 self.renderer.display(self.asteroids,
                                       self.bullets,
-                                      #self.alienBullets,
+                                      self.alienBullets,
                                       self.smallAlien,
                                       self.bigAlien,
                                       self.player,
@@ -115,7 +114,7 @@ class GameAsteroids(object):
                             if event.key == pygame.K_BACKSPACE:
                                 if len(self.__text) > 0:
                                     self.__text = self.__text[:-1]
-                                    
+
                             else:
                                 self.__text += event.unicode
 
@@ -137,8 +136,8 @@ class GameAsteroids(object):
                     self.hud.delete()
 
                     shipDestruction.play()
-                    #if count % 60 == 0:
-                        #self.alienBullets.append(self.AlienBullet(alien.x + alien.w // 2, alien.y + alien.h // 2))
+                    if count % 60 == 0:
+                        self.alienBullets.append(self.AlienBullet(alien.x + alien.w // 2, alien.y + alien.h // 2))
                     break
 
             for bullets in self.bullets:
@@ -169,8 +168,9 @@ class GameAsteroids(object):
                     self.hud.delete()
 
                     shipDestruction.play()
-                    #if count % 60 == 0:
-                        #self.alienBullets.append(self.AlienBullet(alien.x + alien.w // 2, alien.y + alien.h // 2))
+                    if self.__time % 60 == 0:
+                        self.alienBullets.append(self.AlienBullet(alien.x + alien.w // 2, alien.y + alien.h // 2))
+
                     break
 
             for bullets in self.bullets:
@@ -246,8 +246,9 @@ class GameAsteroids(object):
         for alien in self.bigAlien:
             alien.move()
 
-        self.player.outside()
+        self.player.forward()
 
+        self.player.outside()
 
 game = GameAsteroids()
 game.game()
