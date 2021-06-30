@@ -100,6 +100,7 @@ class GameAsteroids(object):
 
                 self.renderer.display(self.asteroids,
                                       self.bullets,
+                                      #self.alienBullets,
                                       self.smallAlien,
                                       self.bigAlien,
                                       self.player,
@@ -142,6 +143,8 @@ class GameAsteroids(object):
                     self.hud.delete()
 
                     shipDestruction.play()
+                    if count % 60 == 0:
+                        self.alienBullets.append(self.AlienBullet(alien.x + alien.w // 2, alien.y + alien.h // 2))
                     break
 
             for bullets in self.bullets:
@@ -172,6 +175,8 @@ class GameAsteroids(object):
                     self.hud.delete()
 
                     shipDestruction.play()
+                    #if count % 60 == 0:
+                        #self.alienBullets.append(self.AlienBullet(alien.x + alien.w // 2, alien.y + alien.h // 2))
                     break
 
             for bullets in self.bullets:
@@ -237,6 +242,9 @@ class GameAsteroids(object):
 
         for bullet in self.bullets:
             bullet.move()
+
+        for alienBullet in self.alienBullets:
+            alienBullet.move()
 
         for alien in self.smallAlien:
             alien.move()

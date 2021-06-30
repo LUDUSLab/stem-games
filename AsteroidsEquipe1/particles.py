@@ -31,5 +31,9 @@ class AlienBullet(object):
         self.xv = self.dx * 5
         self.yv = self.dy * 5
 
-    def draw(self, win):
-        pygame.draw.rect(win, (255, 255, 255), [self.x, self.y, self.w, self.h])
+        self.rect = pygame.Surface([self.x, self.y, self.w, self.h])
+        self.rect.fill(color_white)
+
+    def move(self):
+        self.x += self.xv
+        self.y -= self.yv

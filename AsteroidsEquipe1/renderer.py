@@ -1,4 +1,4 @@
-from config import screen, background, sw, sh
+from config import screen, background, sw
 from time import time
 import pygame
 
@@ -15,7 +15,7 @@ class Renderer(object):
         return font.render(f"{string}", True, (255, 255, 255))
 
     @staticmethod
-    def display(asteroids, bullets, smallAlien, bigAlien, player, score, highest_score,position):
+    def display(asteroids, bullets, smallAlien, bigAlien,player, score, highest_score, position):
         Renderer.draw(background, (0, 0))
         Renderer.draw(Renderer.write("©2021 STEM-GAMES", 40), (535, 640))
 
@@ -24,6 +24,9 @@ class Renderer(object):
 
         for bullet in bullets:
             Renderer.draw(bullet.rect, (bullet.x, bullet.y))
+
+        #for alienBullet in alienBullets:
+            #Renderer.draw(alienBullet.rect, (alienBullet.x, alienBullets.y))
 
         for alien in smallAlien:
             Renderer.draw(alien.img, (alien.x, alien.y))
