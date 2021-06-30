@@ -54,7 +54,6 @@ class GameAsteroids(object):
 
         while self.__ON:
             game_clock.tick(60)
-            backgroundSound.play()
 
             self.__keys = pygame.key.get_pressed()
 
@@ -68,12 +67,7 @@ class GameAsteroids(object):
                     self.player.right()
 
                 if self.__keys[pygame.K_w]:
-                    self.player.acceleration()
-
                     self.player.forward()
-
-                if not self.__keys[pygame.K_w]:
-                    self.player.non_acceleration()
 
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
@@ -92,7 +86,7 @@ class GameAsteroids(object):
                 
                 self.__time += 1
 
-                self.factoryAsteroids.create(self.asteroids, self.__time)
+                # self.factoryAsteroids.create(self.asteroids, self.__time)
                 self.factoryAliens.create(self.smallAlien, self.bigAlien, self.__time)
 
                 GameAsteroids.moves(self)

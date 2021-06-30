@@ -11,16 +11,19 @@ class Player(object):
         self.x = sw // 2
         self.y = sh // 2
         self.angle = 0
-        self.a = 0
         self.rotate = pygame.transform.rotate(self.img, self.angle)
         self.rotateRect = self.rotate.get_rect()
         self.rotateRect.center = (self.x, self.y)
         self.cos = math.cos(math.radians(self.angle + 90))
         self.sin = math.sin(math.radians(self.angle + 90))
+
+        self.dx = self.cos
+        self.dy = self.sin
+
         self.head = (self.x + self.cos * self.w // 2, self.y - self.sin * self.h // 2)
 
     def left(self):
-        self.angle += 5
+        self.angle += 10
         self.rotate = pygame.transform.rotate(self.img, self.angle)
         self.rotateRect = self.rotate.get_rect()
         self.rotateRect.center = (self.x, self.y)
@@ -29,7 +32,7 @@ class Player(object):
         self.head = (self.x + self.cos * self.w // 2, self.y - self.sin * self.h // 2)
 
     def right(self):
-        self.angle -= 5
+        self.angle -= 10
         self.rotate = pygame.transform.rotate(self.img, self.angle)
         self.rotateRect = self.rotate.get_rect()
         self.rotateRect.center = (self.x, self.y)
@@ -38,14 +41,19 @@ class Player(object):
         self.head = (self.x + self.cos * self.w // 2, self.y - self.sin * self.h // 2)
 
     def forward(self):
-        self.x += self.cos * self.a
-        self.y -= self.sin * self.a
+        self.x += self.dx * 0.1
+        self.y -= self.dy * 0.1
         self.rotate = pygame.transform.rotate(self.img, self.angle)
         self.rotateRect = self.rotate.get_rect()
         self.rotateRect.center = (self.x, self.y)
         self.cos = math.cos(math.radians(self.angle + 90))
         self.sin = math.sin(math.radians(self.angle + 90))
+        self.dx += self.cos
+        self.dy += self.sin
         self.head = (self.x + self.cos * self.w // 2, self.y - self.sin * self.h // 2)
+
+    def acceleration_x(self):
+        pass
 
     def outside(self):
         if self.x > sw + 50:
@@ -56,20 +64,6 @@ class Player(object):
             self.y = sh
         elif self.y > sh + 50:
             self.y = 0
-
-    def acceleration(self):
-        if self.a < 10:
-            self.a += 0.08
-
-        else:
-            self.a = 10
-
-    def non_acceleration(self):
-        if self.a > 0:
-            self.a -= 0.08
-
-        else:
-            self.a = 0.08
 
     def destroy(self):
         self.x = sw // 2
