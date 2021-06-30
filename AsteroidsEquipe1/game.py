@@ -137,8 +137,8 @@ class GameAsteroids(object):
                     self.hud.delete()
 
                     shipDestruction.play()
-                    if count % 60 == 0:
-                        self.alienBullets.append(self.AlienBullet(alien.x + alien.w // 2, alien.y + alien.h // 2))
+                    #if count % 60 == 0:
+                        #self.alienBullets.append(self.AlienBullet(alien.x + alien.w // 2, alien.y + alien.h // 2))
                     break
 
             for bullets in self.bullets:
