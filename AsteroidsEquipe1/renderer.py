@@ -81,17 +81,27 @@ class Renderer(object):
 
     @staticmethod
     def score(scoreboard):
-        position = (0, 0)
+        position = (340, 100)
+
+        s = 0
 
         Renderer.draw(background, (0, 0))
 
+        Renderer.draw(Renderer.write("BEST PLAYERS", 200), (280, -40))
+
+        Renderer.draw(Renderer.write("PRESS ESC TO EXIT", 40), (25, 670))
+
+        if time() % 1 > 0.5:
+            Renderer.draw(Renderer.write("PRESS ENTER TO RETURN TO GAME", 40), (480, 670))
+
         for c in scoreboard:
+            s += 1
+            Renderer.draw(Renderer.write(f"#{s}.", 80), (200, position[1]))
             for a, b in c.items():
                 Renderer.draw(Renderer.write(f"{b}", 80), position)
 
-                position = (position[0] + 80, position[1])
+                position = (position[0] + 360, position[1])
 
-            position = (0, position[1] + 80)
+            position = (340, position[1] + 60)
 
         pygame.display.update()
-
