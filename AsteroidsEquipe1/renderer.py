@@ -78,3 +78,18 @@ class Renderer(object):
         Renderer.draw(Renderer.write("PRESS ENTER TO RETURN TO GAME", 40), (25, 670))
 
         pygame.display.update()
+
+    @staticmethod
+    def score(scoreboard):
+        position = (0, 0)
+
+        Renderer.draw(background, (80, 0))
+
+        for c in scoreboard:
+            position = (position[0] - 80, position[1] + 80)
+
+            for a, b in c.items():
+                Renderer.draw(Renderer.write(f"{b}                  ", 80), position)
+                position = (position[0] + 80, position[1])
+
+        pygame.display.update()

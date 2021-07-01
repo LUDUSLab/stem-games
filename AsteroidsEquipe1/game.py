@@ -11,11 +11,15 @@ from renderer import *
 class GameAsteroids(object):
     __ON = True
     __start = True
+    __score = False
 
     __time = 0
     __keys = pygame.key.get_pressed()
 
     __text = ""
+
+    __scoreBoard = []
+    __scoreBoardSorted = __scoreBoard
 
     def __init__(self):
         self.asteroids = []
@@ -105,29 +109,45 @@ class GameAsteroids(object):
                                       self.hud.position)
 
             else:
-                self.hud.highest_score = self.hud.point
+                if not self.__score:
 
-                for event in pygame.event.get():
-                    if event.type == pygame.QUIT:
-                        pygame.quit()
+                    for event in pygame.event.get():
 
-                    if event.type == pygame.KEYDOWN:
-                        if event.key == pygame.K_ESCAPE:
-                            pygame.quit()
+                        if event.type == pygame.KEYDOWN:
+                            if event.key == pygame.K_ESCAPE:
+                                pygame.quit()
 
-                        if event.key == pygame.K_RETURN:
-                            GameAsteroids.reset(self)
+                            if event.key == pygame.K_RETURN:
+                                self.__scoreBoard.append({"name": self.__text, "point": self.hud.point})
 
-                        if event.key == pygame.K_BACKSPACE:
-                            if len(self.__text) > 0:
-                                self.__text = self.__text[:-1]
+                                self.__scoreBoardSorted = sorted(self.__scoreBoard, key=lambda k: {"point"})
 
-                        else:
-                            self.__text += event.unicode
+                                self.__score = True
 
-                self.renderer.game_over(self.hud.point,
-                                        self.hud.highest_score,
-                                        self.__text)
+                            if event.key == pygame.K_BACKSPACE:
+                                if len(self.__text) > 0:
+                                    self.__text = self.__text[:-1]
+
+                            else:
+                                self.__text += event.unicode
+
+                    self.renderer.game_over(self.hud.point,
+                                            self.hud.highest_score,
+                                            self.__text)
+
+                else:
+                    for event in pygame.event.get():
+
+                        if event.type == pygame.KEYDOWN:
+                            if event.key == pygame.K_ESCAPE:
+                                pygame.quit()
+
+                            if event.key == pygame.K_RETURN:
+                                self.__score = False
+
+                                GameAsteroids.reset(self)
+
+                    self.renderer.score(self.__scoreBoardSorted)
 
     def collision(self):
         for index, alien in enumerate(self.bigAlien):
