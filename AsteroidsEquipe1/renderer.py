@@ -15,7 +15,7 @@ class Renderer(object):
         return font.render(f"{string}", True, (255, 255, 255))
 
     @staticmethod
-    def display(asteroids, bullets, alienBullets, smallAlien, bigAlien,player, score, highest_score, position):
+    def display(asteroids, bullets, alienBullets, smallAlien, bigAlien, player, score, highest_score, position):
         Renderer.draw(background, (0, 0))
         Renderer.draw(Renderer.write("©2021 STEM-GAMES", 40), (535, 640))
 
@@ -63,17 +63,18 @@ class Renderer(object):
     def game_over(score, highest_score, txt):
         Renderer.draw(background, (0, 0))
 
-        Renderer.draw(Renderer.write(score, 80), (70, -20))
+        Renderer.draw(Renderer.write(score, 80), (25, -20))
         Renderer.draw(Renderer.write(highest_score, 60), (sw / 2, -15))
 
         Renderer.draw(Renderer.write(txt, 110), (580, 450))
 
-        Renderer.draw(Renderer.write("YOUR SCORE IS ONE OF THE TEN BEST", 80), (75, 120))
-        Renderer.draw(Renderer.write("PLEASE ENTER YOUR INITIALS", 80), (75, 170))
-        Renderer.draw(Renderer.write("PUSH ROTATE TO SELECT LETTER", 80), (75, 220))
-        Renderer.draw(Renderer.write("PUSH HYPERSPACE WHEN LETTER IS CORRECT", 80), (75, 270))
+        Renderer.draw(Renderer.write("YOUR SCORE IS ONE OF THE TEN BEST", 80), (25, 90))
+        Renderer.draw(Renderer.write("PLEASE ENTER YOUR INITIALS", 80), (25, 140))
+        Renderer.draw(Renderer.write("PUSH ROTATE TO SELECT LETTER", 80), (25, 190))
+        Renderer.draw(Renderer.write("PUSH HYPERSPACE WHEN LETTER IS CORRECT", 80), (25, 240))
 
-        Renderer.draw(Renderer.write("©2021 STEM-GAMES", 40), (535, 640))
-        Renderer.draw(Renderer.write("PRESS ESC TO EXIT", 40), (25, 670))
+        Renderer.draw(Renderer.write("PRESS ESC TO EXIT", 40), (25, 640))
+
+        Renderer.draw(Renderer.write("PRESS ENTER TO RETURN TO GAME", 40), (25, 670))
 
         pygame.display.update()

@@ -83,6 +83,9 @@ class GameAsteroids(object):
                 if self.hud.point >= self.hud.max:
                     self.hud.adding()
 
+                if self.hud.highest_score > self.hud.point:
+                    self.hud.highest_score = self.hud.point
+
                 self.__time += 1
 
                 self.factoryAsteroids.create(self.asteroids, self.__time)
@@ -200,10 +203,14 @@ class GameAsteroids(object):
                         break
 
         for index, bullet in enumerate(self.alienBullets):
-            if (bullet.x >= self.player.x - self.player.w // 2) and (bullet.x <= self.player.x + self.player.w // 2) or \
-                    (bullet.x + bullet.w >= self.player.x - self.player.w // 2) and (bullet.x + bullet.w <= self.player.x + self.player.w // 2):
-                if (bullet.y >= self.player.y - self.player.h // 2) and (bullet.y <= self.player.y + self.player.h // 2) or \
-                        (bullet.y + bullet.h >= self.player.y - self.player.h // 2) and (bullet.y + bullet.h <= self.player.y + self.player.h // 2):
+            if (bullet.x >= self.player.x - self.player.w // 2) \
+                    and (bullet.x <= self.player.x + self.player.w // 2) or \
+                    (bullet.x + bullet.w >= self.player.x - self.player.w // 2) and (
+                    bullet.x + bullet.w <= self.player.x + self.player.w // 2):
+                if (bullet.y >= self.player.y - self.player.h // 2) and (
+                        bullet.y <= self.player.y + self.player.h // 2) or \
+                        (bullet.y + bullet.h >= self.player.y - self.player.h // 2) and (
+                        bullet.y + bullet.h <= self.player.y + self.player.h // 2):
                     self.alienBullets.pop(index)
 
                     self.hud.delete()
