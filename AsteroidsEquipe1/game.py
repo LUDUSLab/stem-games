@@ -120,7 +120,8 @@ class GameAsteroids(object):
 
                             if event.key == pygame.K_RETURN:
                                 self.__scoreBoard.append({"name": self.__text, "point": self.hud.point})
-                                self.__scoreBoardSorted = sorted(self.__scoreBoard, key=itemgetter("point"), reverse=True)
+                                self.__scoreBoardSorted = \
+                                    sorted(self.__scoreBoard, key=itemgetter("point"), reverse=True)
 
                                 self.__score = True
 
