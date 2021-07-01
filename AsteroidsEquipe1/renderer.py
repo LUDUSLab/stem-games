@@ -83,13 +83,15 @@ class Renderer(object):
     def score(scoreboard):
         position = (0, 0)
 
-        Renderer.draw(background, (80, 0))
+        Renderer.draw(background, (0, 0))
 
         for c in scoreboard:
-            position = (position[0] - 80, position[1] + 80)
-
             for a, b in c.items():
-                Renderer.draw(Renderer.write(f"{b}                  ", 80), position)
+                Renderer.draw(Renderer.write(f"{b}", 80), position)
+
                 position = (position[0] + 80, position[1])
 
+            position = (0, position[1] + 80)
+
         pygame.display.update()
+

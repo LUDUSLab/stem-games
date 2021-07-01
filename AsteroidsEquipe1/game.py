@@ -6,6 +6,7 @@ from enemy import *
 from hud import *
 from particles import *
 from renderer import *
+from operator import itemgetter
 
 
 class GameAsteroids(object):
@@ -119,8 +120,7 @@ class GameAsteroids(object):
 
                             if event.key == pygame.K_RETURN:
                                 self.__scoreBoard.append({"name": self.__text, "point": self.hud.point})
-
-                                self.__scoreBoardSorted = sorted(self.__scoreBoard, key=lambda k: {"point"})
+                                self.__scoreBoardSorted = sorted(self.__scoreBoard, key=itemgetter("point"), reverse=True)
 
                                 self.__score = True
 
