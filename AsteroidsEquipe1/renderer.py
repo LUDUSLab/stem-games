@@ -26,7 +26,7 @@ class Renderer(object):
             Renderer.draw(bullet.rect, (bullet.x, bullet.y))
 
         for alienBullet in alienBullets:
-            Renderer.draw(alienBullet.rect, (alienBullet.x, alienBullets.y))
+            Renderer.draw(alienBullet.rect, (alienBullet.x, alienBullet.y))
 
         for alien in smallAlien:
             Renderer.draw(alien.img, (alien.x, alien.y))

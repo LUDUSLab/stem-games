@@ -11,7 +11,6 @@ from renderer import *
 class GameAsteroids(object):
     __ON = True
     __start = True
-    __gameOver = True
 
     __time = 0
     __keys = pygame.key.get_pressed()
@@ -29,6 +28,7 @@ class GameAsteroids(object):
 
         self.factoryAsteroids = FactoryAsteroids()
         self.factoryAliens = FactoryAliens()
+        self.factoryBullets = FactoryBullet()
 
         self.hud = Hud()
 
@@ -102,29 +102,76 @@ class GameAsteroids(object):
                                       self.hud.position)
 
             else:
-                while self.__gameOver:
-                    self.hud.highest_score = self.hud.point
-                    for event in pygame.event.get():
-                        if event.type == pygame.QUIT:
+                self.hud.highest_score = self.hud.point
+
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        pygame.quit()
+
+                    if event.type == pygame.KEYDOWN:
+                        if event.key == pygame.K_ESCAPE:
                             pygame.quit()
 
-                        if event.type == pygame.KEYDOWN:
-                            if event.key == pygame.K_ESCAPE:
-                                pygame.quit()
-                            if event.key == pygame.K_BACKSPACE:
-                                if len(self.__text) > 0:
-                                    self.__text = self.__text[:-1]
+                        if event.key == pygame.K_RETURN:
+                            GameAsteroids.reset(self)
 
-                            else:
-                                self.__text += event.unicode
+                        if event.key == pygame.K_BACKSPACE:
+                            if len(self.__text) > 0:
+                                self.__text = self.__text[:-1]
 
-                    self.renderer.game_over(self.hud.point,
-                                            self.hud.highest_score,
-                                            self.__text)
+                        else:
+                            self.__text += event.unicode
+
+                self.renderer.game_over(self.hud.point,
+                                        self.hud.highest_score,
+                                        self.__text)
 
     def collision(self):
+        for index, alien in enumerate(self.bigAlien):
+            self.factoryBullets.create(self.alienBullets,
+                                       self.__time,
+                                       alien.x + alien.w // 2,
+                                       alien.y + alien.h // 2,
+                                       self.player.x,
+                                       self.player.y)
+
+            if (self.player.x - self.player.w // 2 <= alien.x <= self.player.x + self.player.w // 2) or (
+                    self.player.x + self.player.w // 2 >=
+                    alien.x + alien.w >= self.player.x - self.player.w // 2):
+                if (self.player.y - self.player.h // 2 <= alien.y <= self.player.y + self.player.h // 2) or (
+                        self.player.y - self.player.h // 2 <= alien.y + alien.h <=
+                        self.player.y + self.player.h // 2):
+                    self.player.destroy()
+
+                    self.factoryAliens.destroy(self.bigAlien, index)
+
+                    self.hud.delete()
+
+                    shipDestruction.play()
+                    break
+
+            for bullets in self.bullets:
+                if (alien.x <= bullets.x <= alien.x + alien.w) or \
+                        alien.x <= bullets.x + bullets.w <= alien.x + alien.w:
+                    if (alien.y <= bullets.y <= alien.y + alien.h) or \
+                            alien.y <= bullets.y + bullets.h <= alien.y + alien.h:
+                        self.factoryAliens.destroy(self.bigAlien, index)
+
+                        self.bullets.pop(self.bullets.index(bullets))
+
+                        self.hud.point += 250
+
+                        shipDestruction.play()
+                        break
 
         for index, alien in enumerate(self.smallAlien):
+            self.factoryBullets.create(self.alienBullets,
+                                       self.__time,
+                                       alien.x + alien.w // 2,
+                                       alien.y + alien.h // 2,
+                                       self.player.x,
+                                       self.player.y)
+
             if (self.player.x - self.player.w // 2 <= alien.x <= self.player.x + self.player.w // 2) or \
                     (self.player.x + self.player.w // 2 >= alien.x + alien.w >= self.player.x - self.player.w // 2):
                 if (self.player.y - self.player.h // 2 <= alien.y <= self.player.y + self.player.h // 2) or \
@@ -136,8 +183,6 @@ class GameAsteroids(object):
                     self.hud.delete()
 
                     shipDestruction.play()
-                    if count % 60 == 0:
-                        self.alienBullets.append(self.AlienBullet(alien.x + alien.w // 2, alien.y + alien.h // 2))
                     break
 
             for bullets in self.bullets:
@@ -154,38 +199,18 @@ class GameAsteroids(object):
                         shipDestruction.play()
                         break
 
-        for index, alien in enumerate(self.bigAlien):
-            if (self.player.x - self.player.w // 2 <= alien.x <= self.player.x + self.player.w // 2) or (
-                    self.player.x + self.player.w // 2 >=
-                    alien.x + alien.w >= self.player.x - self.player.w // 2):
-                if (self.player.y - self.player.h // 2 <= alien.y <= self.player.y + self.player.h // 2) or (
-                        self.player.y - self.player.h // 2 <= alien.y + alien.h <=
-                        self.player.y + self.player.h // 2):
-                    self.player.destroy()
-
-                    self.factoryAliens.destroy(self.bigAlien, index)
+        for index, bullet in enumerate(self.alienBullets):
+            if (bullet.x >= self.player.x - self.player.w // 2) and (bullet.x <= self.player.x + self.player.w // 2) or \
+                    (bullet.x + bullet.w >= self.player.x - self.player.w // 2) and (bullet.x + bullet.w <= self.player.x + self.player.w // 2):
+                if (bullet.y >= self.player.y - self.player.h // 2) and (bullet.y <= self.player.y + self.player.h // 2) or \
+                        (bullet.y + bullet.h >= self.player.y - self.player.h // 2) and (bullet.y + bullet.h <= self.player.y + self.player.h // 2):
+                    self.alienBullets.pop(index)
 
                     self.hud.delete()
+                    self.player.destroy()
 
                     shipDestruction.play()
-                    if self.__time % 60 == 0:
-                        self.alienBullets.append(self.AlienBullet(alien.x + alien.w // 2, alien.y + alien.h // 2))
-
                     break
-
-            for bullets in self.bullets:
-                if (alien.x <= bullets.x <= alien.x + alien.w) or \
-                        alien.x <= bullets.x + bullets.w <= alien.x + alien.w:
-                    if (alien.y <= bullets.y <= alien.y + alien.h) or \
-                            alien.y <= bullets.y + bullets.h <= alien.y + alien.h:
-                        self.factoryAliens.destroy(self.bigAlien, index)
-
-                        self.bullets.pop(self.bullets.index(bullets))
-
-                        self.hud.point += 250
-
-                        shipDestruction.play()
-                        break
 
         for asteroid in self.asteroids:
             if (self.player.x - self.player.w // 2 <= asteroid.x <= self.player.x + self.player.w // 2) or \
@@ -250,5 +275,16 @@ class GameAsteroids(object):
 
         self.player.outside()
 
-game = GameAsteroids()
-game.game()
+    def reset(self):
+        self.asteroids = []
+        self.bullets = []
+        self.smallAlien = []
+        self.bigAlien = []
+        self.alienBullets = []
+
+        self.player = Player()
+
+        self.factoryAsteroids = FactoryAsteroids()
+        self.factoryAliens = FactoryAliens()
+
+        self.hud = Hud()

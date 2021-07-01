@@ -1,6 +1,27 @@
 import pygame
 import math
 from config import color_white
+from abc import ABC, abstractmethod
+
+
+class Factory(ABC):
+
+    @abstractmethod
+    def create(self, bullets, time, x, y, px, py):
+        pass
+
+    def destroy(self, bullet, position):
+        pass
+
+
+class FactoryBullet(Factory):
+
+    def create(self, bullets, time, x, y, px, py):
+        if (time % 200 == 0) or (time % 400 == 0):
+            bullets.append(AlienBullet(x, y, px, py))
+
+    def destroy(self, bullet, position):
+        bullet.pop(position)
 
 
 class Bullet(object):
@@ -21,17 +42,17 @@ class Bullet(object):
 
 
 class AlienBullet(object):
-    def __init__(self, x, y):
+    def __init__(self, x, y, px, py):
         self.x = x
         self.y = y
         self.w = self.h = 4
-        self.dx, self.dy = player.x - self.x, player.y - self.y
+        self.dx, self.dy = px - self.x, py - self.y
         self.dist = math.hypot(self.dx, self.dy)
         self.dx, self.dy = self.dx / self.dist, self.dy / self.dist
         self.xv = self.dx * 5
         self.yv = self.dy * 5
 
-        self.rect = pygame.Surface([self.x, self.y, self.w, self.h])
+        self.rect = pygame.Surface((self.w, self.h))
         self.rect.fill(color_white)
 
     def move(self):
